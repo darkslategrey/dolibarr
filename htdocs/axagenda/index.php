@@ -130,6 +130,8 @@ if (! $user->rights->agenda->allactions->read || $filter =='mine')  // If no per
     $filterd=$user->id;
 }
 
+print ajax_filter_calls();
+
 print_actions_filter($form,$canedit,$status,$year,$month,$day,$showbirthday,$filtera,$filtert,$filterd,$pid,$socid,$listofextcals);
 dol_fiche_end();
  

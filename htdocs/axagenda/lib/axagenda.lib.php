@@ -24,6 +24,97 @@
  */
 
 
+
+/*
+ * ================================================================= 
+ * Purpose: Manage filters and provide filtered infos
+ * Input:   Filters
+ * Author:  Grégory Faruch
+ * Licence: GPL
+ * @param	Object	$form			Form object
+ * @param	int		$canedit		Can edit filter fields
+ * @param	int		$status			Status
+ * @param 	int		$year			Year
+ * @param 	int		$month			Month
+ * @param 	int		$day			Day
+ * @param 	int		$showbirthday	Show birthday
+ * @param 	string	$filtera		Filter on create by user
+ * @param 	string	$filtert		Filter on assigned to user
+ * @param 	string	$filterd		Filter of done by user
+ * @param 	int		$pid			Product id
+ * @param 	int		$socid			Third party id
+ * @param	array	$showextcals	Array with list of external calendars, or -1 to show no legend
+ * @param       
+ * ==================================================================
+ */
+
+function ajax_filter_calls() {
+
+    $out = '<script type="text/javascript">
+               $(document).ready(function() {
+
+                    projectid = $("select[name=projectid]");
+                    $("#userasked,#usertodo,#userdone,#actioncode,select[name=projectid]").change(function() { 
+                       userasked = $("#userasked").val();
+                       usertodo = $("#usertodo").val(); 
+                       userdone = $("#userdone").val(); 
+                       actioncode = $("#actioncode").val(); 
+                       projectid  = $("select[name=projectid]").val(); 
+                       // alert(userasked+"/"+usertodo+"/"+userdone+"/"+actioncode+"/"+projectid);
+                       alert("'.DOL_URL_ROOT.'/axagenda/ajax/functions.php?userasked="+userasked+"&usertodo="+usertodo+"&userdone="+userdone+"&projectid="+projectid+"&actioncode="+actioncode);
+                       jQuery.getJSON("'.DOL_URL_ROOT.'/axagenda/ajax/functions.php?userasked="+userasked+
+                                      "&usertodo="+usertodo+"&userdone="+userdone+"&projectid="+projectid
+                                      +"&actioncode="+actioncode,
+                                       {},
+                                      function(data, status) {
+                                        alert(data);
+                                      });
+                       });
+
+                    });
+
+             </script>';
+              /* </script>'; */
+    $out .= "\n";
+    return $out;
+}
+
+             
+/* if(userasked == -1) { */
+/*    // send query wihtout the userasked critera */
+
+/*    $("textarea[name=address]").text(""); */
+/*    $("#userasked option").removeAttr("selected"); */
+/*    $("#zipcode").val(""); */
+/*    $("#town").val(""); */
+/*    $("input[name=phone_pro]").val(""); */
+/*    $("input[name=fax]").val(""); */
+/* } else { */
+
+/*                                    jQuery.getJSON("'.DOL_URL_ROOT.'/societe/ajaxsociete.php?socid="+socid, */
+/*                   {}, */
+/*   function(data) {  */
+/*      $("textarea[name=address]").text(data.address); */
+/*      jQuery.getJSON("'.DOL_URL_ROOT.'/core/ajaxziptown.php",  */
+/*                     { zipcode: data.cp },  */
+/*                     function(data) {  */
+/*        $("#departement_id option[value="+data[0].departement_id+"]").attr("selected", "true"); */
+/*                     }); */
+/*      $("#zipcode").val(data.cp); */
+/*      $("#town").val(data.ville); */
+/*      $("input[name=phone_pro]").val(data.telpro); */
+/*      $("input[name=fax]").val(data.fax); */
+/*  }); */
+/*                                        } */
+/*     }); */
+/*    }); */
+/*             </script>'; */
+/*     $out .= "\n"; */
+
+/*     return $out; */
+/* } */
+
+
 /**
  * Show filter form in agenda view
  *
