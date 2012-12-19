@@ -19,11 +19,30 @@
  */
 
 /**
- *  \file		htdocs/core/lib/agenda.lib.php
- *  \brief		Set of function for the agenda module
+ *  \file		htdocs/axagenda/lib/axagenda.lib.php
+ *  \brief		Set of function for the AxAgenda module
  */
 
 
+/*
+ * ================================================================= 
+ * Purpose: Utility function to translate Dolibarr event data structure into
+ *          FullCalendar compatible data structure.
+ *          Ex. of Dolibarr event json structure: 
+ * {"1355698800":[{"element":"action","table_element":"actioncomm","table_rowid":"id","id":"1","type_id":null,"type_code":"AC_OTH_AUTO","type":null,"label":null,"date":null,"datec":null,"datem":null,"author":{"id":"1"},"usermod":{},"datep":1355702228,"datef":1355702228,"dateend":null,"durationp":-1,"fulldayevent":"0","punctual":1,"percentage":"-1","location":"","priority":"0","note":null,"usertodo":{"id":null},"userdone":{"id":"1"},"societe":{"id":"1"},"contact":{"id":null},"fk_project":null,"fk_element":null,"elementtype":null,"icalname":null,"icalcolor":null,"actions":[],"error":null,"errors":null,"canvas":null,"lastname":null,"firstname":null,"name":null,"nom":null,"civility_id":null,"array_options":[],"libelle":"Soci\u00e9t\u00e9 DEV_COMPANY ajout\u00e9e dans Dolibarr","date_start_in_calendar":1355702228,"date_end_in_calendar":1355702228,"ponctuel":1}]}
+ *
+ * Input:   Dolibarr Event Json Format
+ * Author:  Grégory Faruch
+ * Licence: GPL
+ * @param	Json structure            $doli_events             What Dolibarr found as events
+ * @return      Json structure            $cal_events              Fullcalendar translated events
+ * ==================================================================
+ */
+function translate_to_full_callendar($doli_events) {
+
+  $cal_events = $doli_events;
+  return $cal_events;
+}
 
 /*
  * ================================================================= 
@@ -45,11 +64,79 @@
  * @param 	int		$socid			Third party id
  * @param	array	$showextcals	Array with list of external calendars, or -1 to show no legend
  * @param       
+ * Input format 
+{
+  "1355698800": [
+    {
+      "element": "action",
+      "table_element": "actioncomm",
+      "table_rowid": "id",
+      "id": "1",
+      "type_id": null,
+      "type_code": "AC_OTH_AUTO",
+      "type": null,
+      "label": null,
+      "date": null,
+      "datec": null,
+      "datem": null,
+      "author": {
+        "id": "1"
+      },
+      "usermod": {
+      },
+      "datep": 1355702228,
+      "datef": 1355702228,
+      "dateend": null,
+      "durationp": -1,
+      "fulldayevent": "0",
+      "punctual": 1,
+      "percentage": "-1",
+      "location": "",
+      "priority": "0",
+      "note": null,
+      "usertodo": {
+        "id": null
+      },
+      "userdone": {
+        "id": "1"
+      },
+      "societe": {
+        "id": "1"
+      },
+      "contact": {
+        "id": null
+      },
+      "fk_project": null,
+      "fk_element": null,
+      "elementtype": null,
+      "icalname": null,
+      "icalcolor": null,
+      "actions": [
+
+      ],
+      "error": null,
+      "errors": null,
+      "canvas": null,
+      "lastname": null,
+      "firstname": null,
+      "name": null,
+      "nom": null,
+      "civility_id": null,
+      "array_options": [
+
+      ],
+      "libelle": "Société DEV_COMPANY ajoutée dans Dolibarr",
+      "date_start_in_calendar": 1355702228,
+      "date_end_in_calendar": 1355702228,
+      "ponctuel": 1
+    }
+  ]
+}
  * ==================================================================
  */
 
 function ajax_filter_calls() {
-
+  // $form,$canedit,$status,$year,$month,$day,$showbirthday,$filtera,$filtert,$filterd,$pid,$socid,$showextcals=array()) {
     $out = '<script type="text/javascript">
                $(document).ready(function() {
 
@@ -60,14 +147,16 @@ function ajax_filter_calls() {
                        userdone = $("#userdone").val(); 
                        actioncode = $("#actioncode").val(); 
                        projectid  = $("select[name=projectid]").val(); 
-                       // alert(userasked+"/"+usertodo+"/"+userdone+"/"+actioncode+"/"+projectid);
-                       alert("'.DOL_URL_ROOT.'/axagenda/ajax/functions.php?userasked="+userasked+"&usertodo="+usertodo+"&userdone="+userdone+"&projectid="+projectid+"&actioncode="+actioncode);
                        jQuery.getJSON("'.DOL_URL_ROOT.'/axagenda/ajax/functions.php?userasked="+userasked+
                                       "&usertodo="+usertodo+"&userdone="+userdone+"&projectid="+projectid
                                       +"&actioncode="+actioncode,
                                        {},
                                       function(data, status) {
-                                        alert(data);
+                                        parsed_json = jQuery.parseJSON(data);
+                                        $.each(data, function(key, value) {
+                                                         alert(key);
+                                                     });
+                                        // alert(data.length);
                                       });
                        });
 
@@ -78,43 +167,8 @@ function ajax_filter_calls() {
     $out .= "\n";
     return $out;
 }
-
+ 
              
-/* if(userasked == -1) { */
-/*    // send query wihtout the userasked critera */
-
-/*    $("textarea[name=address]").text(""); */
-/*    $("#userasked option").removeAttr("selected"); */
-/*    $("#zipcode").val(""); */
-/*    $("#town").val(""); */
-/*    $("input[name=phone_pro]").val(""); */
-/*    $("input[name=fax]").val(""); */
-/* } else { */
-
-/*                                    jQuery.getJSON("'.DOL_URL_ROOT.'/societe/ajaxsociete.php?socid="+socid, */
-/*                   {}, */
-/*   function(data) {  */
-/*      $("textarea[name=address]").text(data.address); */
-/*      jQuery.getJSON("'.DOL_URL_ROOT.'/core/ajaxziptown.php",  */
-/*                     { zipcode: data.cp },  */
-/*                     function(data) {  */
-/*        $("#departement_id option[value="+data[0].departement_id+"]").attr("selected", "true"); */
-/*                     }); */
-/*      $("#zipcode").val(data.cp); */
-/*      $("#town").val(data.ville); */
-/*      $("input[name=phone_pro]").val(data.telpro); */
-/*      $("input[name=fax]").val(data.fax); */
-/*  }); */
-/*                                        } */
-/*     }); */
-/*    }); */
-/*             </script>'; */
-/*     $out .= "\n"; */
-
-/*     return $out; */
-/* } */
-
-
 /**
  * Show filter form in agenda view
  *
