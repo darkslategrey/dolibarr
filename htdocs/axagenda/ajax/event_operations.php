@@ -122,18 +122,18 @@ if ($action == 'update')
 
 		dol_syslog("datep <".$datep."> datef <".$datef);
 
-		$actioncomm->label       = $_POST["label"];
+		// $actioncomm->label       = GETPOST("label");
 		$actioncomm->datep       = $datep; 
 		$actioncomm->datef       = $datef;
 		$actioncomm->percentage  = $percentage;
-		$actioncomm->priority    = $_POST["priority"];
-		$actioncomm->fulldayevent= $_POST["fullday"]?1:0;
-		$actioncomm->location    = isset($_POST["location"])?$_POST["location"]:'';
-		$actioncomm->societe->id = $_POST["socid"];
-		$actioncomm->contact->id = $_POST["contactid"];
-		$actioncomm->fk_project  = $_POST["projectid"];
-		$actioncomm->note        = $_POST["note"];
-		$actioncomm->pnote       = $_POST["note"];
+		$actioncomm->priority    = GETPOST("priority");
+		$actioncomm->fulldayevent= GETPOST("fullday")?1:0;
+		$actioncomm->location    = ''; // isset(GETPOST("location"))?GETPOST("location"):'';
+		$actioncomm->societe->id = GETPOST("socid");
+		$actioncomm->contact->id = GETPOST("contactid");
+		$actioncomm->fk_project  = GETPOST("projectid");
+		$actioncomm->note        = GETPOST("note");
+		$actioncomm->pnote       = GETPOST("note");
 
 		dol_syslog("ActionComm Création <".print_r($actioncomm, true).">");
 		if (! $datef && $percentage == 100)

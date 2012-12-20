@@ -79,7 +79,7 @@ $(document).ready(function() {
 			   "contactid":"-1",
 			   "doneby":1,
 			   "edit":"Enregistrer",
-			   "id":1,
+			   "id":2,
 			   "label":"Société",
 			   "location":"",
 			   "note":"Soci&eacute;t&eacute;",
