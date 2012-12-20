@@ -40,7 +40,21 @@
  */
 function translate_to_full_callendar($doli_events) {
 
-  $cal_events = $doli_events;
+  $cal_events = Array();
+  foreach($doli_events as $event_ts => $event) {
+    $e = $event[0];
+    dol_syslog("libelle <".$e->libelle.">", LOG_DEBUG);
+    dol_syslog("date_start_in_calendar <".$e->date_start_in_calendar.">", LOG_DEBUG);
+    dol_syslog("date_end_in_calendar <".$e->date_end_in_calendar.">", LOG_DEBUG);
+    $event_arr = array('id' => $e->id, 'title' => $e->libelle,
+		       'start' => $e->date_start_in_calendar, 
+		       'end'   => $e->date_end_in_calendar,
+		       'url'   => '/comm/action/fiche.php?id='.$e->id);
+    array_push($cal_events, $event_arr);
+  }
+  // dol_syslog("ICI : ".print_r($doli_events['1355698800'], true), LOG_DEBUG);
+  dol_syslog("ICI 2 : ".print_r($cal_events, true), LOG_DEBUG);
+  // dol_syslog($doli_events, LOG_DEBUG); 
   return $cal_events;
 }
 
@@ -153,8 +167,12 @@ function ajax_filter_calls() {
                                        {},
                                       function(data, status) {
                                         parsed_json = jQuery.parseJSON(data);
-                                        $.each(data, function(key, value) {
-                                                         alert(key);
+                                        $.each(data, function(key, events_array) {
+                                                         now_ts = key;
+                                                         for (var i = 0; i < events_array.length; i++) {
+                                                               event = events_array[i];
+                                                               alert(event.element);
+                                                         }
                                                      });
                                         // alert(data.length);
                                       });
