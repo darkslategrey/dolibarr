@@ -5,11 +5,6 @@ $(document).ready(function() {
     var m = date.getMonth();
     var y = date.getFullYear();
 
-    userasked = $("#userasked").val();
-    usertodo = $("#usertodo").val(); 
-    userdone = $("#userdone").val(); 
-    actioncode = $("#actioncode").val(); 
-    projectid  = $("select[name=projectid]").val(); 
 
     
     $('#calendar').fullCalendar({
@@ -44,9 +39,22 @@ $(document).ready(function() {
 	},
 	timeFormat: 'H(:mm)',
 	
-        events: '/axagenda/ajax/functions.php?userasked='+userasked+
-            '&usertodo='+usertodo+'&userdone='+userdone+'&projectid='+projectid
-            +'&actioncode='+actioncode
+        events: function(start, end, callback) {
+	    userasked = $("#userasked").val();
+	    usertodo = $("#usertodo").val(); 
+	    userdone = $("#userdone").val(); 
+	    actioncode = $("#actioncode").val(); 
+	    projectid  = $("select[name=projectid]").val(); 
+
+            jQuery.getJSON("/axagenda/ajax/functions.php?userasked="+userasked+
+                           "&usertodo="+usertodo+"&userdone="+userdone+"&projectid="+projectid
+                           +"&actioncode="+actioncode,
+                           {},
+			   function(data, status) {
+			       callback(data);
+			   });
+	    
+	}
 
     });
     
