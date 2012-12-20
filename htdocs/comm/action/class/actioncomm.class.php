@@ -424,6 +424,8 @@ class ActionComm extends CommonObject
     {
         global $langs,$conf;
 
+	dol_syslog("Actioncomm.update");
+
         $error=0;
 
         // Clean parameters
