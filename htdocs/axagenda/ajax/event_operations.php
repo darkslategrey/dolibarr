@@ -84,6 +84,8 @@ if ($action == 'update')
 	if (empty($cancel))
 	{
         $fulldayevent=GETPOST('fullday');
+	$datep=GETPOST('datep');
+	$datef=GETPOST('datef');
         $aphour=GETPOST('aphour');
 	$apday=GETPOST('apday');
 	$apmonth=GETPOST('apmonth');
@@ -104,7 +106,9 @@ if ($action == 'update')
 		   "p2day: ".$p2day."\n".
 		   "p2year: ".$p2year."\n".
 		   "p2hour: ".$p2hour."\n".
-		   "p2min: ".$p2min."\n");
+		   "p2min: ".$p2min."\n".
+		   "datep: ".$datep."\n".
+		   "datef: ".$datef."\n");
 		   
 	$percentage=in_array(GETPOST('status'),array(-1,100))?GETPOST('status'):GETPOST("percentage");	// If status is -1 or 100, percentage is not defined and we must use status
 
@@ -117,53 +121,56 @@ if ($action == 'update')
 		$actioncomm = new Actioncomm($db);
 		$actioncomm->fetch($id);
 
-		$datep=dol_mktime($fulldayevent?'00':$aphour, $fulldayevent?'00':$apmin, 0, $apmonth, $apday, $apyear);
-		$datef=dol_mktime($fulldayevent?'23':$p2hour, $fulldayevent?'59':$p2min, $fulldayevent?'59':'0', $p2month, $p2day, $p2year);
+		// $datep=dol_mktime($fulldayevent?'00':$aphour, $fulldayevent?'00':$apmin, 0, $apmonth, $apday, $apyear);
+		// $datef=dol_mktime($fulldayevent?'23':$p2hour, $fulldayevent?'59':$p2min, $fulldayevent?'59':'0', $p2month, $p2day, $p2year);
 
+
+		// GREG datep <1356108780> datef <1356108780>
 		dol_syslog("datep <".$datep."> datef <".$datef);
 
 		// $actioncomm->label       = GETPOST("label");
-		$actioncomm->datep       = $datep; 
-		$actioncomm->datef       = $datef;
-		$actioncomm->percentage  = $percentage;
-		$actioncomm->priority    = GETPOST("priority");
-		$actioncomm->fulldayevent= GETPOST("fullday")?1:0;
-		$actioncomm->location    = ''; // isset(GETPOST("location"))?GETPOST("location"):'';
-		$actioncomm->societe->id = GETPOST("socid");
-		$actioncomm->contact->id = GETPOST("contactid");
-		$actioncomm->fk_project  = GETPOST("projectid");
-		$actioncomm->note        = GETPOST("note");
-		$actioncomm->pnote       = GETPOST("note");
+		$actioncomm->datep       = ($datep == null) ? null : substr($datep, 0, strlen($datep)-3) ; 
+		$actioncomm->datef       = ($datef == null) ? null : substr($datef, 0, strlen($datef)-3) ; 
+
+		/* $actioncomm->percentage  = $percentage; */
+		/* $actioncomm->priority    = GETPOST("priority"); */
+		/* $actioncomm->fulldayevent= GETPOST("fullday")?1:0; */
+		/* $actioncomm->location    = ''; // isset(GETPOST("location"))?GETPOST("location"):''; */
+		/* $actioncomm->societe->id = GETPOST("socid"); */
+		/* $actioncomm->contact->id = GETPOST("contactid"); */
+		/* $actioncomm->fk_project  = GETPOST("projectid"); */
+		/* $actioncomm->note        = GETPOST("note"); */
+		/* $actioncomm->pnote       = GETPOST("note"); */
 
 		dol_syslog("ActionComm Création <".print_r($actioncomm, true).">");
-		if (! $datef && $percentage == 100)
-		{
-			$error=$langs->trans("ErrorFieldRequired",$langs->trans("DateEnd"));
-			$action = 'edit';
-		}
+		/* if (! $datef && $percentage == 100) */
+		/* { */
+		/* 	$error=$langs->trans("ErrorFieldRequired",$langs->trans("DateEnd")); */
+		/* 	$action = 'edit'; */
+		/* } */
 
-		// Users
-		$usertodo=new User($db);
-		if ($_POST["affectedto"])
-		{
-			$usertodo->fetch($_POST["affectedto"]);
-		}
-		$actioncomm->usertodo = $usertodo;
-		$userdone=new User($db);
-		if ($_POST["doneby"])
-		{
-			$userdone->fetch($_POST["doneby"]);
-		}
-		$actioncomm->userdone = $userdone;
+		/* // Users */
+		/* $usertodo=new User($db); */
+		/* if ($_POST["affectedto"]) */
+		/* { */
+		/* 	$usertodo->fetch($_POST["affectedto"]); */
+		/* } */
+		/* $actioncomm->usertodo = $usertodo; */
+		/* $userdone=new User($db); */
+		/* if ($_POST["doneby"]) */
+		/* { */
+		/* 	$userdone->fetch($_POST["doneby"]); */
+		/* } */
+		/* $actioncomm->userdone = $userdone; */
 
-		// Get extra fields
-		foreach($_POST as $key => $value)
-		{
-			if (preg_match("/^options_/",$key))
-			{
-				$actioncomm->array_options[$key]=GETPOST($key);
-			}
-		}
+		/* // Get extra fields */
+		/* foreach($_POST as $key => $value) */
+		/* { */
+		/* 	if (preg_match("/^options_/",$key)) */
+		/* 	{ */
+		/* 		$actioncomm->array_options[$key]=GETPOST($key); */
+		/* 	} */
+		/* } */
 		
 		if (! $error)
 		{
