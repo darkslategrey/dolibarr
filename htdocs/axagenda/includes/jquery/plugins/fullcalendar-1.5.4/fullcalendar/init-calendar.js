@@ -48,7 +48,7 @@ $(document).ready(function() {
 	header: {
 	    left: 'prev,next today',
 	    center: 'title',
-	    right: 'month,basicWeek,basicDay'
+	    right: 'month,agendaWeek,agendaDay'
 	},
 
 	editable: true,
@@ -62,8 +62,8 @@ $(document).ready(function() {
 		     'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre' ],
 	monthNamesShort: ['Jan.', 'Fév.', 'Ma.', 'Avr.', 'Mai', 'Juin', 'Jui.',
 		     'Août', 'Sep.', 'Oct.', 'Nov.', 'Déc.' ],
-	dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Jeudi', 'Vendredi', 'Samedi' ],
-	dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Jeu.', 'Ven.', 'Sam.' ],
+	dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercerdi', 'Jeudi', 'Vendredi', 'Samedi' ],
+	dayNamesShort: ['Dim.', 'Lun.', 'Mar.', 'Mer.', 'Jeu.', 'Ven.', 'Sam.' ],
 	titleFormat: {
 	    month: 'MMMM yyyy',                             // September 2009
 	    week: "d[ yyyy]{ '&#8212;'[ MMM] d MMM yyyy}", // Sep 7 - 13 2009
@@ -75,6 +75,14 @@ $(document).ready(function() {
 	    day: 'dddd d/M'  // Monday 9/7
 	},
 	timeFormat: 'H(:mm)',
+	axisFormat: 'H(:mm)',
+	// eventDragStart: function(event) {
+	//     alert("eventDragStart event <"+pp(event)+">");
+	// },
+	// eventDragStop: function(event) {
+	//     alert("eventDragStop event <"+pp(even)+">");
+	// },
+	
 	eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
 /*	    // update original url: http://dolibarr-new.local:88/comm/action/fiche.php/comm/action/fiche.php
 	    // Params to post
@@ -116,40 +124,39 @@ $(document).ready(function() {
 	    var date_start = (event.start == null || event.start == "") ? null : Date.parse(event.start);
 	    var date_end = (event.end == null || event.end == "") ? null : Date.parse(event.end);
 
-
-	    date
+	    // date
 	    var params = { "action":"update",
-			   "datep": date_start,
-			   "datef": date_end,
-			   // "affectedto":"-1",
-			   // "ap":"10/12/2012",
-			   // "apday":'',
-			   // "aphour":00,
-			   // "apmin":57,
-			   // "apmonth":01,
-			   // "apyear":2013,
-			   // "contactid":"-1",
-			   // "doneby":1,
-			   // "edit":"Enregistrer",
-			   "id":event.id,
-			   "label":event.title,
-			   // "location":"",
-			   // "note":"Soci&eacute;t&eacute;",
-			   // "p2":"17/12/2012",
-			   // "p2day":17,
-			   // "p2hour":00,
-			   // "p2min":57,
-			   // "p2month":01,
-			   // "p2year":2013,
-			   // "priority":"",
-			   // "projectid":0,
-			   // "ref_ext":"",
-			   "socid":1,
-			   "status":"-1" };
-			   // "token":"2151fbfb67b124047d8c53a3938bb921" };
+	    		   "datep": date_start,
+	    		   "datef": date_end,
+	    		   // "affectedto":"-1",
+	    		   // "ap":"10/12/2012",
+	    		   // "apday":'',
+	    		   // "aphour":00,
+	    		   // "apmin":57,
+	    		   // "apmonth":01,
+	    		   // "apyear":2013,
+	    		   // "contactid":"-1",
+	    		   // "doneby":1,
+	    		   // "edit":"Enregistrer",
+	    		   "id":event.id,
+	    		   "label":event.title,
+	    		   // "location":"",
+	    		   // "note":"Soci&eacute;t&eacute;",
+	    		   // "p2":"17/12/2012",
+	    		   // "p2day":17,
+	    		   // "p2hour":00,
+	    		   // "p2min":57,
+	    		   // "p2month":01,
+	    		   // "p2year":2013,
+	    		   // "priority":"",
+	    		   // "projectid":0,
+	    		   // "ref_ext":"",
+	    		   "socid":1,
+	    		   "status":"-1" };
+	    		   // "token":"2151fbfb67b124047d8c53a3938bb921" };
 
             jQuery.getJSON("/axagenda/ajax/event_operations.php", params, function(data, status) {
-		alert(data); 
+	    	alert(data); 
 	    }); 
 	    // alert(event.id + ' was moved ' + delta + ' days\n' +
 	    // 	  '(should probably update your database)');
@@ -157,6 +164,7 @@ $(document).ready(function() {
 	},
 	
         events: function(start, end, callback) {
+	    alert("An event commes");
 	    userasked = $("#userasked").val();
 	    usertodo = $("#usertodo").val(); 
 	    userdone = $("#userdone").val(); 

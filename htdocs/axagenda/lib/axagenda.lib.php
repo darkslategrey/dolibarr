@@ -48,6 +48,7 @@ function translate_to_full_callendar($doli_events) {
     dol_syslog("date_end_in_calendar <".$e->date_end_in_calendar.">", LOG_DEBUG);
     $event_arr = array('id' => $e->id, 'title' => $e->libelle,
 		       'start' => $e->date_start_in_calendar, 
+		       'allDay' => false,
 		       'end'   => $e->date_end_in_calendar,
 		       'url'   => '/comm/action/fiche.php?id='.$e->id);
     array_push($cal_events, $event_arr);
