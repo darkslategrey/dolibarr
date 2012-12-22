@@ -68,7 +68,7 @@ $extrafields = new ExtraFields($db);
 // Initialize technical object to manage hooks of thirdparties. Note that conf->hooks_modules contains array array
 include_once DOL_DOCUMENT_ROOT.'/core/class/hookmanager.class.php';
 $hookmanager=new HookManager($db);
-$hookmanager->initHooks(array('actioncard'));
+// $hookmanager->initHooks(array('actioncard'));
 
 dol_syslog("event_operations: apmonth: <".GETPOST('apmonth','int').">");
 
@@ -209,14 +209,14 @@ if ($action == 'update')
  * View
  */
 
-$help_url='EN:Module_Agenda_En|FR:Module_Agenda|ES:M&omodulodulo_Agenda';
-llxHeader('',$langs->trans("Agenda"),$help_url);
+/* $help_url='EN:Module_Agenda_En|FR:Module_Agenda|ES:M&omodulodulo_Agenda'; */
+/* llxHeader('',$langs->trans("Agenda"),$help_url); */
 
-$form = new Form($db);
-$htmlactions = new FormActions($db);
+/* $form = new Form($db); */
+/* $htmlactions = new FormActions($db); */
 
-// fetch optionals attributes and labels
-$extralabels=$extrafields->fetch_name_optionals_label('actioncomm');
+/* // fetch optionals attributes and labels */
+/* $extralabels=$extrafields->fetch_name_optionals_label('actioncomm'); */
 
 $db->close();
 

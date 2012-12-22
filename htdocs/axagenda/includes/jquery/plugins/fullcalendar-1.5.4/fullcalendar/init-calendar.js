@@ -114,13 +114,13 @@ $(document).ready(function() {
 	    status	-1
 	    token	2151fbfb67b124047d8c53a3938bb921 */
 	    // var the_start_date = new Date();
-	    alert(event.title + " was moved " +
-		  dayDelta + " days and " +
-		  " event id : <" + event.id + ">",
-		  minuteDelta + " minutes.");
+	    // alert(event.title + " was moved " +
+	    // 	  dayDelta + " days and " +
+	    // 	  " event id : <" + event.id + ">",
+	    // 	  minuteDelta + " minutes.");
 
-	    alert("datep <"+Date.parse(event.start)+">");
-	    alert("datef <"+pp(event)+"> parsed <"+Date.parse(event.end)+">");
+	    // alert("datep <"+Date.parse(event.start)+">");
+	    // alert("datef <"+pp(event)+"> parsed <"+Date.parse(event.end)+">");
 	    var date_start = (event.start == null || event.start == "") ? null : Date.parse(event.start);
 	    var date_end = (event.end == null || event.end == "") ? null : Date.parse(event.end);
 
@@ -164,7 +164,7 @@ $(document).ready(function() {
 	},
 	
         events: function(start, end, callback) {
-	    alert("An event commes");
+	    // alert("An event commes");
 	    userasked = $("#userasked").val();
 	    usertodo = $("#usertodo").val(); 
 	    userdone = $("#userdone").val(); 
