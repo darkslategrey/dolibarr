@@ -137,7 +137,7 @@ print_actions_filter($form,$canedit,$status,$year,$month,$day,$showbirthday,$fil
 dol_fiche_end();
  
 // Put here content of your page
-
+print '<div id="confirmation" style="foreground-color:red">Mise à jour réussie</div>';
 
 print '<div id="calendar"></div>';
 

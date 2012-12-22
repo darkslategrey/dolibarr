@@ -219,8 +219,15 @@ if ($action == 'update')
 /* $extralabels=$extrafields->fetch_name_optionals_label('actioncomm'); */
 
 $db->close();
-
-llxFooter();
+top_httphead();
+/* { */
+/*   "one": "Singular sensation", */
+/*   "two": "Beady little eyes", */
+/*   "three": "Little birds pitch by my doorstep" */
+/* } */
+echo json_encode(Array());
+// print "<html><body></body></html>"
+// llxFooter();
 
 
 

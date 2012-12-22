@@ -156,8 +156,17 @@ $(document).ready(function() {
 	    		   // "token":"2151fbfb67b124047d8c53a3938bb921" };
 
             jQuery.getJSON("/axagenda/ajax/event_operations.php", params, function(data, status) {
-	    	alert(data); 
-	    }); 
+		// alert("<"+status+">"); 
+		if(status == "success") {
+		    // alert("success");
+		    var options = {};
+
+		    $( "#confirmation" ).effect("fade", options, 500, function() {
+			    $( "#confirmation" ).show().fadeIn();
+			    $( "#confirmation" ).hide().fadeOut();
+		    });
+		};
+	    });
 	    // alert(event.id + ' was moved ' + delta + ' days\n' +
 	    // 	  '(should probably update your database)');
 	    
