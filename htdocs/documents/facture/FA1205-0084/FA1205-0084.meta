@@ -1,0 +1,12 @@
+REFERENCE="FA1205-0084"
+			DATE="02 mai 2012"
+			NB_ITEMS="1"
+			CLIENT="SHOP PARTICULIER EMPLOYEUR Auxiliae
+23 rue Victor Duruy 75015 PARIS"
+			TOTAL_HT="24.84000000"
+			TOTAL_TTC="29.71000000"
+ITEM_0_QUANTITY="3"
+				ITEM_0_UNIT_PRICE="8.28000000"
+				ITEM_0_TVA="19.600"
+				ITEM_0_DESCRIPTION="Liste paiement particulier employeur<br /><br />Facture aout 2012 : <br />$13/08/2012$Amelie$Saunier$9.90$8.28;<br />$20/08/2012$christine$claret$9.90$8.28;<br />$27/08/2012$véronique$fiumara$9.90$8.28;"
+				

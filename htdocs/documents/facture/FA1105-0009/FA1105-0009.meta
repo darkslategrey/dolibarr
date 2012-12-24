@@ -1,0 +1,16 @@
+REFERENCE="FA1105-0009"
+			DATE="23 mai 2011"
+			NB_ITEMS="2"
+			CLIENT="SAFARI Comptabilité - Fournisseur
+6 rue Jean Antoine de Baïf 75013 PARIS"
+			TOTAL_HT="867"
+			TOTAL_TTC="1036.94"
+ITEM_0_QUANTITY="1"
+				ITEM_0_UNIT_PRICE="433.5"
+				ITEM_0_TVA="19.6"
+				ITEM_0_DESCRIPTION="Ville de PARIS<br />Diffusion 1 annonce Haute visibilité pendant 45 jours <br />Libellé : 2 Puéricultrices de Santé <br /><br />ORDRE DE PUBLICITE n° 23263-33-93103"
+				ITEM_1_QUANTITY="1"
+				ITEM_1_UNIT_PRICE="433.5"
+				ITEM_1_TVA="19.6"
+				ITEM_1_DESCRIPTION="Ville de PARIS<br />Diffusion 1 annonce Haute visibilité pendant 45 jours <br />Libellé : 40 Puéricultrices<br /><br />ORDRE DE PUBLICITE n° 23263-34-93104"
+				

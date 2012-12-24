@@ -1,0 +1,12 @@
+REFERENCE="(PROV20)"
+			DATE="06 oct. 2010"
+			NB_ITEMS="1"
+			CLIENT="SELECT TT - APPEL MEDICAL M93349385
+19, rue Edmond Michelet 33064 Bordeaux"
+			TOTAL_HT="4800"
+			TOTAL_TTC="5740.8"
+ITEM_0_QUANTITY="1"
+				ITEM_0_UNIT_PRICE="4800"
+				ITEM_0_TVA="19.6"
+				ITEM_0_DESCRIPTION="Diffusion de l'ensemble de vos offres d'emploi " Enfants" via un flux<br />Accès cvthèque illimitée pour toutes vos agences l'Appel Médical<br /><br />Frais Techniques offerts : <br />Intégration et maintenance du flux sur l'ensemble de la période<br /><br />Durée du service : 15 mois ( 3 mois offerts / échéance 31/12/2011)"
+				

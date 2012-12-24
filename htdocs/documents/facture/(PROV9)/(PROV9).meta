@@ -1,0 +1,17 @@
+REFERENCE="(PROV9)"
+			DATE="03 sep. 2010"
+			NB_ITEMS="2"
+			CLIENT="MAIRIE DE CLICHY SOUS BOIS Service financier
+Hôtel de ville
+place du 11 novembre 1918 93390 CLICHY SOUS BOIS"
+			TOTAL_HT="300"
+			TOTAL_TTC="358.8"
+ITEM_0_QUANTITY="1"
+				ITEM_0_UNIT_PRICE="300"
+				ITEM_0_TVA="19.6"
+				ITEM_0_DESCRIPTION="Diffusion d'une offre d'emploi pendant 60 jours <br />+ accès illimitée à la cvthèque pendant 60 jours"
+				ITEM_1_QUANTITY="1"
+				ITEM_1_UNIT_PRICE="0"
+				ITEM_1_TVA="19.6"
+				ITEM_1_DESCRIPTION="Mise en ligne de l'annonce : OFFERT"
+				

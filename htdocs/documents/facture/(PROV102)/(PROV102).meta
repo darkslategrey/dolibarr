@@ -1,0 +1,13 @@
+REFERENCE="(PROV102)"
+			DATE="21 sep. 2011"
+			NB_ITEMS="1"
+			CLIENT="VILLE DE MEUDON Hôtel de ville 
+Service Comptabilité Fournisseurs 
+6 avenue Louis Le Corbeiller 92190 Meudon"
+			TOTAL_HT="650"
+			TOTAL_TTC="777.4"
+ITEM_0_QUANTITY="1"
+				ITEM_0_UNIT_PRICE="650"
+				ITEM_0_TVA="19.6"
+				ITEM_0_DESCRIPTION="Pack 2 annonces 5 crédits cvs<br />Diffusion 45 jours"
+				

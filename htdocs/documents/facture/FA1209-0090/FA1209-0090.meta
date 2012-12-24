@@ -1,0 +1,16 @@
+REFERENCE="FA1209-0090"
+			DATE="10 sep. 2012"
+			NB_ITEMS="2"
+			CLIENT="CRECHE ATTITUDE Service Comptabilité - Fournisseur
+35 Ter Avenue Pierre Grenier 92100 BOULOGNE BILLANCOURT"
+			TOTAL_HT="7500.00000000"
+			TOTAL_TTC="8970.00000000"
+ITEM_0_QUANTITY="1"
+				ITEM_0_UNIT_PRICE="7500.00000000"
+				ITEM_0_TVA="19.600"
+				ITEM_0_DESCRIPTION="* Contrat Annuel Emploi sur mesure jusqu'au 1er septembre 2013<br /><br />Dépôt illimité d'offres d'emploi<br /><br />Inclus :<br />- L'affichage de votre logo sur chaque offre<br />- Multidiffusion de toutes les offres sur nos sites partenaires<br />- La création d'un lien direct vers votre site Internet et/ou vos offres.<br />- Le choix dans le mode de recrutement (formulaire en ligne, email, courrier).<br />- Le rafraîchissement automatique de vos annonces après 21 jours de diffusion.<br />- L'accès à un tableau de bord personnalisé, disponible 24/7, pour gérer vos recrutements et visualiser vos candidatures.<br />- Le tracking en temps réel (visualisation des offres, taux de transformation)<br />- Multidiffusion des offres vers les sites partenaires : Indeed, Trovit, JobiJoba, Option Carrière"
+				ITEM_1_QUANTITY="1"
+				ITEM_1_UNIT_PRICE="0.00000000"
+				ITEM_1_TVA="19.600"
+				ITEM_1_DESCRIPTION="* Interview Recruteur : <br />Un journaliste de notre cellule éditoriale externalisée"
+				

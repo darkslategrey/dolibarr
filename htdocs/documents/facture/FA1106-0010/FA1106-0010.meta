@@ -1,0 +1,11 @@
+REFERENCE="FA1106-0010"
+			DATE="21 juin 2011"
+			NB_ITEMS="1"
+			CLIENT="Les services de Margot 102 rue Condorcet 69400 VILLEFRANCHE SUR SAONE"
+			TOTAL_HT="365"
+			TOTAL_TTC="436.54"
+ITEM_0_QUANTITY="1"
+				ITEM_0_UNIT_PRICE="365"
+				ITEM_0_TVA="19.6"
+				ITEM_0_DESCRIPTION="Facture annuelle : <br /><br />Pack Offre Spéciale SAP : <br />- Diffusion illimitée d'offres d'emploi <br />- Accès cvthèque illimitée <br /><br /><br />REGLEMENT VALIDE PAR PRELEVEMENT AUTOMATIQUE DE 30,41 HT / <br />MOIS SOIT 36,37 TTC"
+				
