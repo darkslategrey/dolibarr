@@ -3875,7 +3875,7 @@ function AgendaEventRenderer() {
 	
 	
 	function slotSegHtml(event, seg) {
-		var html = "<";
+	    var html = "<";
 		var url = event.url;
 		var skinCss = getSkinCss(event, opt);
 		var skinCssAttr = (skinCss ? " style='" + skinCss + "'" : '');
@@ -4638,6 +4638,7 @@ function DayEventRenderer() {
 			}
 			url = event.url;
 			skinCss = getSkinCss(event, opt);
+
 			if (url) {
 				html += "<a href='" + htmlEscape(url) + "'";
 			}else{
@@ -4651,6 +4652,7 @@ function DayEventRenderer() {
 				" class='fc-event-inner fc-event-skin'" +
 				(skinCss ? " style='" + skinCss + "'" : '') +
 				">";
+		    html += "<div class='icon-del icon'><a href='/comm/action/fiche.php?action=delete&id="+event._id+"'>Delete</a></div>";
 			if (!event.allDay && seg.isStart) {
 				html +=
 					"<span class='fc-event-time'>" +
@@ -4673,6 +4675,7 @@ function DayEventRenderer() {
 			seg.startCol = leftCol;
 			seg.endCol = rightCol + 1; // needs to be exclusive
 		}
+
 		return html;
 	}
 	
