@@ -1,3 +1,57 @@
+// function prettyPrint(obj){
+//     var toString = Object.prototype.toString,
+//         newLine = "<br>", space = "&nbsp;", tab = 8,
+//         buffer = "",        
+//         //Second argument is indent
+//         indent = arguments[1] || 0,
+//         //For better performance, Cache indentStr for a given indent.
+//         indentStr = (function(n){
+//             var str = "";
+//             while(n--){
+//                 str += space;
+//             }
+//             return str;
+//         })(indent); 
+ 
+//     if(!obj || ( typeof obj != "object" && typeof obj!= "function" )){
+//         //any non-object ( Boolean, String, Number), null, undefined, NaN
+//         buffer += obj;
+//     }else if(toString.call(obj) == "[object Date]"){
+//         buffer += "[Date] " + obj;
+//     }else if(toString.call(obj) == "[object RegExp"){
+//         buffer += "[RegExp] " + obj;
+//     }else if(toString.call(obj) == "[object Function]"){
+//         buffer += "[Function] " + obj;
+//     }else if(toString.call(obj) == "[object Array]"){
+//         var idx = 0, len = obj.length;
+//         buffer += "["+newLine;
+//         while(idx < len){
+//             buffer += [
+//                 indentStr, idx, ": ", 
+//                 prettyPrint(obj[idx], indent + tab)
+//             ].join("");
+//             buffer += "<br>";
+//             idx++;
+//         }
+//         buffer += indentStr + "]";
+//     }else { //Handle Object
+//         var prop;
+//         buffer += "{"+newLine;
+//         for(prop in obj){
+//             buffer += [
+//                 indentStr, prop, ": ", 
+//                 prettyPrint(obj[prop], indent + tab)
+//             ].join("");
+//             buffer += newLine;
+//         }
+//         buffer += indentStr + "}";
+//     }
+ 
+//     return buffer;
+// }
+
+
+
 // function pp(object, depth, embedded) { 
 //   typeof(depth) == "number" || (depth = 0)
 //   typeof(embedded) == "boolean" || (embedded = false)
@@ -42,7 +96,7 @@ $(document).ready(function() {
     var m = date.getMonth();
     var y = date.getFullYear();
 
-
+    $('#confirmation').hide();
     
     $('#calendar').fullCalendar({
 	header: {
@@ -87,6 +141,10 @@ $(document).ready(function() {
 	},
 	
 	eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+	    // alert(prettyPrint(ui));
+	    // alert(prettyPrint(view));
+	    // alert(prettyPrint(jsEvent));
+
 /*	    // update original url: http://dolibarr-new.local:88/comm/action/fiche.php/comm/action/fiche.php
 	    // Params to post
 	    action	update
@@ -164,10 +222,11 @@ $(document).ready(function() {
 		    // alert("success");
 		    var options = {};
 
-		    $( "#confirmation" ).effect("fade", options, 500, function() {
-			    $( "#confirmation" ).show().fadeIn();
-			    $( "#confirmation" ).hide().fadeOut();
-		    });
+		    $("#confirmation").dialog({height: 140, modal: true});
+		    // $( "#confirmation" ).effect("fade", options, 500, function() {
+		    // 	    $( "#confirmation" ).show().fadeIn();
+		    // 	    $( "#confirmation" ).hide().fadeOut();
+		    // });
 		};
 	    });
 	    // alert(event.id + ' was moved ' + delta + ' days\n' +
