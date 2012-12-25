@@ -86,14 +86,15 @@ class modAxAgenda extends DolibarrModules
 		//                        	'tpl' => 0,                                      	// Set this to 1 if module overwrite template dir (core/tpl)
 		//							'barcode' => 0,                                  	// Set this to 1 if module has its own barcode directory (core/modules/barcode)
 		//							'models' => 0,                                   	// Set this to 1 if module has its own models directory (core/modules/xxx)
-					    'css' => array('/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.css'),	// Set this to relative path of css file if module has its own css file
-					    'js' => array('/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
+					    'css' => array("/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.css",
+							   "/axagenda/css/axagenda.css"),
+					    'js' => array('/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.js',
 							  '/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/init-calendar.js'), // Set this to relative path of js file if module must load a js on all pages
 		//							'hooks' => array('hookcontext1','hookcontext2')  	// Set here all hooks context managed by module
 		//							'dir' => array('output' => 'othermodulename'),      // To force the default directories names
 		//							'workflow' => array('WORKFLOW_MODULE1_YOURACTIONTYPE_MODULE2'=>array('enabled'=>'! empty($conf->module1->enabled) && ! empty($conf->module2->enabled)', 'picto'=>'yourpicto@mymodule')) // Set here all workflow context managed by module
 					    );
-		$this->module_parts = array();
+		// $this->module_parts = array();
 
 		// Data directories to create when module is enabled.
 		// Example: this->dirs = array("/mymodule/temp");

@@ -96,11 +96,12 @@ if ($action == 'add')
 *
 * Put here all code to build page
 ****************************************************/
-$fullcalendar_css = array("/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.css",
-			  "/axagenda/css/axagenda.css");
-$fullcalendar_js  = array("/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.js",
-			  "/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/init-calendar.js");
-
+/* $fullcalendar_css = array("/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.css", */
+/* 			  "/axagenda/css/axagenda.css"); */
+/* $fullcalendar_js  = array("/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.js", */
+/* 			  "/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/init-calendar.js"); */
+$fullcalendar_css = '';
+$fullcalendar_js  = '';
 llxHeader('','AxAgenda','','','','',$fullcalendar_js, $fullcalendar_css, 0,0);
 $form=new Form($db);
 

@@ -1,91 +1,3 @@
-// function prettyPrint(obj){
-//     var toString = Object.prototype.toString,
-//         newLine = "<br>", space = "&nbsp;", tab = 8,
-//         buffer = "",        
-//         //Second argument is indent
-//         indent = arguments[1] || 0,
-//         //For better performance, Cache indentStr for a given indent.
-//         indentStr = (function(n){
-//             var str = "";
-//             while(n--){
-//                 str += space;
-//             }
-//             return str;
-//         })(indent); 
- 
-//     if(!obj || ( typeof obj != "object" && typeof obj!= "function" )){
-//         //any non-object ( Boolean, String, Number), null, undefined, NaN
-//         buffer += obj;
-//     }else if(toString.call(obj) == "[object Date]"){
-//         buffer += "[Date] " + obj;
-//     }else if(toString.call(obj) == "[object RegExp"){
-//         buffer += "[RegExp] " + obj;
-//     }else if(toString.call(obj) == "[object Function]"){
-//         buffer += "[Function] " + obj;
-//     }else if(toString.call(obj) == "[object Array]"){
-//         var idx = 0, len = obj.length;
-//         buffer += "["+newLine;
-//         while(idx < len){
-//             buffer += [
-//                 indentStr, idx, ": ", 
-//                 prettyPrint(obj[idx], indent + tab)
-//             ].join("");
-//             buffer += "<br>";
-//             idx++;
-//         }
-//         buffer += indentStr + "]";
-//     }else { //Handle Object
-//         var prop;
-//         buffer += "{"+newLine;
-//         for(prop in obj){
-//             buffer += [
-//                 indentStr, prop, ": ", 
-//                 prettyPrint(obj[prop], indent + tab)
-//             ].join("");
-//             buffer += newLine;
-//         }
-//         buffer += indentStr + "}";
-//     }
- 
-//     return buffer;
-// }
-
-
-
-// function pp(object, depth, embedded) { 
-//   typeof(depth) == "number" || (depth = 0)
-//   typeof(embedded) == "boolean" || (embedded = false)
-//   var newline = false
-//   var spacer = function(depth) { var spaces = ""; for (var i=0;i<depth;i++) { spaces += "  "}; return spaces }
-//   var pretty = ""
-//   if (      typeof(object) == "undefined" ) { pretty += "undefined" }
-//   else if ( typeof(object) == "boolean" || 
-//             typeof(object) == "number" ) {    pretty += object.toString() } 
-//   else if ( typeof(object) == "string" ) {    pretty += "\"" + object + "\"" } 
-//   else if (        object  == null) {         pretty += "null" } 
-//   else if ( object instanceof(Array) ) {
-//     if ( object.length > 0 ) {
-//       if (embedded) { newline = true }
-//       var content = ""
-//       for each (var item in object) { content += pp(item, depth+1) + ",\n" + spacer(depth+1) }
-//       content = content.replace(/,\n\s*$/, "").replace(/^\s*/,"")
-//       pretty += "[ " + content + "\n" + spacer(depth) + "]"
-//     } else { pretty += "[]" }
-//   } 
-//   else if (typeof(object) == "object") {
-//     if ( Object.keys(object).length > 0 ){
-//       if (embedded) { newline = true }
-//       var content = ""
-//       for (var key in object) { 
-//         content += spacer(depth + 1) + key.toString() + ": " + pp(object[key], depth+2, true) + ",\n" 
-//       }
-//       content = content.replace(/,\n\s*$/, "").replace(/^\s*/,"")
-//       pretty += "{ " + content + "\n" + spacer(depth) + "}"
-//     } else { pretty += "{}"}
-//   }
-//   else { pretty += object.toString() }
-//   return ((newline ? "\n" + spacer(depth) : "") + pretty)
-// }
 
 
 
@@ -389,7 +301,7 @@ $(document).ready(function() {
 	    actioncode = $("#actioncode").val(); 
 	    projectid  = $("select[name=projectid]").val(); 
 
-            jQuery.getJSON("/doli-test-integ/axagenda/ajax/functions.php?userasked="+userasked+
+            jQuery.getJSON("/axagenda/ajax/functions.php?userasked="+userasked+
                            "&usertodo="+usertodo+"&userdone="+userdone+"&projectid="+projectid
                            +"&actioncode="+actioncode,
                            {},

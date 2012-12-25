@@ -362,16 +362,17 @@ if ($filtera > 0 || $filtert > 0 || $filterd > 0)
 $sql.= ' ORDER BY datep';
 //print $sql;
 
-dol_syslog("axagenda/ajax/functions.php sql=".$sql, LOG_DEBUG);
+// dol_syslog("axagenda/ajax/functions.php sql=".$sql, LOG_DEBUG);
 $resql=$db->query($sql);
 if ($resql)
 {
     $num = $db->num_rows($resql);
+    dol_syslog("GREG num row <".$num.">");
     $i=0;
     while ($i < $num)
     {
         $obj = $db->fetch_object($resql);
-
+	dol_syslog("label <".$obj->label.">");
         // Create a new object action
         $event=new ActionComm($db);
         $event->id=$obj->id;
@@ -415,6 +416,7 @@ if ($resql)
         if ($event->date_end_in_calendar < $firstdaytoshow ||
         $event->date_start_in_calendar > $lastdaytoshow)
         {
+	  dol_syslog("Not visible", LOG_DEBUG);
             // This record is out of visible range
         }
         else
@@ -422,6 +424,7 @@ if ($resql)
             if ($event->date_start_in_calendar < $firstdaytoshow) $event->date_start_in_calendar=$firstdaytoshow;
             if ($event->date_end_in_calendar > $lastdaytoshow) $event->date_end_in_calendar=$lastdaytoshow;
 
+	    dol_syslog("Visible", LOG_DEBUG);
             // Add an entry in actionarray for each day
             $daycursor=$event->date_start_in_calendar;
             $annee = date('Y',$daycursor);
@@ -454,286 +457,287 @@ else
 {
     dol_print_error($db);
 }
+dol_syslog("GREG nbr of events 4 <".count($eventarray).">", LOG_DEBUG);
 
-if ($showbirthday)
-{
-    // Add events in array
-    $sql = 'SELECT sp.rowid, sp.name, sp.firstname, sp.birthday';
-    $sql.= ' FROM '.MAIN_DB_PREFIX.'socpeople as sp';
-    $sql.= ' WHERE (priv=0 OR (priv=1 AND fk_user_creat='.$user->id.'))';
-    $sql.= " AND sp.entity IN (".getEntity('societe', 1).")";
-    if ($action == 'show_day')
-    {
-        $sql.= ' AND MONTH(birthday) = '.$month;
-        $sql.= ' AND DAY(birthday) = '.$day;
-    }
-    else
-    {
-        $sql.= ' AND MONTH(birthday) = '.$month;
-    }
-    $sql.= ' ORDER BY birthday';
+/* if ($showbirthday) */
+/* { */
+/*     // Add events in array */
+/*     $sql = 'SELECT sp.rowid, sp.name, sp.firstname, sp.birthday'; */
+/*     $sql.= ' FROM '.MAIN_DB_PREFIX.'socpeople as sp'; */
+/*     $sql.= ' WHERE (priv=0 OR (priv=1 AND fk_user_creat='.$user->id.'))'; */
+/*     $sql.= " AND sp.entity IN (".getEntity('societe', 1).")"; */
+/*     if ($action == 'show_day') */
+/*     { */
+/*         $sql.= ' AND MONTH(birthday) = '.$month; */
+/*         $sql.= ' AND DAY(birthday) = '.$day; */
+/*     } */
+/*     else */
+/*     { */
+/*         $sql.= ' AND MONTH(birthday) = '.$month; */
+/*     } */
+/*     $sql.= ' ORDER BY birthday'; */
 
-    dol_syslog("axagenda/ajax/functions.php sql=".$sql, LOG_DEBUG);
-    $resql=$db->query($sql);
-    if ($resql)
-    {
-        $num = $db->num_rows($resql);
-        $i=0;
-        while ($i < $num)
-        {
-            $obj = $db->fetch_object($resql);
-            $event=new ActionComm($db);
-            $event->id=$obj->rowid; // We put contact id in action id for birthdays events
-            $datebirth=dol_stringtotime($obj->birthday,1);
-            //print 'ee'.$obj->birthday.'-'.$datebirth;
-            $datearray=dol_getdate($datebirth,true);
-            $event->datep=dol_mktime(0,0,0,$datearray['mon'],$datearray['mday'],$year,true);    // For full day events, date are also GMT but they wont but converted during output
-            $event->datef=$event->datep;
-            $event->type_code='BIRTHDAY';
-            $event->libelle=$langs->trans("Birthday").' '.$obj->firstname.' '.$obj->name;
-            $event->percentage=100;
-            $event->fulldayevent=true;
+/*     dol_syslog("axagenda/ajax/functions.php sql=".$sql, LOG_DEBUG); */
+/*     $resql=$db->query($sql); */
+/*     if ($resql) */
+/*     { */
+/*         $num = $db->num_rows($resql); */
+/*         $i=0; */
+/*         while ($i < $num) */
+/*         { */
+/*             $obj = $db->fetch_object($resql); */
+/*             $event=new ActionComm($db); */
+/*             $event->id=$obj->rowid; // We put contact id in action id for birthdays events */
+/*             $datebirth=dol_stringtotime($obj->birthday,1); */
+/*             //print 'ee'.$obj->birthday.'-'.$datebirth; */
+/*             $datearray=dol_getdate($datebirth,true); */
+/*             $event->datep=dol_mktime(0,0,0,$datearray['mon'],$datearray['mday'],$year,true);    // For full day events, date are also GMT but they wont but converted during output */
+/*             $event->datef=$event->datep; */
+/*             $event->type_code='BIRTHDAY'; */
+/*             $event->libelle=$langs->trans("Birthday").' '.$obj->firstname.' '.$obj->name; */
+/*             $event->percentage=100; */
+/*             $event->fulldayevent=true; */
 
-            $event->date_start_in_calendar=$event->datep;
-            $event->date_end_in_calendar=$event->datef;
-            $event->ponctuel=0;
+/*             $event->date_start_in_calendar=$event->datep; */
+/*             $event->date_end_in_calendar=$event->datef; */
+/*             $event->ponctuel=0; */
 
-            // Add an entry in actionarray for each day
-            $daycursor=$event->date_start_in_calendar;
-            $annee = date('Y',$daycursor);
-            $mois = date('m',$daycursor);
-            $jour = date('d',$daycursor);
+/*             // Add an entry in actionarray for each day */
+/*             $daycursor=$event->date_start_in_calendar; */
+/*             $annee = date('Y',$daycursor); */
+/*             $mois = date('m',$daycursor); */
+/*             $jour = date('d',$daycursor); */
 
-            $loop=true;
-            $daykey=dol_mktime(0,0,0,$mois,$jour,$annee);
-            do
-            {
-                $eventarray[$daykey][]=$event;
-                $daykey+=60*60*24;
-                if ($daykey > $event->date_end_in_calendar) $loop=false;
-            }
-            while ($loop);
-            $i++;
-        }
-    }
-    else
-    {
-        dol_print_error($db);
-    }
-}
+/*             $loop=true; */
+/*             $daykey=dol_mktime(0,0,0,$mois,$jour,$annee); */
+/*             do */
+/*             { */
+/*                 $eventarray[$daykey][]=$event; */
+/*                 $daykey+=60*60*24; */
+/*                 if ($daykey > $event->date_end_in_calendar) $loop=false; */
+/*             } */
+/*             while ($loop); */
+/*             $i++; */
+/*         } */
+/*     } */
+/*     else */
+/*     { */
+/*         dol_print_error($db); */
+/*     } */
+/* } */
 
-if (count($listofextcals))
-{
-    require_once DOL_DOCUMENT_ROOT.'/comm/action/class/ical.class.php';
-    foreach($listofextcals as $extcal)
-    {
-        $url=$extcal['src'];    // Example: https://www.google.com/calendar/ical/eldy10%40gmail.com/private-cde92aa7d7e0ef6110010a821a2aaeb/basic.ics
-        $namecal = $extcal['name'];
-        $colorcal = $extcal['color'];
-        //print "url=".$url." namecal=".$namecal." colorcal=".$colorcal;
-        $ical=new ICal();
-        $ical->parse($url);
-        // After this $ical->cal['VEVENT'] contains array of events, $ical->cal['DAYLIGHT'] contains daylight info, $ical->cal['STANDARD'] contains non daylight info, ...
-        //var_dump($ical->cal); exit;
-        $icalevents=array();
-        if (is_array($ical->get_event_list())) $icalevents=array_merge($icalevents,$ical->get_event_list());        // Add $ical->cal['VEVENT']
-        if (is_array($ical->get_freebusy_list())) $icalevents=array_merge($icalevents,$ical->get_freebusy_list());  // Add $ical->cal['VFREEBUSY']
+/* if (count($listofextcals)) */
+/* { */
+/*     require_once DOL_DOCUMENT_ROOT.'/comm/action/class/ical.class.php'; */
+/*     foreach($listofextcals as $extcal) */
+/*     { */
+/*         $url=$extcal['src'];    // Example: https://www.google.com/calendar/ical/eldy10%40gmail.com/private-cde92aa7d7e0ef6110010a821a2aaeb/basic.ics */
+/*         $namecal = $extcal['name']; */
+/*         $colorcal = $extcal['color']; */
+/*         //print "url=".$url." namecal=".$namecal." colorcal=".$colorcal; */
+/*         $ical=new ICal(); */
+/*         $ical->parse($url); */
+/*         // After this $ical->cal['VEVENT'] contains array of events, $ical->cal['DAYLIGHT'] contains daylight info, $ical->cal['STANDARD'] contains non daylight info, ... */
+/*         //var_dump($ical->cal); exit; */
+/*         $icalevents=array(); */
+/*         if (is_array($ical->get_event_list())) $icalevents=array_merge($icalevents,$ical->get_event_list());        // Add $ical->cal['VEVENT'] */
+/*         if (is_array($ical->get_freebusy_list())) $icalevents=array_merge($icalevents,$ical->get_freebusy_list());  // Add $ical->cal['VFREEBUSY'] */
 
-        if (count($icalevents)>0)
-        {
-            // Duplicate all repeatable events into new entries
-            $moreicalevents=array();
-            foreach($icalevents as $icalevent)
-            {
-                if (isset($icalevent['RRULE']) && is_array($icalevent['RRULE'])) //repeatable event
-                {
-                    //if ($event->date_start_in_calendar < $firstdaytoshow) $event->date_start_in_calendar=$firstdaytoshow;
-                    //if ($event->date_end_in_calendar > $lastdaytoshow) $event->date_end_in_calendar=$lastdaytoshow;
-                    if ($icalevent['DTSTART;VALUE=DATE']) //fullday event
-                    {
-                        $datecurstart=dol_stringtotime($icalevent['DTSTART;VALUE=DATE'],1);
-                        $datecurend=dol_stringtotime($icalevent['DTEND;VALUE=DATE'],1)-1;  // We remove one second to get last second of day
-                    }
-                    else if (is_array($icalevent['DTSTART']) && ! empty($icalevent['DTSTART']['unixtime']))
-                    {
-                        $datecurstart=$icalevent['DTSTART']['unixtime'];
-                        $datecurend=$icalevent['DTEND']['unixtime'];
-                        if (! empty($ical->cal['DAYLIGHT']['DTSTART']) && $datecurstart)
-                        {
-                            //var_dump($ical->cal);
-                            $tmpcurstart=$datecurstart;
-                            $tmpcurend=$datecurend;
-                            $tmpdaylightstart=dol_mktime(0,0,0,1,1,1970,1) + (int) $ical->cal['DAYLIGHT']['DTSTART'];
-                            $tmpdaylightend=dol_mktime(0,0,0,1,1,1970,1) + (int) $ical->cal['STANDARD']['DTSTART'];
-                            //var_dump($tmpcurstart);var_dump($tmpcurend); var_dump($ical->cal['DAYLIGHT']['DTSTART']);var_dump($ical->cal['STANDARD']['DTSTART']);
-                            // Edit datecurstart and datecurend
-                            if ($tmpcurstart >= $tmpdaylightstart && $tmpcurstart < $tmpdaylightend) $datecurstart-=((int) $ical->cal['DAYLIGHT']['TZOFFSETTO'])*36;
-                            else $datecurstart-=((int) $ical->cal['STANDARD']['TZOFFSETTO'])*36;
-                            if ($tmpcurend >= $tmpdaylightstart && $tmpcurstart < $tmpdaylightend) $datecurend-=((int) $ical->cal['DAYLIGHT']['TZOFFSETTO'])*36;
-                            else $datecurend-=((int) $ical->cal['STANDARD']['TZOFFSETTO'])*36;
-                        }
-                        // datecurstart and datecurend are now GMT date
-                        //var_dump($datecurstart); var_dump($datecurend); exit;
-                    }
-                    else
-                    {
-                        // Not a recongized record
-                        dol_syslog("Found a not recognized repeatable record with unknown date start", LOG_ERR);
-                        continue;
-                    }
-                    //print 'xx'.$datecurstart;exit;
+/*         if (count($icalevents)>0) */
+/*         { */
+/*             // Duplicate all repeatable events into new entries */
+/*             $moreicalevents=array(); */
+/*             foreach($icalevents as $icalevent) */
+/*             { */
+/*                 if (isset($icalevent['RRULE']) && is_array($icalevent['RRULE'])) //repeatable event */
+/*                 { */
+/*                     //if ($event->date_start_in_calendar < $firstdaytoshow) $event->date_start_in_calendar=$firstdaytoshow; */
+/*                     //if ($event->date_end_in_calendar > $lastdaytoshow) $event->date_end_in_calendar=$lastdaytoshow; */
+/*                     if ($icalevent['DTSTART;VALUE=DATE']) //fullday event */
+/*                     { */
+/*                         $datecurstart=dol_stringtotime($icalevent['DTSTART;VALUE=DATE'],1); */
+/*                         $datecurend=dol_stringtotime($icalevent['DTEND;VALUE=DATE'],1)-1;  // We remove one second to get last second of day */
+/*                     } */
+/*                     else if (is_array($icalevent['DTSTART']) && ! empty($icalevent['DTSTART']['unixtime'])) */
+/*                     { */
+/*                         $datecurstart=$icalevent['DTSTART']['unixtime']; */
+/*                         $datecurend=$icalevent['DTEND']['unixtime']; */
+/*                         if (! empty($ical->cal['DAYLIGHT']['DTSTART']) && $datecurstart) */
+/*                         { */
+/*                             //var_dump($ical->cal); */
+/*                             $tmpcurstart=$datecurstart; */
+/*                             $tmpcurend=$datecurend; */
+/*                             $tmpdaylightstart=dol_mktime(0,0,0,1,1,1970,1) + (int) $ical->cal['DAYLIGHT']['DTSTART']; */
+/*                             $tmpdaylightend=dol_mktime(0,0,0,1,1,1970,1) + (int) $ical->cal['STANDARD']['DTSTART']; */
+/*                             //var_dump($tmpcurstart);var_dump($tmpcurend); var_dump($ical->cal['DAYLIGHT']['DTSTART']);var_dump($ical->cal['STANDARD']['DTSTART']); */
+/*                             // Edit datecurstart and datecurend */
+/*                             if ($tmpcurstart >= $tmpdaylightstart && $tmpcurstart < $tmpdaylightend) $datecurstart-=((int) $ical->cal['DAYLIGHT']['TZOFFSETTO'])*36; */
+/*                             else $datecurstart-=((int) $ical->cal['STANDARD']['TZOFFSETTO'])*36; */
+/*                             if ($tmpcurend >= $tmpdaylightstart && $tmpcurstart < $tmpdaylightend) $datecurend-=((int) $ical->cal['DAYLIGHT']['TZOFFSETTO'])*36; */
+/*                             else $datecurend-=((int) $ical->cal['STANDARD']['TZOFFSETTO'])*36; */
+/*                         } */
+/*                         // datecurstart and datecurend are now GMT date */
+/*                         //var_dump($datecurstart); var_dump($datecurend); exit; */
+/*                     } */
+/*                     else */
+/*                     { */
+/*                         // Not a recongized record */
+/*                         dol_syslog("Found a not recognized repeatable record with unknown date start", LOG_ERR); */
+/*                         continue; */
+/*                     } */
+/*                     //print 'xx'.$datecurstart;exit; */
 
-                    $interval=(empty($icalevent['RRULE']['INTERVAL'])?1:$icalevent['RRULE']['INTERVAL']);
-                    $until=empty($icalevent['RRULE']['UNTIL'])?0:dol_stringtotime($icalevent['RRULE']['UNTIL'],1);
-                    $maxrepeat=empty($icalevent['RRULE']['COUNT'])?0:$icalevent['RRULE']['COUNT'];
-                    if ($until && ($until+($datecurend-$datecurstart)) < $firstdaytoshow) continue;  // We discard repeatable event that end before start date to show
-                    if ($datecurstart > $lastdaytoshow) continue;                                    // We discard repeatable event that start after end date to show
+/*                     $interval=(empty($icalevent['RRULE']['INTERVAL'])?1:$icalevent['RRULE']['INTERVAL']); */
+/*                     $until=empty($icalevent['RRULE']['UNTIL'])?0:dol_stringtotime($icalevent['RRULE']['UNTIL'],1); */
+/*                     $maxrepeat=empty($icalevent['RRULE']['COUNT'])?0:$icalevent['RRULE']['COUNT']; */
+/*                     if ($until && ($until+($datecurend-$datecurstart)) < $firstdaytoshow) continue;  // We discard repeatable event that end before start date to show */
+/*                     if ($datecurstart > $lastdaytoshow) continue;                                    // We discard repeatable event that start after end date to show */
 
-                    $numofevent=0;
-                    while (($datecurstart <= $lastdaytoshow) && (empty($maxrepeat) || ($numofevent < $maxrepeat)))
-                    {
-                        if ($datecurend >= $firstdaytoshow)    // We add event
-                        {
-                            $newevent=$icalevent;
-                            unset($newevent['RRULE']);
-                            if ($icalevent['DTSTART;VALUE=DATE'])
-                            {
-                                $newevent['DTSTART;VALUE=DATE']=dol_print_date($datecurstart,'%Y%m%d');
-                                $newevent['DTEND;VALUE=DATE']=dol_print_date($datecurend+1,'%Y%m%d');
-                            }
-                            else
-                            {
-                                $newevent['DTSTART']=$datecurstart;
-                                $newevent['DTEND']=$datecurend;
-                            }
-                            $moreicalevents[]=$newevent;
-                        }
-                        // Jump on next occurence
-                        $numofevent++;
-                        $savdatecurstart=$datecurstart;
-                        if ($icalevent['RRULE']['FREQ']=='DAILY')
-                        {
-                            $datecurstart=dol_time_plus_duree($datecurstart, $interval, 'd');
-                            $datecurend=dol_time_plus_duree($datecurend, $interval, 'd');
-                        }
-                        if ($icalevent['RRULE']['FREQ']=='WEEKLY')
-                        {
-                            $datecurstart=dol_time_plus_duree($datecurstart, $interval, 'w');
-                            $datecurend=dol_time_plus_duree($datecurend, $interval, 'w');
-                        }
-                        elseif ($icalevent['RRULE']['FREQ']=='MONTHLY')
-                        {
-                            $datecurstart=dol_time_plus_duree($datecurstart, $interval, 'm');
-                            $datecurend=dol_time_plus_duree($datecurend, $interval, 'm');
-                        }
-                        elseif ($icalevent['RRULE']['FREQ']=='YEARLY')
-                        {
-                            $datecurstart=dol_time_plus_duree($datecurstart, $interval, 'y');
-                            $datecurend=dol_time_plus_duree($datecurend, $interval, 'y');
-                        }
-                        // Test to avoid infinite loop ($datecurstart must increase)
-                        if ($savdatecurstart >= $datecurstart)
-                        {
-                            dol_syslog("Found a rule freq ".$icalevent['RRULE']['FREQ']." not managed by dolibarr code. Assume 1 week frequency.", LOG_ERR);
-                            $datecurstart+=3600*24*7;
-                            $datecurend+=3600*24*7;
-                        }
-                    }
-                }
-            }
-            $icalevents=array_merge($icalevents,$moreicalevents);
+/*                     $numofevent=0; */
+/*                     while (($datecurstart <= $lastdaytoshow) && (empty($maxrepeat) || ($numofevent < $maxrepeat))) */
+/*                     { */
+/*                         if ($datecurend >= $firstdaytoshow)    // We add event */
+/*                         { */
+/*                             $newevent=$icalevent; */
+/*                             unset($newevent['RRULE']); */
+/*                             if ($icalevent['DTSTART;VALUE=DATE']) */
+/*                             { */
+/*                                 $newevent['DTSTART;VALUE=DATE']=dol_print_date($datecurstart,'%Y%m%d'); */
+/*                                 $newevent['DTEND;VALUE=DATE']=dol_print_date($datecurend+1,'%Y%m%d'); */
+/*                             } */
+/*                             else */
+/*                             { */
+/*                                 $newevent['DTSTART']=$datecurstart; */
+/*                                 $newevent['DTEND']=$datecurend; */
+/*                             } */
+/*                             $moreicalevents[]=$newevent; */
+/*                         } */
+/*                         // Jump on next occurence */
+/*                         $numofevent++; */
+/*                         $savdatecurstart=$datecurstart; */
+/*                         if ($icalevent['RRULE']['FREQ']=='DAILY') */
+/*                         { */
+/*                             $datecurstart=dol_time_plus_duree($datecurstart, $interval, 'd'); */
+/*                             $datecurend=dol_time_plus_duree($datecurend, $interval, 'd'); */
+/*                         } */
+/*                         if ($icalevent['RRULE']['FREQ']=='WEEKLY') */
+/*                         { */
+/*                             $datecurstart=dol_time_plus_duree($datecurstart, $interval, 'w'); */
+/*                             $datecurend=dol_time_plus_duree($datecurend, $interval, 'w'); */
+/*                         } */
+/*                         elseif ($icalevent['RRULE']['FREQ']=='MONTHLY') */
+/*                         { */
+/*                             $datecurstart=dol_time_plus_duree($datecurstart, $interval, 'm'); */
+/*                             $datecurend=dol_time_plus_duree($datecurend, $interval, 'm'); */
+/*                         } */
+/*                         elseif ($icalevent['RRULE']['FREQ']=='YEARLY') */
+/*                         { */
+/*                             $datecurstart=dol_time_plus_duree($datecurstart, $interval, 'y'); */
+/*                             $datecurend=dol_time_plus_duree($datecurend, $interval, 'y'); */
+/*                         } */
+/*                         // Test to avoid infinite loop ($datecurstart must increase) */
+/*                         if ($savdatecurstart >= $datecurstart) */
+/*                         { */
+/*                             dol_syslog("Found a rule freq ".$icalevent['RRULE']['FREQ']." not managed by dolibarr code. Assume 1 week frequency.", LOG_ERR); */
+/*                             $datecurstart+=3600*24*7; */
+/*                             $datecurend+=3600*24*7; */
+/*                         } */
+/*                     } */
+/*                 } */
+/*             } */
+/*             $icalevents=array_merge($icalevents,$moreicalevents); */
 
-            // Loop on each entry into cal file to know if entry is qualified and add an ActionComm into $eventarray
-            foreach($icalevents as $icalevent)
-            {
-                //print $icalevent['SUMMARY'].'->'.var_dump($icalevent).'<br>';exit;
-                if (! empty($icalevent['RRULE'])) continue;    // We found a repeatable event. It was already split into unitary events, so we discard general rule.
+/*             // Loop on each entry into cal file to know if entry is qualified and add an ActionComm into $eventarray */
+/*             foreach($icalevents as $icalevent) */
+/*             { */
+/*                 //print $icalevent['SUMMARY'].'->'.var_dump($icalevent).'<br>';exit; */
+/*                 if (! empty($icalevent['RRULE'])) continue;    // We found a repeatable event. It was already split into unitary events, so we discard general rule. */
 
-                // Create a new object action
-                $event=new ActionComm($db);
-                $addevent = false;
-                if (isset($icalevent['DTSTART;VALUE=DATE'])) // fullday event
-                {
-                    // For full day events, date are also GMT but they wont but converted using tz during output
-                    $datestart=dol_stringtotime($icalevent['DTSTART;VALUE=DATE'],1);
-                    $dateend=dol_stringtotime($icalevent['DTEND;VALUE=DATE'],1)-1;  // We remove one second to get last second of day
-                    //print 'x'.$datestart.'-'.$dateend;exit;
-                    //print dol_print_date($dateend,'dayhour','gmt');
-                    $event->fulldayevent=true;
-                    $addevent=true;
-                }
-                elseif (!is_array($icalevent['DTSTART'])) // not fullday event (DTSTART is not array)
-                {
-                    $datestart=$icalevent['DTSTART'];
-                    $dateend=$icalevent['DTEND'];
-                    $addevent=true;
-                }
+/*                 // Create a new object action */
+/*                 $event=new ActionComm($db); */
+/*                 $addevent = false; */
+/*                 if (isset($icalevent['DTSTART;VALUE=DATE'])) // fullday event */
+/*                 { */
+/*                     // For full day events, date are also GMT but they wont but converted using tz during output */
+/*                     $datestart=dol_stringtotime($icalevent['DTSTART;VALUE=DATE'],1); */
+/*                     $dateend=dol_stringtotime($icalevent['DTEND;VALUE=DATE'],1)-1;  // We remove one second to get last second of day */
+/*                     //print 'x'.$datestart.'-'.$dateend;exit; */
+/*                     //print dol_print_date($dateend,'dayhour','gmt'); */
+/*                     $event->fulldayevent=true; */
+/*                     $addevent=true; */
+/*                 } */
+/*                 elseif (!is_array($icalevent['DTSTART'])) // not fullday event (DTSTART is not array) */
+/*                 { */
+/*                     $datestart=$icalevent['DTSTART']; */
+/*                     $dateend=$icalevent['DTEND']; */
+/*                     $addevent=true; */
+/*                 } */
 
-                if ($addevent)
-                {
-                    $event->id=$icalevent['UID'];
-                    $event->icalname=$namecal;
-                    $event->icalcolor=$colorcal;
-                    $usertime=0;    // We dont modify date because we want to have date into memory datep and datef stored as GMT date. Compensation will be done during output.
-                    $event->datep=$datestart+$usertime;
-                    $event->datef=$dateend+$usertime;
-                    $event->type_code="ICALEVENT";
+/*                 if ($addevent) */
+/*                 { */
+/*                     $event->id=$icalevent['UID']; */
+/*                     $event->icalname=$namecal; */
+/*                     $event->icalcolor=$colorcal; */
+/*                     $usertime=0;    // We dont modify date because we want to have date into memory datep and datef stored as GMT date. Compensation will be done during output. */
+/*                     $event->datep=$datestart+$usertime; */
+/*                     $event->datef=$dateend+$usertime; */
+/*                     $event->type_code="ICALEVENT"; */
 
-                    if($icalevent['SUMMARY']) $event->libelle=$icalevent['SUMMARY'];
-                    elseif($icalevent['DESCRIPTION']) $event->libelle=dol_nl2br($icalevent['DESCRIPTION'],1);
-                    else $event->libelle = $langs->trans("ExtSiteNoLabel");
+/*                     if($icalevent['SUMMARY']) $event->libelle=$icalevent['SUMMARY']; */
+/*                     elseif($icalevent['DESCRIPTION']) $event->libelle=dol_nl2br($icalevent['DESCRIPTION'],1); */
+/*                     else $event->libelle = $langs->trans("ExtSiteNoLabel"); */
 
-                    $event->date_start_in_calendar=$event->datep;
+/*                     $event->date_start_in_calendar=$event->datep; */
 
-                    if ($event->datef != '' && $event->datef >= $event->datep) $event->date_end_in_calendar=$event->datef;
-                    else $event->date_end_in_calendar=$event->datep;
+/*                     if ($event->datef != '' && $event->datef >= $event->datep) $event->date_end_in_calendar=$event->datef; */
+/*                     else $event->date_end_in_calendar=$event->datep; */
 
-                    // Define ponctual property
-                    if ($event->date_start_in_calendar == $event->date_end_in_calendar)
-                    {
-                        $event->ponctuel=1;
-                        //print 'x'.$datestart.'-'.$dateend;exit;
-                    }
+/*                     // Define ponctual property */
+/*                     if ($event->date_start_in_calendar == $event->date_end_in_calendar) */
+/*                     { */
+/*                         $event->ponctuel=1; */
+/*                         //print 'x'.$datestart.'-'.$dateend;exit; */
+/*                     } */
 
-                    // Add event into $eventarray if date range are ok.
-                    if ($event->date_end_in_calendar < $firstdaytoshow || $event->date_start_in_calendar > $lastdaytoshow)
-                    {
-                        //print 'x'.$datestart.'-'.$dateend;exit;
-                        //print 'x'.$datestart.'-'.$dateend;exit;
-                        //print 'x'.$datestart.'-'.$dateend;exit;
-                        // This record is out of visible range
-                    }
-                    else
-                    {
-                        if ($event->date_start_in_calendar < $firstdaytoshow) $event->date_start_in_calendar=$firstdaytoshow;
-                        if ($event->date_end_in_calendar > $lastdaytoshow) $event->date_end_in_calendar=$lastdaytoshow;
+/*                     // Add event into $eventarray if date range are ok. */
+/*                     if ($event->date_end_in_calendar < $firstdaytoshow || $event->date_start_in_calendar > $lastdaytoshow) */
+/*                     { */
+/*                         //print 'x'.$datestart.'-'.$dateend;exit; */
+/*                         //print 'x'.$datestart.'-'.$dateend;exit; */
+/*                         //print 'x'.$datestart.'-'.$dateend;exit; */
+/*                         // This record is out of visible range */
+/*                     } */
+/*                     else */
+/*                     { */
+/*                         if ($event->date_start_in_calendar < $firstdaytoshow) $event->date_start_in_calendar=$firstdaytoshow; */
+/*                         if ($event->date_end_in_calendar > $lastdaytoshow) $event->date_end_in_calendar=$lastdaytoshow; */
 
-                        // Add an entry in actionarray for each day
-                        $daycursor=$event->date_start_in_calendar;
-                        $annee = date('Y',$daycursor);
-                        $mois = date('m',$daycursor);
-                        $jour = date('d',$daycursor);
+/*                         // Add an entry in actionarray for each day */
+/*                         $daycursor=$event->date_start_in_calendar; */
+/*                         $annee = date('Y',$daycursor); */
+/*                         $mois = date('m',$daycursor); */
+/*                         $jour = date('d',$daycursor); */
 
-                        // Loop on each day covered by action to prepare an index to show on calendar
-                        $loop=true; $j=0;
-                        // daykey must be date that represent day box in calendar so must be a user time
-                        $daykey=dol_mktime(0,0,0,$mois,$jour,$annee);
-                        $daykeygmt=dol_mktime(0,0,0,$mois,$jour,$annee,true,0);
-                        do
-                        //print 'x'.$datestart.'-'.$dateend;exit;
-                        {
-                            //if ($event->fulldayevent) print dol_print_date($daykeygmt,'dayhour','gmt').'-'.dol_print_date($daykey,'dayhour','gmt').'-'.dol_print_date($event->date_end_in_calendar,'dayhour','gmt').' ';
-                            $eventarray[$daykey][]=$event;
-                            $daykey+=60*60*24;  $daykeygmt+=60*60*24;   // Add one day
-                            if (($event->fulldayevent ? $daykeygmt : $daykey) > $event->date_end_in_calendar) $loop=false;
-                        }
-                        while ($loop);
-                    }
-                }
-            }
-        }
-    }
-}
+/*                         // Loop on each day covered by action to prepare an index to show on calendar */
+/*                         $loop=true; $j=0; */
+/*                         // daykey must be date that represent day box in calendar so must be a user time */
+/*                         $daykey=dol_mktime(0,0,0,$mois,$jour,$annee); */
+/*                         $daykeygmt=dol_mktime(0,0,0,$mois,$jour,$annee,true,0); */
+/*                         do */
+/*                         //print 'x'.$datestart.'-'.$dateend;exit; */
+/*                         { */
+/*                             //if ($event->fulldayevent) print dol_print_date($daykeygmt,'dayhour','gmt').'-'.dol_print_date($daykey,'dayhour','gmt').'-'.dol_print_date($event->date_end_in_calendar,'dayhour','gmt').' '; */
+/*                             $eventarray[$daykey][]=$event; */
+/*                             $daykey+=60*60*24;  $daykeygmt+=60*60*24;   // Add one day */
+/*                             if (($event->fulldayevent ? $daykeygmt : $daykey) > $event->date_end_in_calendar) $loop=false; */
+/*                         } */
+/*                         while ($loop); */
+/*                     } */
+/*                 } */
+/*             } */
+/*         } */
+/*     } */
+/* } */
 
 $maxnbofchar=18;
 $cachethirdparties=array();
@@ -748,6 +752,7 @@ if (is_readable($color_file))
 if (! is_array($theme_datacolor)) $theme_datacolor=array(array(120,130,150), array(200,160,180), array(190,190,220));
 
 
+dol_syslog("GREG nbr of events <".count($eventarray).">");
 if (empty($action) || $action == 'show_month')      // View by month
 {
     $newparam=$param;   // newparam is for birthday links
@@ -784,7 +789,7 @@ if (empty($action) || $action == 'show_month')      // View by month
             {
                 $style='cal_other_month cal_past';
                 /* echo '  <td class="'.$style.'" width="14%" valign="top"  nowrap="nowrap">'; */
-		dol_syslog("axagenda/ajax/functions.php EVENTARRAY 1: ".json_encode($eventarray), LOG_DEBUG);
+		// dol_syslog("axagenda/ajax/functions.php EVENTARRAY 1: ".json_encode($eventarray), LOG_DEBUG);
                 show_day_events($db, $max_day_in_prev_month + $tmpday, $prev_month, $prev_year, $month, $style, $eventarray, $maxprint, $maxnbofchar, $newparam);
                 /* echo "  </td>\n"; */
             }
@@ -800,7 +805,7 @@ if (empty($action) || $action == 'show_month')      // View by month
                 if ($curtime < $todaytms) $style.=' cal_past';
 
                 /* echo '  <td class="'.$style.'" width="14%" valign="top"  nowrap="nowrap">'; */
-		dol_syslog("axagenda/ajax/functions.php EVENTARRAY 2: ".json_encode($eventarray), LOG_DEBUG);
+		// dol_syslog("axagenda/ajax/functions.php EVENTARRAY 2: ".json_encode($eventarray), LOG_DEBUG);
                 show_day_events($db, $tmpday, $month, $year, $month, $style, $eventarray, $maxprint, $maxnbofchar, $newparam);
                 /* echo "  </td>\n"; */
             }
@@ -809,7 +814,7 @@ if (empty($action) || $action == 'show_month')      // View by month
             {
                 $style='cal_other_month';
                 /* echo '  <td class="'.$style.'" width="14%" valign="top"  nowrap="nowrap">'; */
-		dol_syslog("axagenda/ajax/functions.php EVENTARRAY 3: ".json_encode($eventarray), LOG_DEBUG);
+		// dol_syslog("axagenda/ajax/functions.php EVENTARRAY 3: ".json_encode($eventarray), LOG_DEBUG);
                 show_day_events($db, $tmpday - $max_day_in_month, $next_month, $next_year, $month, $style, $eventarray, $maxprint, $maxnbofchar, $newparam);
                 /* echo "</td>\n"; */
             }
@@ -860,7 +865,7 @@ elseif ($action == 'show_week') // View by week
             if ($today) $style='cal_today';
 
             /* echo '  <td class="'.$style.'" width="14%" valign="top"  nowrap="nowrap">'; */
-	    dol_syslog("axagenda/ajax/functions.php EVENTARRAY 4: ".json_encode($eventarray), LOG_DEBUG);
+	    // dol_syslog("axagenda/ajax/functions.php EVENTARRAY 4: ".json_encode($eventarray), LOG_DEBUG);
             show_day_events($db, $tmpday, $month, $year, $month, $style, $eventarray, 0, $maxnbofchar, $newparam, 1, 300);
             /* echo "  </td>\n"; */
         }
@@ -868,7 +873,7 @@ elseif ($action == 'show_week') // View by week
         {
             $style='cal_current_month';
             /* echo '  <td class="'.$style.'" width="14%" valign="top"  nowrap="nowrap">'; */
-	    dol_syslog("axagenda/ajax/functions.php EVENTARRAY 5: ".json_encode($eventarray), LOG_DEBUG);
+	    // dol_syslog("axagenda/ajax/functions.php EVENTARRAY 5: ".json_encode($eventarray), LOG_DEBUG);
             show_day_events($db, $tmpday - $max_day_in_month, $next_month, $next_year, $month, $style, $eventarray, 0, $maxnbofchar, $newparam, 1, 300);
             echo "</td>\n";
         }
@@ -898,7 +903,7 @@ else    // View by day
     /* echo " <tr>\n"; */
     /* echo '  <td class="'.$style.'" width="14%" valign="top"  nowrap="nowrap">'; */
     $maxnbofchar=80;
-    dol_syslog("axagenda/ajax/functions.php EVENTARRAY 6: ".json_encode($eventarray), LOG_DEBUG);
+    // dol_syslog("axagenda/ajax/functions.php EVENTARRAY 6: ".json_encode($eventarray), LOG_DEBUG);
     show_day_events($db, $day, $month, $year, $month, $style, $eventarray, 0, $maxnbofchar, $newparam, 1, 300);
     /* echo "</td>\n"; */
     /* echo " </tr>\n"; */
@@ -977,11 +982,14 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
     $i=0; $nummytasks=0; $numother=0; $numbirthday=0; $numical=0; $numicals=array();
     $ymd=sprintf("%04d",$year).sprintf("%02d",$month).sprintf("%02d",$day);
 
+    $my_i = 0;
     foreach ($eventarray as $daykey => $notused)
     {
+      
         $annee = date('Y',$daykey);
         $mois = date('m',$daykey);
         $jour = date('d',$daykey);
+
         if ($day==$jour && $month==$mois && $year==$annee)
         {
             foreach ($eventarray[$daykey] as $index => $event)
@@ -1183,7 +1191,11 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
     /* print '</td></tr>'; */
     /* print '</table>'; */
     /* print '</div>'."\n"; */
+	//	dol_syslog("GREG my_i <".$my_i.">");
+	$my_i += 1;
     }
+
+
 }
 // dol_syslog("axagenda/ajax/functions.php EVENTARRAY LAST: ".json_encode($eventarray), LOG_DEBUG);
 	

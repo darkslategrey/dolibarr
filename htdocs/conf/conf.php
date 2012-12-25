@@ -5,14 +5,14 @@
 # Take a look at conf.php.example file for an example of conf.php file
 # and explanations for all possibles parameters.
 #
-$dolibarr_main_url_root="http://ks304579.kimsufi.com/doli-test-integ";
-$dolibarr_main_document_root="/home/ks304579/public_html/doli-test-integ";
-$dolibarr_main_data_root="/home/ks304579/public_html/doli-test-integ/documents";
+$dolibarr_main_url_root="http://dolibarr-integ.local";
+$dolibarr_main_document_root="/home/grego/WORK/dolibarr-integ/htdocs";
+$dolibarr_main_data_root="/home/grego/WORK/dolibarr-integ/documents";
 $dolibarr_main_db_host="localhost";
 $dolibarr_main_db_port="";
-$dolibarr_main_db_name="doli-test-integ";
-$dolibarr_main_db_user="dolibarr.ks30457";
-$dolibarr_main_db_pass="jobenfance";
+$dolibarr_main_db_name="dolibarr-integ";
+$dolibarr_main_db_user="root";
+$dolibarr_main_db_pass="admin";
 $dolibarr_main_db_type="mysqli";
 $dolibarr_main_db_character_set="";
 $dolibarr_main_db_collation="";
