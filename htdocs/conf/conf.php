@@ -18,3 +18,4 @@ $dolibarr_main_db_character_set="";
 $dolibarr_main_db_collation="";
 $dolibarr_main_authentication="dolibarr";
 ?>
+

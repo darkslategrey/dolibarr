@@ -7,3 +7,5 @@
 tmp
 *.\#*
 documents
+htdocs/conf/conf.php
+
