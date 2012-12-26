@@ -86,8 +86,12 @@ class modAxAgenda extends DolibarrModules
 		//                        	'tpl' => 0,                                      	// Set this to 1 if module overwrite template dir (core/tpl)
 		//							'barcode' => 0,                                  	// Set this to 1 if module has its own barcode directory (core/modules/barcode)
 		//							'models' => 0,                                   	// Set this to 1 if module has its own models directory (core/modules/xxx)
+					    // 'css' => array("/axagenda/css/redmond/jquery-ui-1.9.2.custom.css",
 					    'css' => array("/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.css",
 							   "/axagenda/css/axagenda.css"),
+
+					    /* 'js' => array(// '/axagenda/includes/jquery/plugins/fullcalendar/jquery/jquery-1.8.3.js', */
+					    /* 		  // '/axagenda/includes/jquery/plugins/fullcalendar/jquery/jquery-ui-1.9.2.custom.js', */
 					    'js' => array('/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/fullcalendar.js',
 							  '/axagenda/includes/jquery/plugins/fullcalendar/fullcalendar/init-calendar.js'), // Set this to relative path of js file if module must load a js on all pages
 		//							'hooks' => array('hookcontext1','hookcontext2')  	// Set here all hooks context managed by module

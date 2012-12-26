@@ -41,6 +41,7 @@
 function translate_to_full_callendar($doli_events) {
 
   // dol_syslog(print_r($doli_events, true), LOG_DEBUG);
+  // TODO put limit as configuration params.
   
   $limit = 5;
 
@@ -55,8 +56,9 @@ function translate_to_full_callendar($doli_events) {
       $event_arr = array('id' => $e->id, 'title' => $e->libelle,
 			 'start' => $e->date_start_in_calendar, 
 			 'allDay' => false,
+			 // 'url'   => '/comm/action/fiche.php?id='.$e->id,
 			 'end'   => $e->date_end_in_calendar);
-      // 		       'url'   => '/comm/action/fiche.php?id='.$e->id);
+   
       array_push($cal_events, $event_arr);
       if($i > $limit) { break; }
       $i += 1;

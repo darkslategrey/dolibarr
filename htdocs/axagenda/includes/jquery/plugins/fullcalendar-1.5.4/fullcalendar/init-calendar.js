@@ -48,6 +48,8 @@ $(document).ready(function() {
 	// eventDragStop: function(event) {
 	//     alert("eventDragStop event <"+pp(even)+">");
 	// },
+
+
 	eventClick: function(calEven, jsEvent, view) {
 	    window.location = "/comm/action/fiche.php?id="+calEven.id;
 	},
