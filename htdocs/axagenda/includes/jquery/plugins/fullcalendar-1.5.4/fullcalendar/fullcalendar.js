@@ -4606,6 +4606,8 @@ function DayEventRenderer() {
 
 			seg = segs[i];
 			event = seg.event;
+http://dolibarr-integ.local:88
+		$delete_link = "<a href='/comm/action/fiche.php?action=delete&id=" + event._id + "' class='icon-del icon'></a>";
 			classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
 			if (isEventDraggable(event)) {
 				classes.push('fc-event-draggable');
@@ -4649,11 +4651,11 @@ function DayEventRenderer() {
 				" class='" + classes.join(' ') + "'" +
 				" style='position:absolute;z-index:8;left:"+left+"px;" + skinCss + "'" +
 				">" +
-		    " HELLO " +
+
 				"<div" +
 				" class='fc-event-inner fc-event-skin'" +
 				(skinCss ? " style='" + skinCss + "'" : '') +
-				">";
+				">" + 		    $delete_link ;
 
 
 			if (!event.allDay && seg.isStart) {
