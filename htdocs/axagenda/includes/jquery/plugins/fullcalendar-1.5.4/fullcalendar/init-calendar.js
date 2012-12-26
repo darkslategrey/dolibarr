@@ -2,7 +2,65 @@
 
 
 $(document).ready(function() {
+
+
+    // NOTIFICATION PART
+    $("#success_notification").click(function(e){
+	e.preventDefault();
+	jSuccess(
+	    'Mise à jour réussie',
+	    {
+		autoHide : true, // added in v2.0
+		clickOverlay : false, // added in v2.0
+		MinWidth : 250,
+		TimeShown : 1500,
+		ShowTimeEffect : 200,
+		HideTimeEffect : 200,
+		LongTrip :20,
+		HorizontalPosition : 'center',
+		VerticalPosition : 'top',
+		ShowOverlay : true,
+   		ColorOverlay : '#000',
+		OpacityOverlay : 0.3,
+		onClosed : function(){ // added in v2.0
+		    
+		},
+		onCompleted : function(){ // added in v2.0
+		    
+		}
+	    });
+    });
+
+    $("#failure_notification").click(function(e){
+	e.preventDefault();
+	jError(
+	    'Echec de la mise à jour',
+	    {
+		autoHide : true, // added in v2.0
+		clickOverlay : false, // added in v2.0
+		MinWidth : 250,
+		TimeShown : 1500,
+		ShowTimeEffect : 200,
+		HideTimeEffect : 200,
+		LongTrip :20,
+		HorizontalPosition : 'center',
+		VerticalPosition : 'top',
+		ShowOverlay : true,
+   		ColorOverlay : '#000',
+		OpacityOverlay : 0.3,
+		onClosed : function(){ // added in v2.0
+		    
+		},
+		onCompleted : function(){ // added in v2.0
+		    
+		}
+	    });
+    });
     
+
+
+
+    // FULL CALENDAR PART
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -279,15 +337,9 @@ $(document).ready(function() {
             jQuery.getJSON("/axagenda/ajax/event_operations.php", params, function(data, status) {
 		// alert("<"+status+">"); 
 		if(status == "success") {
-		    // alert("success");
-		    var options = {};
-
-		    $("#confirmation").dialog({height: 140, modal: true});
-		    // $("#confirmation").hide().delay(800);
-		    // $( "#confirmation" ).effect("fade", options, 500, function() {
-		    // 	    $( "#confirmation" ).show().fadeIn();
-		    // 	    $( "#confirmation" ).hide().fadeOut();
-		    // });
+		    $("#success_notification").trigger('click');
+		} else {
+		    $("#failure_notification").trigger('click');
 		};
 	    });
 	    // alert(event.id + ' was moved ' + delta + ' days\n' +

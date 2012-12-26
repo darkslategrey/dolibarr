@@ -139,7 +139,8 @@ print_actions_filter($form,$canedit,$status,$year,$month,$day,$showbirthday,$fil
 dol_fiche_end();
  
 // Put here content of your page
-print '<div id="confirmation">Mise à jour réussie</div>';
+print '<div id="success_notification"></div>';
+print '<div id="failure_notification"></div>';
 
 print '<div id="calendar"></div>';
 
