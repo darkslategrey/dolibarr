@@ -1,7 +1,47 @@
-
+function confirm_delete(ele) {
+    url = ele.getAttribute('url');
+    alert(url);
+    params = {};
+    jQuery.getJSON(url, params, function(data, status) {
+	return 0;
+    });
+    return 0;
+}
 
 
 $(document).ready(function() {
+
+
+//     '/comm/action/fiche.php?action=delete&id=" + event ._id + "' class='icon-del icon'></a>";
+
+// 	if ($action == 'delete')
+// 	{
+// 		$ret=$form->form_confirm("fiche.php?id=".$id,$langs->trans("DeleteAction"),$langs->trans("ConfirmDeleteAction"),"confirm_delete",'','',1);
+// 		if ($ret == 'html') print '<br>';
+// 	}
+
+//     // DELETE CLICK
+// if ($action == 'confirm_delete' && GETPOST("confirm") == 'yes')
+// {
+// 	$actioncomm = new ActionComm($db);
+// 	$actioncomm->fetch($id);
+
+// 	if ($user->rights->agenda->myactions->delete
+// 		|| $user->rights->agenda->allactions->delete)
+// 	{
+// 		$result=$actioncomm->delete();
+
+// 		if ($result >= 0)
+// 		{
+// 			header("Location: index.php");
+// 			exit;
+// 		}
+// 		else
+// 		{
+// 			$mesg=$actioncomm->error;
+// 		}
+// 	}
+// }
 
 
     // NOTIFICATION PART
@@ -108,9 +148,9 @@ $(document).ready(function() {
 	// },
 
 
-	eventClick: function(calEven, jsEvent, view) {
-	    window.location = "/comm/action/fiche.php?id="+calEven.id;
-	},
+	// eventClick: function(calEven, jsEvent, view) {
+	//     window.location = "/comm/action/fiche.php?id="+calEven.id;
+	// },
 
 	daySegHTML: function(segs) { // also sets seg.left and seg.outerWidth
 		var rtl = opt('isRTL');

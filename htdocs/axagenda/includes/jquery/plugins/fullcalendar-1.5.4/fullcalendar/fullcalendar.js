@@ -4606,8 +4606,8 @@ function DayEventRenderer() {
 
 			seg = segs[i];
 			event = seg.event;
-http://dolibarr-integ.local:88
-		$delete_link = "<a href='/comm/action/fiche.php?action=delete&id=" + event._id + "' class='icon-del icon'></a>";
+		$delete_link = "<a url='/comm/action/fiche.php?action=delete&id=" + event ._id + "' class='icon-del icon' onClick='confirm_delete(this); return;'>&nbsp;</a>"; 
+
 			classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
 			if (isEventDraggable(event)) {
 				classes.push('fc-event-draggable');
@@ -4642,11 +4642,12 @@ http://dolibarr-integ.local:88
 			url = event.url;
 			skinCss = getSkinCss(event, opt);
 
-			if (url) {
-				html += "<a href='" + htmlEscape(url) + "'";
-			}else{
+			// if (url) {
+			// 	html += "<a href='" + htmlEscape(url) + "'";
+			// }else{
 				html += "<div";
-			}
+			// }
+
 			html +=
 				" class='" + classes.join(' ') + "'" +
 				" style='position:absolute;z-index:8;left:"+left+"px;" + skinCss + "'" +
@@ -4655,7 +4656,8 @@ http://dolibarr-integ.local:88
 				"<div" +
 				" class='fc-event-inner fc-event-skin'" +
 				(skinCss ? " style='" + skinCss + "'" : '') +
-				">" + 		    $delete_link ;
+		    ">";
+
 
 
 			if (!event.allDay && seg.isStart) {
@@ -4664,17 +4666,26 @@ http://dolibarr-integ.local:88
 					htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
 					"</span>";
 			}
+		html += $delete_link;
 			html +=
-				"<span class='fc-event-title'>" + htmlEscape(event.title) + "</span>" + 
-				"</div>";
+		"<span class='fc-event-title'>";
+			if (url) {
+				html += "<a href='" + htmlEscape(url) + "'>";
+			}
+
+		html += htmlEscape(event.title);
+		if(url) { html += '</a>'; }
+		html += "</span>" + "</div>";
 			if (seg.isEnd && isEventResizable(event)) {
 				html +=
 					"<div class='ui-resizable-handle ui-resizable-" + (rtl ? 'w' : 'e') + "'>" +
+
 					"&nbsp;&nbsp;&nbsp;" + // makes hit area a lot better for IE6/7
 					"</div>";
 			}
-			html +=
-				"</" + (url ? "a" : "div" ) + ">";
+		html += "</div>";
+			// 	"</" + (url ? "a" : "div" ) + ">";
+
 			seg.left = left;
 			seg.outerWidth = right - left;
 			seg.startCol = leftCol;

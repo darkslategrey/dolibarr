@@ -1,5 +1,5 @@
 .icon-del            {  background-image: url('/axagenda/img/delete.png'); }
-.icon                {  background-position:0 50%; background-repeat:no-repeat no-repeat; padding-bottom:3px; padding-left:20px; padding-top:2px; }
+.icon                {  background-position:0 50%; background-repeat:no-repeat no-repeat; padding-bottom:0px; padding-left:-50px; padding-right: 10px;padding-top:0px; }
 
 /* .fc-event-time {  */
 /*     float: left; */

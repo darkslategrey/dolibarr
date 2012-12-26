@@ -56,7 +56,7 @@ function translate_to_full_callendar($doli_events) {
       $event_arr = array('id' => $e->id, 'title' => $e->libelle,
 			 'start' => $e->date_start_in_calendar, 
 			 'allDay' => false,
-			 // 'url'   => '/comm/action/fiche.php?id='.$e->id,
+			 'url'   => '/comm/action/fiche.php?id='.$e->id,
 			 'end'   => $e->date_end_in_calendar);
    
       array_push($cal_events, $event_arr);
