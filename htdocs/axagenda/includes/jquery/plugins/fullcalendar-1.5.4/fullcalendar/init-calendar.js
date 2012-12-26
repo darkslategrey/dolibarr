@@ -1,3 +1,55 @@
+
+
+function success_notify(msg) {
+    // e.preventDefault();
+    jSuccess(
+	msg,
+	{
+	    autoHide : true, // added in v2.0
+	    clickOverlay : false, // added in v2.0
+	    MinWidth : 250,
+	    TimeShown : 500,
+	    ShowTimeEffect : 200,
+	    HideTimeEffect : 200,
+	    LongTrip :20,
+	    HorizontalPosition : 'center',
+	    VerticalPosition : 'top',
+	    ShowOverlay : true,
+   	    ColorOverlay : '#000',
+	    OpacityOverlay : 0.3,
+	    onClosed : function(){ // added in v2.0
+		
+	    },
+	    onCompleted : function(){ // added in v2.0
+	    }
+	});
+
+}
+function failure_notify(msg) {
+    // e.preventDefault();
+    jError(
+	msg,
+	{
+	    autoHide : true, // added in v2.0
+	    clickOverlay : false, // added in v2.0
+	    MinWidth : 250,
+	    TimeShown : 500,
+	    ShowTimeEffect : 200,
+	    HideTimeEffect : 200,
+	    LongTrip :20,
+	    HorizontalPosition : 'center',
+	    VerticalPosition : 'top',
+	    ShowOverlay : true,
+   	    ColorOverlay : '#000',
+	    OpacityOverlay : 0.3,
+	    onClosed : function(){ // added in v2.0
+		
+	    },
+	    onCompleted : function(){ // added in v2.0
+	    }
+	});
+}
+
 function confirm_delete(ele) {
     event_id = ele.getAttribute('event_id');
     url = '/axagenda/ajax/event_operations.php';
@@ -10,14 +62,17 @@ function confirm_delete(ele) {
 		params = { 'action': 'delete', 'event_id': event_id };
 		jQuery.getJSON(url, params, function(data, status) {
 		    if(status == 'success') {
-			alert(data.msg);
+			$("#success_notification").click(success_notify('Mise à jour réussie'));
+			$('#calendar').fullCalendar('removeEvents', event_id);
+			$( "#confirm_del_event" ).dialog("close").delay(1000);
 		    } else {
+			$("#failure_notification").click(failure_notify('Echec de la mise à jour'));
+			$(this).dialog("close", {'delay': 400});
 		    }
-		    
 		});
             },
             "Non": function() {
-                $( this ).dialog( "Non" ).close();
+		$(this).dialog("close");
             }
         }
     });
@@ -29,92 +84,6 @@ function confirm_delete(ele) {
 $(document).ready(function() {
 
 
-//     '/comm/action/fiche.php?action=delete&id=" + event ._id + "' class='icon-del icon'></a>";
-
-// 	if ($action == 'delete')
-// 	{
-// 		$ret=$form->form_confirm("fiche.php?id=".$id,$langs->trans("DeleteAction"),$langs->trans("ConfirmDeleteAction"),"confirm_delete",'','',1);
-// 		if ($ret == 'html') print '<br>';
-// 	}
-
-//     // DELETE CLICK
-// if ($action == 'confirm_delete' && GETPOST("confirm") == 'yes')
-// {
-// 	$actioncomm = new ActionComm($db);
-// 	$actioncomm->fetch($id);
-
-// 	if ($user->rights->agenda->myactions->delete
-// 		|| $user->rights->agenda->allactions->delete)
-// 	{
-// 		$result=$actioncomm->delete();
-
-// 		if ($result >= 0)
-// 		{
-// 			header("Location: index.php");
-// 			exit;
-// 		}
-// 		else
-// 		{
-// 			$mesg=$actioncomm->error;
-// 		}
-// 	}
-// }
-
-
-    // NOTIFICATION PART
-    $("#success_notification").click(function(e){
-	e.preventDefault();
-	jSuccess(
-	    'Mise à jour réussie',
-	    {
-		autoHide : true, // added in v2.0
-		clickOverlay : false, // added in v2.0
-		MinWidth : 250,
-		TimeShown : 1500,
-		ShowTimeEffect : 200,
-		HideTimeEffect : 200,
-		LongTrip :20,
-		HorizontalPosition : 'center',
-		VerticalPosition : 'top',
-		ShowOverlay : true,
-   		ColorOverlay : '#000',
-		OpacityOverlay : 0.3,
-		onClosed : function(){ // added in v2.0
-		    
-		},
-		onCompleted : function(){ // added in v2.0
-		    
-		}
-	    });
-    });
-
-    $("#failure_notification").click(function(e){
-	e.preventDefault();
-	jError(
-	    'Echec de la mise à jour',
-	    {
-		autoHide : true, // added in v2.0
-		clickOverlay : false, // added in v2.0
-		MinWidth : 250,
-		TimeShown : 1500,
-		ShowTimeEffect : 200,
-		HideTimeEffect : 200,
-		LongTrip :20,
-		HorizontalPosition : 'center',
-		VerticalPosition : 'top',
-		ShowOverlay : true,
-   		ColorOverlay : '#000',
-		OpacityOverlay : 0.3,
-		onClosed : function(){ // added in v2.0
-		    
-		},
-		onCompleted : function(){ // added in v2.0
-		    
-		}
-	    });
-    });
-    
-
 
 
     // FULL CALENDAR PART
@@ -123,7 +92,7 @@ $(document).ready(function() {
     var m = date.getMonth();
     var y = date.getFullYear();
 
-    $('#confirmation').hide();
+    $('#success_notification, #failure_notification, #confirm_del_event').hide();
     
     $('#calendar').fullCalendar({
 	header: {
@@ -167,6 +136,10 @@ $(document).ready(function() {
 
 	// eventClick: function(calEven, jsEvent, view) {
 	//     window.location = "/comm/action/fiche.php?id="+calEven.id;
+	// },
+
+	// eventRender: function(event, element) {
+	//     element.find('span.fc-event-title').html(element.find('span.fc-event-title').text());
 	// },
 
 	daySegHTML: function(segs) { // also sets seg.left and seg.outerWidth
