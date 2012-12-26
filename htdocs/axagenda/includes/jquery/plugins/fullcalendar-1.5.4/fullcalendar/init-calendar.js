@@ -367,9 +367,9 @@ $(document).ready(function() {
             jQuery.getJSON("/axagenda/ajax/event_operations.php", params, function(data, status) {
 		// alert("<"+status+">"); 
 		if(status == "success") {
-		    $("#success_notification").trigger('click');
+		    $("#success_notification").click(success_notify('Mise à jour réussie'));
 		} else {
-		    $("#failure_notification").trigger('click');
+		    $("#failure_notification").click(failure_notify('Echec de la mise à jour'));
 		};
 	    });
 	    // alert(event.id + ' was moved ' + delta + ' days\n' +
