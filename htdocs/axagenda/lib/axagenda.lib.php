@@ -41,9 +41,12 @@
 function translate_to_full_callendar($doli_events) {
 
   // dol_syslog(print_r($doli_events, true), LOG_DEBUG);
+  
+  $limit = 5;
 
   $cal_events = Array();
   foreach($doli_events as $event_ts => $d_events) {
+    $i = 0;
     foreach($d_events as $e) {
       // $e = $event[0];
       dol_syslog("libelle <".$e->libelle.">", LOG_DEBUG);
@@ -55,6 +58,8 @@ function translate_to_full_callendar($doli_events) {
 			 'end'   => $e->date_end_in_calendar);
       // 		       'url'   => '/comm/action/fiche.php?id='.$e->id);
       array_push($cal_events, $event_arr);
+      if($i > $limit) { break; }
+      $i += 1;
     }
   }
   // dol_syslog("ICI : ".print_r($doli_events['1355698800'], true), LOG_DEBUG);

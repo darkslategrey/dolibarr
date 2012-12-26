@@ -4602,7 +4602,8 @@ function DayEventRenderer() {
 		var skinCss;
 		var html = '';
 		// calculate desired position/dimensions, create html
-		for (i=0; i<segCnt; i++) {
+	    for (i=0; i<segCnt; i++) {
+
 			seg = segs[i];
 			event = seg.event;
 			classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
@@ -4648,11 +4649,13 @@ function DayEventRenderer() {
 				" class='" + classes.join(' ') + "'" +
 				" style='position:absolute;z-index:8;left:"+left+"px;" + skinCss + "'" +
 				">" +
+
 				"<div" +
 				" class='fc-event-inner fc-event-skin'" +
 				(skinCss ? " style='" + skinCss + "'" : '') +
 				">";
-		    html += "<div class='icon-del icon'><a href='/comm/action/fiche.php?action=delete&id="+event._id+"'>Delete</a></div>";
+
+
 			if (!event.allDay && seg.isStart) {
 				html +=
 					"<span class='fc-event-time'>" +
@@ -4660,7 +4663,7 @@ function DayEventRenderer() {
 					"</span>";
 			}
 			html +=
-				"<span class='fc-event-title'>" + htmlEscape(event.title) + "</span>" +
+				"<span class='fc-event-title'>" + htmlEscape(event.title) + "</span>" + 
 				"</div>";
 			if (seg.isEnd && isEventResizable(event)) {
 				html +=
