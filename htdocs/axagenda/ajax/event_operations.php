@@ -37,6 +37,8 @@ require_once DOL_DOCUMENT_ROOT.'/core/class/html.formactions.class.php';
 require_once DOL_DOCUMENT_ROOT.'/projet/class/project.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
 
+require_once DOL_DOCUMENT_ROOT.'/axagenda/class/my_action_com.class.php';
+
 $langs->load("companies");
 $langs->load("commercial");
 $langs->load("other");
@@ -75,6 +77,32 @@ dol_syslog("event_operations: apmonth: <".GETPOST('apmonth','int').">");
 /*
  * Action creation de l'action
  */
+$response = '';
+if($action == 'delete') {
+  $event_id = GETPOST('event_id');
+  dol_syslog("event_id <".$event_id.">");
+  $actioncomm = new MyActionComm($db);
+  $actioncomm->fetch($event_id);
+
+  if ($user->rights->agenda->myactions->delete
+      || $user->rights->agenda->allactions->delete)
+    {
+      $result=$actioncomm->delete();
+
+      if ($result < 0)
+	{
+	  $d_error=$actioncomm->error;
+	  $msg="Error Occured: <"+$d_error+">";
+	}
+      else
+	{
+	  $msg = "Delete ok";
+	}
+    }
+
+  $response = Array('error' => $d_error,
+		    'msg' => $msg);
+}
 
 /*
  * Action update event
@@ -202,6 +230,7 @@ if ($action == 'update')
         /*     exit; */
         /* } */
 	}
+	$response = Array();
 }
 
 
@@ -225,7 +254,7 @@ top_httphead();
 /*   "two": "Beady little eyes", */
 /*   "three": "Little birds pitch by my doorstep" */
 /* } */
-echo json_encode(Array());
+echo json_encode($response);
 // print "<html><body></body></html>"
 // llxFooter();
 

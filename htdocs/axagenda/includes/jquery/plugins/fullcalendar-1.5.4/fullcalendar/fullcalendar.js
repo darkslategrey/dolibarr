@@ -4606,7 +4606,7 @@ function DayEventRenderer() {
 
 			seg = segs[i];
 			event = seg.event;
-		$delete_link = "<a url='/comm/action/fiche.php?action=delete&id=" + event ._id + "' class='icon-del icon' onClick='confirm_delete(this); return;'>&nbsp;</a>"; 
+		$delete_link = "<a event_id='"+event._id+"' class='icon-del icon' onClick='confirm_delete(this); return;'>&nbsp;</a>"; 
 
 			classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
 			if (isEventDraggable(event)) {

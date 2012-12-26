@@ -1,10 +1,27 @@
 function confirm_delete(ele) {
-    url = ele.getAttribute('url');
-    alert(url);
-    params = {};
-    jQuery.getJSON(url, params, function(data, status) {
-	return 0;
+    event_id = ele.getAttribute('event_id');
+    url = '/axagenda/ajax/event_operations.php';
+    $( "#confirm_del_event" ).dialog({
+        resizable: false,
+        height:140,
+        modal: true,
+        buttons: {
+            "Oui": function() {
+		params = { 'action': 'delete', 'event_id': event_id };
+		jQuery.getJSON(url, params, function(data, status) {
+		    if(status == 'success') {
+			alert(data.msg);
+		    } else {
+		    }
+		    
+		});
+            },
+            "Non": function() {
+                $( this ).dialog( "Non" ).close();
+            }
+        }
     });
+
     return 0;
 }
 

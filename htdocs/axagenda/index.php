@@ -141,6 +141,8 @@ dol_fiche_end();
 // Put here content of your page
 print '<div id="success_notification"></div>';
 print '<div id="failure_notification"></div>';
+print '<div id="confirm_del_event">Etes-vous sûr de vouloir supprimer cet évenement?</div>';
+
 
 print '<div id="calendar"></div>';
 
