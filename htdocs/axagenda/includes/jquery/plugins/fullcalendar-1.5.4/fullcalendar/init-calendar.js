@@ -83,8 +83,7 @@ function confirm_delete(ele) {
 
 $(document).ready(function() {
 
-
-
+    var event_drag = false;
 
     // FULL CALENDAR PART
     var date = new Date();
@@ -135,160 +134,24 @@ $(document).ready(function() {
 
 
 	// eventClick: function(calEven, jsEvent, view) {
-	//     window.location = "/comm/action/fiche.php?id="+calEven.id;
+
+	//     if(!event_drag) {  
+	// 	alert("C'est un click");		
+	// 	window.location = "/comm/action/fiche.php?id="+calEven.id;
+	//     } 
+	//     return 1;
 	// },
 
 	// eventRender: function(event, element) {
 	//     element.find('span.fc-event-title').html(element.find('span.fc-event-title').text());
 	// },
 
-	daySegHTML: function(segs) { // also sets seg.left and seg.outerWidth
-		var rtl = opt('isRTL');
-		var i;
-		var segCnt=segs.length;
-		var seg;
-		var event;
-		var url;
-		var classes;
-		var bounds = allDayBounds();
-		var minLeft = bounds.left;
-		var maxLeft = bounds.right;
-		var leftCol;
-		var rightCol;
-		var left;
-		var right;
-		var skinCss;
-		var html = '';
-		// calculate desired position/dimensions, create html
-		for (i=0; i<segCnt; i++) {
-			seg = segs[i];
-			event = seg.event;
-			classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
-			if (isEventDraggable(event)) {
-				classes.push('fc-event-draggable');
-			}
-			if (rtl) {
-				if (seg.isStart) {
-					classes.push('fc-corner-right');
-				}
-				if (seg.isEnd) {
-					classes.push('fc-corner-left');
-				}
-				leftCol = dayOfWeekCol(seg.end.getDay()-1);
-				rightCol = dayOfWeekCol(seg.start.getDay());
-				left = seg.isEnd ? colContentLeft(leftCol) : minLeft;
-				right = seg.isStart ? colContentRight(rightCol) : maxLeft;
-			}else{
-				if (seg.isStart) {
-					classes.push('fc-corner-left');
-				}
-				if (seg.isEnd) {
-					classes.push('fc-corner-right');
-				}
-				leftCol = dayOfWeekCol(seg.start.getDay());
-				rightCol = dayOfWeekCol(seg.end.getDay()-1);
-				left = seg.isStart ? colContentLeft(leftCol) : minLeft;
-				right = seg.isEnd ? colContentRight(rightCol) : maxLeft;
-			}
-			classes = classes.concat(event.className);
-			if (event.source) {
-				classes = classes.concat(event.source.className || []);
-			}
-			url = event.url;
-			skinCss = getSkinCss(event, opt);
-
-		    html += "<div id='grego2'>Hello</div>";
-			if (url) {
-				html += "<a href='" + htmlEscape(url) + "'";
-			}else{
-				html += "<div";
-			}
-			html +=
-				" class='" + classes.join(' ') + "'" +
-				" style='position:absolute;z-index:8;left:"+left+"px;" + skinCss + "'" +
-				">" +
-				"<div" +
-				" class='fc-event-inner fc-event-skin'" +
-				(skinCss ? " style='" + skinCss + "'" : '') +
-				">";
-			if (!event.allDay && seg.isStart) {
-				html +=
-					"<span class='fc-event-time'>" +
-					htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
-					"</span>";
-			}
-			html +=
-				"<span class='fc-event-title'>" + htmlEscape(event.title) + "</span>" +
-				"</div>";
-			if (seg.isEnd && isEventResizable(event)) {
-				html +=
-					"<div class='ui-resizable-handle ui-resizable-" + (rtl ? 'w' : 'e') + "'>" +
-					"&nbsp;&nbsp;&nbsp;" + // makes hit area a lot better for IE6/7
-					"</div>";
-			}
-			html +=
-				"</" + (url ? "a" : "div" ) + ">";
-			seg.left = left;
-			seg.outerWidth = right - left;
-			seg.startCol = leftCol;
-			seg.endCol = rightCol + 1; // needs to be exclusive
-		}
-		return html;
-	},
 	
-
-	slotSegHtml: function(event, seg) {
-	    var html = "<div id='grego'>Hello</div>";
-		html += "<";
-		var url = event.url;
-		var skinCss = getSkinCss(event, opt);
-		var skinCssAttr = (skinCss ? " style='" + skinCss + "'" : '');
-		var classes = ['fc-event', 'fc-event-skin', 'fc-event-vert'];
-		if (isEventDraggable(event)) {
-			classes.push('fc-event-draggable');
-		}
-		if (seg.isStart) {
-			classes.push('fc-corner-top');
-		}
-		if (seg.isEnd) {
-			classes.push('fc-corner-bottom');
-		}
-		classes = classes.concat(event.className);
-		if (event.source) {
-			classes = classes.concat(event.source.className || []);
-		}
-		if (url) {
-			html += "a href='" + htmlEscape(event.url) + "'";
-		}else{
-			html += "div";
-		}
-		html +=
-			" class='" + classes.join(' ') + "'" +
-			" style='position:absolute;z-index:8;top:" + seg.top + "px;left:" + seg.left + "px;" + skinCss + "'" +
-			">" +
-			"<div class='fc-event-inner fc-event-skin'" + skinCssAttr + ">" +
-			"<div class='fc-event-head fc-event-skin'" + skinCssAttr + ">" +
-			"<div class='fc-event-time'>" +
-			htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
-			"</div>" +
-			"</div>" +
-			"<div class='fc-event-content'>" +
-			"<div class='fc-event-title'>" +
-			htmlEscape(event.title) +
-			"</div>" +
-			"</div>" +
-			"<div class='fc-event-bg'></div>" +
-			"</div>"; // close inner
-		if (seg.isEnd && isEventResizable(event)) {
-			html +=
-				"<div class='ui-resizable-handle ui-resizable-s'>=</div>";
-		}
-		html +=
-			"</" + (url ? "a" : "div") + ">";
-		return html;
+	eventDragStart: function( event, jsEvent, ui, view ) { 
+	    event_drag = true;
 	},
-	
 	eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view) {
+	    jsEvent.preventDefault();
 	    // alert(prettyPrint(ui));
 	    // alert(prettyPrint(view));
 	    // alert(prettyPrint(jsEvent));
@@ -337,6 +200,8 @@ $(document).ready(function() {
 	    var params = { "action":"update",
 	    		   "datep": date_start,
 	    		   "datef": date_end,
+			   //
+			   // "fiche_url": event.fiche_url,
 	    		   // "affectedto":"-1",
 	    		   // "ap":"10/12/2012",
 	    		   // "apday":'',
@@ -374,7 +239,7 @@ $(document).ready(function() {
 	    });
 	    // alert(event.id + ' was moved ' + delta + ' days\n' +
 	    // 	  '(should probably update your database)');
-	    
+	    event_drag = false;
 	},
 	
         events: function(start, end, callback) {
