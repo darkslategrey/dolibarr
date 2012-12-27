@@ -1106,11 +1106,16 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
 
                         // If action related to company / contact
                         $linerelatedto='';$length=16;
-                        if (! empty($event->societe->id) && ! empty($event->contact->id)) $length=round($length/2);
+                        if (! empty($event->societe->id) && ! empty($event->contact->id)) {
+			  dol_syslog("greg company / contact related action 1");
+			  $length=round($length/2);
+			}
                         if (! empty($event->societe->id) && $event->societe->id > 0)
                         {
+			  dol_syslog("greg company / contact related action 2");
                             if (! isset($cachethirdparties[$event->societe->id]) || ! is_object($cachethirdparties[$event->societe->id]))
                             {
+			      dol_syslog("greg company / contact related action 3");
                                 $thirdparty=new Societe($db);
                                 $thirdparty->fetch($event->societe->id);
                                 $cachethirdparties[$event->societe->id]=$thirdparty;
@@ -1120,8 +1125,10 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
                         }
                         if (! empty($event->contact->id) && $event->contact->id > 0)
                         {
+			  dol_syslog("greg company / contact related action 4");
                             if (! is_object($cachecontacts[$event->contact->id]))
                             {
+			      dol_syslog("greg company / contact related action 5");
                                 $contact=new Contact($db);
                                 $contact->fetch($event->contact->id);
                                 $cachecontacts[$event->contact->id]=$contact;
