@@ -175,30 +175,9 @@ function ajax_filter_calls() {
 
                        projectid  = $("select[name=projectid]").val(); 
                        $("#calendar").fullCalendar( "refetchEvents" );
-                       /* jQuery.getJSON("'.DOL_URL_ROOT.'/axagenda/ajax/functions.php?userasked="+userasked+ */
-                       /*                "&usertodo="+usertodo+"&userdone="+userdone+"&projectid="+projectid */
-                       /*                +"&actioncode="+actioncode, */
-                       /*                 {}, */
-                       /*                function(data, status) { */
-                       /*                  parsed_json = jQuery.parseJSON(data); */
-
-                       /*                  $.each(data, function(key, events_array) { */
-                       /*                                   now_ts = key; */
-                       /*                                   for (var i = 0; i < events_array.length; i++) { */
-                       /*                                         event = events_array[i]; */
-                       /*                                         alert(event.element); */
-                       /*                                   } */
-                       /*                               }); */
-
-                       /*                  // $("#calendar").fullCalendar("refetchEvents"); */
-                       /*                  // alert(data.length); */
-                       /*                }); */
-                       });
-
                     });
 
              </script>';
-              /* </script>'; */
     $out .= "\n";
     return $out;
 }

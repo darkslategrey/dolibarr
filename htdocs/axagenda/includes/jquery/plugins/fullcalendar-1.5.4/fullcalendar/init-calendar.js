@@ -83,6 +83,9 @@ function confirm_delete(ele) {
 
 $(document).ready(function() {
 
+    var baseUri = document.baseURI;
+    baseUri = baseUri.slice(0, baseUri.indexOf("/axagenda"));
+
     var event_drag = false;
 
     // FULL CALENDAR PART
@@ -250,7 +253,7 @@ $(document).ready(function() {
 	    actioncode = $("#actioncode").val(); 
 	    projectid  = $("select[name=projectid]").val(); 
 
-            jQuery.getJSON("/axagenda/ajax/functions.php?userasked="+userasked+
+            jQuery.getJSON(baseUri + "/axagenda/ajax/functions.php?userasked="+userasked+
                            "&usertodo="+usertodo+"&userdone="+userdone+"&projectid="+projectid
                            +"&actioncode="+actioncode,
                            {},
