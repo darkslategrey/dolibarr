@@ -8,4 +8,5 @@ tmp
 *.\#*
 documents
 htdocs/conf/conf.php
+*conf.php
 *\#*\#
