@@ -33,6 +33,9 @@ require_once DOL_DOCUMENT_ROOT.'/axagenda/lib/axagenda.lib.php';
 
 require_once DOL_DOCUMENT_ROOT.'/comm/action/class/actioncomm.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
+
+require_once DOL_DOCUMENT_ROOT.'/axagenda/class/my_action_com.class.php';
+
 // require_once DOL_DOCUMENT_ROOT.'/core/lib/agenda.lib.php';
 if (! empty($conf->projet->enabled)) require_once DOL_DOCUMENT_ROOT.'/core/lib/project.lib.php';
 
@@ -114,7 +117,7 @@ if (GETPOST("viewlist"))
 
 if ($action=='delete_action')
 {
-    $event = new ActionComm($db);
+    $event = new MyActionComm($db);
     $event->fetch($actionid);
     $result=$event->delete();
 }
@@ -374,7 +377,7 @@ if ($resql)
         $obj = $db->fetch_object($resql);
 	dol_syslog("label <".$obj->label.">");
         // Create a new object action
-        $event=new ActionComm($db);
+        $event=new MyActionComm($db);
         $event->id=$obj->id;
         $event->datep=$db->jdate($obj->datep);      // datep and datef are GMT date
         $event->datef=$db->jdate($obj->datep2);
@@ -391,6 +394,27 @@ if ($resql)
 
         $event->societe->id=$obj->fk_soc;
         $event->contact->id=$obj->fk_contact;
+
+	global $langs;
+	if (! empty($event->contact->id) && $event->contact->id > 0) {
+	  // dol_syslog("greg company / contact related action 4");
+	  // dol_syslog("greg company / contact related action 5");
+	  $contact=new Contact($db);
+	  $contact->fetch($event->contact->id);
+	  $event->contact->fullname=$contact->getFullName($langs);
+	  $event->contact->nomurl=$contact->getNomUrl();
+	  $event->contact->civilite=$contact->civilite;
+	  $event->contact->firstname=$contact->firstname;
+	  $event->contact->name=$contact->name;
+	  // dol_syslog("greg contact event <".print_r($contact, true).">");
+	  dol_syslog("greg contact fullname <".print_r($event->contact, true).">");
+	  /*     if ($linerelatedto) $linerelatedto.=' / '; */
+	  /*     $linerelatedto.=$contact->getNomUrl(1,'',$length); */
+	  /* } */
+	  /* if ($linerelatedto) print '<br>'.$linerelatedto; */
+	}
+
+
 
         // Defined date_start_in_calendar and date_end_in_calendar property
         // They are date start and end of action but modified to not be outside calendar view.
@@ -1176,6 +1200,8 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
         }
     }
     /* if (! $i) print '&nbsp;'; */
+	
+	/// GREG CLUE maxprint
 
     /* if (! empty($conf->global->MAIN_JS_SWITCH_AGENDA) && $i > $maxprint && $maxprint) */
     /* { */

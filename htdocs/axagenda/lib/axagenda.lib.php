@@ -53,9 +53,20 @@ function translate_to_full_callendar($doli_events) {
       dol_syslog("libelle <".$e->libelle.">", LOG_DEBUG);
       dol_syslog("date_start_in_calendar <".$e->date_start_in_calendar.">", LOG_DEBUG);
       dol_syslog("date_end_in_calendar <".$e->date_end_in_calendar.">", LOG_DEBUG);
+
+      if (! empty($e->contact->id) && $e->contact->id > 0) {
+	// $contact_name = $e->contact->civilite . ' ' . $e->contact->firstname . ' ' . $e->contact->name;
+	$contact_name = $e->contact->nomurl;
+	// $contact_name = $e->contact->civilite;
+	// dol_syslog("greg contact : <".print_r($e->contact, true).">");
+      }
+
       $event_arr = array('id' => $e->id, 'title' => $e->libelle,
 			 'start' => $e->date_start_in_calendar, 
 			 'allDay' => false,
+			 'contact_id' => $e->contact->id,
+			 'contact_name' => $contact_name,
+			 'nomurl' => $e->contact->nomurl,
 			 'url'   => '/comm/action/fiche.php?id='.$e->id,
 			 'end'   => $e->date_end_in_calendar);
    

@@ -4670,6 +4670,9 @@ function DayEventRenderer() {
 
 		html += htmlEscape(event.title);
 		if(url) { html += '</a>'; }
+		// GREGO
+		html += (event.nomurl == null) ? '' : " / " + event.nomurl ;
+
 		html += "</span>" + "</div>";
 			if (seg.isEnd && isEventResizable(event)) {
 				html +=
