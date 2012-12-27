@@ -52,7 +52,11 @@ function failure_notify(msg) {
 
 function confirm_delete(ele) {
     event_id = ele.getAttribute('event_id');
-    url = '/axagenda/ajax/event_operations.php';
+    var baseUri = document.baseURI;
+    baseUri = baseUri.slice(0, baseUri.indexOf("/axagenda"));
+    // alert(baseUri);
+    url = baseUri + '/axagenda/ajax/event_operations.php';
+    // url = '/axagenda/ajax/event_operations.php';
     $( "#confirm_del_event" ).dialog({
         resizable: false,
         height:140,
@@ -232,7 +236,7 @@ $(document).ready(function() {
 	    		   "status":"-1" };
 	    		   // "token":"2151fbfb67b124047d8c53a3938bb921" };
 
-            jQuery.getJSON("/axagenda/ajax/event_operations.php", params, function(data, status) {
+            jQuery.getJSON(baseUri + "/axagenda/ajax/event_operations.php", params, function(data, status) {
 		// alert("<"+status+">"); 
 		if(status == "success") {
 		    $("#success_notification").click(success_notify('Mise à jour réussie'));
@@ -246,7 +250,6 @@ $(document).ready(function() {
 	},
 	
         events: function(start, end, callback) {
-	    // alert("An event commes");
 	    userasked = $("#userasked").val();
 	    usertodo = $("#usertodo").val(); 
 	    userdone = $("#userdone").val(); 

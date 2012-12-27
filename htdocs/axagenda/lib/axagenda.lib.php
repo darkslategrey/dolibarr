@@ -162,21 +162,20 @@ function translate_to_full_callendar($doli_events) {
  */
 
 function ajax_filter_calls() {
+  dol_syslog("greg inside ajax_filter_calls()");
   // $form,$canedit,$status,$year,$month,$day,$showbirthday,$filtera,$filtert,$filterd,$pid,$socid,$showextcals=array()) {
     $out = '<script type="text/javascript">
                $(document).ready(function() {
-
                     projectid = $("select[name=projectid]");
                     $("#userasked,#usertodo,#userdone,#actioncode,select[name=projectid]").change(function() { 
                        userasked = $("#userasked").val();
                        usertodo = $("#usertodo").val(); 
                        userdone = $("#userdone").val(); 
                        actioncode = $("#actioncode").val(); 
-
                        projectid  = $("select[name=projectid]").val(); 
                        $("#calendar").fullCalendar( "refetchEvents" );
                     });
-
+                });
              </script>';
     $out .= "\n";
     return $out;
