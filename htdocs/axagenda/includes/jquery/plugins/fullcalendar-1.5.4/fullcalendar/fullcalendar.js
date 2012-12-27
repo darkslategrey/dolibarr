@@ -3880,6 +3880,7 @@ function AgendaEventRenderer() {
 		var skinCss = getSkinCss(event, opt);
 		var skinCssAttr = (skinCss ? " style='" + skinCss + "'" : '');
 		var classes = ['fc-event', 'fc-event-skin', 'fc-event-vert'];
+		$delete_link = "<a event_id='"+event._id+"' class='icon-del icon' onClick='confirm_delete(this); return;'>&nbsp;</a>"; 
 		if (isEventDraggable(event)) {
 			classes.push('fc-event-draggable');
 		}
@@ -3893,11 +3894,8 @@ function AgendaEventRenderer() {
 		if (event.source) {
 			classes = classes.concat(event.source.className || []);
 		}
-		if (url) {
-			html += "a href='" + htmlEscape(event.url) + "'";
-		}else{
-			html += "div";
-		}
+	    html += "div";
+
 		html +=
 			" class='" + classes.join(' ') + "'" +
 			" style='position:absolute;z-index:8;top:" + seg.top + "px;left:" + seg.left + "px;" + skinCss + "'" +
@@ -3906,11 +3904,12 @@ function AgendaEventRenderer() {
 			"<div class='fc-event-head fc-event-skin'" + skinCssAttr + ">" +
 			"<div class='fc-event-time'>" +
 			htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
-			"</div>" +
+		"</div>" + $delete_link + 
 			"</div>" +
 			"<div class='fc-event-content'>" +
 			"<div class='fc-event-title'>" +
-			htmlEscape(event.title) +
+		// htmlEscape(event.title) +
+		"<a href='"+event.url + "'>" + htmlEscape(event.title) + "</a>" + 
 			"</div>" +
 			"</div>" +
 			"<div class='fc-event-bg'></div>" +
@@ -3919,8 +3918,8 @@ function AgendaEventRenderer() {
 			html +=
 				"<div class='ui-resizable-handle ui-resizable-s'>=</div>";
 		}
-		html +=
-			"</" + (url ? "a" : "div") + ">";
+	    html += "</div>";
+	    // "</" + (url ? "a" : "div") + ">";
 		return html;
 	}
 	
@@ -4642,11 +4641,7 @@ function DayEventRenderer() {
 			url = event.url;
 			skinCss = getSkinCss(event, opt);
 
-			// if (url) {
-			// 	html += "<a href='" + htmlEscape(url) + "'";
-			// }else{
-				html += "<div";
-			// }
+		html += "<div";
 
 			html +=
 				" class='" + classes.join(' ') + "'" +
