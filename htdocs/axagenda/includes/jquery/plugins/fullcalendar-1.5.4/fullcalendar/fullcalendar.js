@@ -2212,7 +2212,7 @@ function BasicView(element, calendar, viewName) {
 		var i, j;
 		var table;
 		
-		s =
+		s = 
 			"<table class='fc-border-separate' style='width:100%' cellspacing='0'>" +
 			"<thead>" +
 			"<tr>";
@@ -2224,13 +2224,15 @@ function BasicView(element, calendar, viewName) {
 			"</tr>" +
 			"</thead>" +
 			"<tbody>";
+
 		for (i=0; i<maxRowCnt; i++) {
 			s +=
 				"<tr class='fc-week" + i + "'>";
 			for (j=0; j<colCnt; j++) {
 				s +=
-					"<td class='fc- " + contentClass + " fc-day" + (i*colCnt+j) + "'>" + // need fc- for setDayID
-					"<div>" +
+			    "<td class='fc- " + contentClass + " fc-day" + (i*colCnt+j) + "'>" + // need fc- for setDayID
+			    "<a class='icon-add icon' href=''>&nbsp;</a>" +
+				"<div>" +
 					(showNumbers ?
 						"<div class='fc-day-number'/>" :
 						''
@@ -2286,7 +2288,67 @@ function BasicView(element, calendar, viewName) {
 				setDayID(cell, date);
 			});
 		}
-		
+
+	    
+	    var SimplePropertyRetriever = {
+		getOwnEnumerables: function (obj) {
+		    return this._getPropertyNames(obj, true, false, this._enumerable); // Or could use for..in filtered with hasOwnProperty or just this: return Object.keys(obj);
+		},
+		getOwnNonenumerables: function (obj) {
+		    return this._getPropertyNames(obj, true, false, this._notEnumerable);
+		},
+		getOwnEnumerablesAndNonenumerables: function (obj) {
+		    return this._getPropertyNames(obj, true, false, this._enumerableAndNotEnumerable); // Or just use: return Object.getOwnPropertyNames(obj);
+		},
+		getPrototypeEnumerables: function (obj) {
+		    return this._getPropertyNames(obj, false, true, this._enumerable);
+		},
+		getPrototypeNonenumerables: function (obj) {
+		    return this._getPropertyNames(obj, false, true, this._notEnumerable);
+		},
+		getPrototypeEnumerablesAndNonenumerables: function (obj) {
+		    return this._getPropertyNames(obj, false, true, this._enumerableAndNotEnumerable);
+		},
+		getOwnAndPrototypeEnumerables: function (obj) {
+		    return this._getPropertyNames(obj, true, true, this._enumerable); // Or could use unfiltered for..in
+		},
+		getOwnAndPrototypeNonenumerables: function (obj) {
+		    return this._getPropertyNames(obj, true, true, this._notEnumerable);
+		},
+		getOwnAndPrototypeEnumerablesAndNonenumerables: function (obj) {
+		    return this._getPropertyNames(obj, true, true, this._enumerableAndNotEnumerable);
+		},
+		// Private static property checker callbacks
+		_enumerable : function (obj, prop) {
+		    return obj.propertyIsEnumerable(prop);
+		},
+		_notEnumerable : function (obj, prop) {
+		    return !obj.propertyIsEnumerable(prop);
+		},
+		_enumerableAndNotEnumerable : function (obj, prop) {
+		    return true;
+		},
+		// Inspired by http://stackoverflow.com/a/8024294/271577
+		_getPropertyNames : function getAllPropertyNames(obj, iterateSelfBool, iteratePrototypeBool, includePropCb) {
+		    var props = [];
+		    
+		    do {
+			if (iterateSelfBool) {
+			    Object.getOwnPropertyNames(obj).forEach(function (prop) {
+				if (props.indexOf(prop) === -1 && includePropCb(obj, prop)) {
+				    props.push(prop);
+				}
+			    });
+			}
+			if (!iteratePrototypeBool) {
+			    break;
+			}
+			iterateSelfBool = true;
+		    } while (obj = Object.getPrototypeOf(obj));
+		    
+		    return props;
+		}
+	    };
 		bodyCells.each(function(i, _cell) {
 			cell = $(_cell);
 			date = indexDate(i);
@@ -2301,6 +2363,19 @@ function BasicView(element, calendar, viewName) {
 				cell.removeClass(tm + '-state-highlight fc-today');
 			}
 			cell.find('div.fc-day-number').text(date.getDate());
+		    new_url = '/comm/action/fiche.php?action=create&';
+		    my_month = date.getMonth() + 1;
+		    my_month = my_month < 10 ? '0' + my_month: my_month;
+		    my_day   = date.getDate() < 10 ? '0' + date.getDate(): date.getDate();
+		    new_url += 'datep=' + date.getFullYear() + my_month + my_day + '100000&';
+		    new_url += 'backtopage=&showbirthday=&maxprint=';
+		    cell.find('a.icon-add').attr('href', new_url);
+		    // action=create
+		    // datep=20121127100000
+		    // backtopage=
+		    // showbirthday%3D1
+		    // maxprint%3D3%26
+
 			if (dowDirty) {
 				setDayID(cell, date);
 			}
