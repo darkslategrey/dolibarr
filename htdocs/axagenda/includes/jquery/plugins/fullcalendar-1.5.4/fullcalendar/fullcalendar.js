@@ -2349,6 +2349,9 @@ function BasicView(element, calendar, viewName) {
 		    return props;
 		}
 	    };
+	    var baseUri = document.baseURI;
+	    baseUri = baseUri.slice(0, baseUri.indexOf("/axagenda"));
+
 		bodyCells.each(function(i, _cell) {
 			cell = $(_cell);
 			date = indexDate(i);
@@ -2363,7 +2366,7 @@ function BasicView(element, calendar, viewName) {
 				cell.removeClass(tm + '-state-highlight fc-today');
 			}
 			cell.find('div.fc-day-number').text(date.getDate());
-		    new_url = '/comm/action/fiche.php?action=create&';
+		    new_url = baseUri + '/comm/action/fiche.php?action=create&';
 		    my_month = date.getMonth() + 1;
 		    my_month = my_month < 10 ? '0' + my_month: my_month;
 		    my_day   = date.getDate() < 10 ? '0' + date.getDate(): date.getDate();
