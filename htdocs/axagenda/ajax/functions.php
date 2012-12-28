@@ -172,11 +172,11 @@ if (empty($action) || $action=='show_month')
     // tmpday is a negative or null cursor to know how many days before the 1 to show on month view (if tmpday=0 we start on monday)
     $tmpday = -date("w",dol_mktime(0,0,0,$month,1,$year))+2;
     $tmpday+=((isset($conf->global->MAIN_START_WEEK)?$conf->global->MAIN_START_WEEK:1)-1);
-    if ($tmpday >= 1) $tmpday -= 7;
+    if ($tmpday >= 1) $tmpday -= 200;
     // Define firstdaytoshow and lastdaytoshow
     $firstdaytoshow=dol_mktime(0,0,0,$prev_month,$max_day_in_prev_month+$tmpday,$prev_year);
     $next_day=7-($max_day_in_month+1-$tmpday)%7;
-    if ($next_day < 6) $next_day+=7;
+    if ($next_day < 6) $next_day+=200;
     $lastdaytoshow=dol_mktime(0,0,0,$next_month,$next_day,$next_year);
 }
 if ($action=='show_week')
@@ -340,14 +340,14 @@ else
 {
     // To limit array
     $sql.= " AND (";
-    $sql.= " (datep BETWEEN '".$db->idate(dol_mktime(0,0,0,$month,1,$year)-(60*60*24*7))."'";   // Start 7 days before
+    $sql.= " (datep BETWEEN '".$db->idate(dol_mktime(0,0,0,$month,1,$year)-(60*60*24*70))."'";   // Start 7 days before
     $sql.= " AND '".$db->idate(dol_mktime(23,59,59,$month,28,$year)+(60*60*24*10))."')";            // End 7 days after + 3 to go from 28 to 31
     $sql.= " OR ";
-    $sql.= " (datep2 BETWEEN '".$db->idate(dol_mktime(0,0,0,$month,1,$year)-(60*60*24*7))."'";
+    $sql.= " (datep2 BETWEEN '".$db->idate(dol_mktime(0,0,0,$month,1,$year)-(60*60*24*70))."'";
     $sql.= " AND '".$db->idate(dol_mktime(23,59,59,$month,28,$year)+(60*60*24*10))."')";
     $sql.= " OR ";
-    $sql.= " (datep < '".$db->idate(dol_mktime(0,0,0,$month,1,$year)-(60*60*24*7))."'";
-    $sql.= " AND datep2 > '".$db->idate(dol_mktime(23,59,59,$month,28,$year)+(60*60*24*10))."')";
+    $sql.= " (datep < '".$db->idate(dol_mktime(0,0,0,$month,1,$year)-(60*60*24*70))."'";
+    $sql.= " AND datep2 > '".$db->idate(dol_mktime(23,59,59,$month,28,$year)+(60*60*24*100))."')";
     $sql.= ')';
 }
 if ($type) $sql.= " AND ca.id = ".$type;
@@ -437,16 +437,17 @@ if ($resql)
         }
 
         // Check values
-        if ($event->date_end_in_calendar < $firstdaytoshow ||
-        $event->date_start_in_calendar > $lastdaytoshow)
+        /* if ($event->date_end_in_calendar < $firstdaytoshow || */
+        /* $event->date_start_in_calendar > $lastdaytoshow) */
+	if(false)
         {
 	  dol_syslog("Not visible", LOG_DEBUG);
             // This record is out of visible range
         }
         else
         {
-            if ($event->date_start_in_calendar < $firstdaytoshow) $event->date_start_in_calendar=$firstdaytoshow;
-            if ($event->date_end_in_calendar > $lastdaytoshow) $event->date_end_in_calendar=$lastdaytoshow;
+            /* if ($event->date_start_in_calendar < $firstdaytoshow) $event->date_start_in_calendar=$firstdaytoshow; */
+            /* if ($event->date_end_in_calendar > $lastdaytoshow) $event->date_end_in_calendar=$lastdaytoshow; */
 
 	    dol_syslog("Visible", LOG_DEBUG);
             // Add an entry in actionarray for each day
