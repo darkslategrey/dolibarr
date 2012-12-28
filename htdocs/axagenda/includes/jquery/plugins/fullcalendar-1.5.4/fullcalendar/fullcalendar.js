@@ -2234,7 +2234,7 @@ function BasicView(element, calendar, viewName) {
 			    "<a class='icon-add icon' href=''>&nbsp;</a>" +
 				"<div>" +
 					(showNumbers ?
-						"<div class='fc-day-number'/>" :
+						"<a class='fc-day-number'/>" :
 						''
 						) +
 					"<div class='fc-day-content'>" +
@@ -2355,6 +2355,11 @@ function BasicView(element, calendar, viewName) {
 		bodyCells.each(function(i, _cell) {
 			cell = $(_cell);
 			date = indexDate(i);
+                    my_year  = date.getFullYear();
+                    my_month = date.getMonth() + 1;
+                    my_month = my_month < 10 ? '0' + my_month: my_month;
+                    my_day   = date.getDate() < 10 ? '0' + date.getDate(): date.getDate();
+		    backtopage= baseUri + '/axagenda/index.php?idmenu=5276&mainmenu=axagenda&leftmenu=';
 			if (date.getMonth() == month) {
 				cell.removeClass('fc-other-month');
 			}else{
@@ -2365,22 +2370,17 @@ function BasicView(element, calendar, viewName) {
 			}else{
 				cell.removeClass(tm + '-state-highlight fc-today');
 			}
+		    events_list = encodeURI(baseUri + 
+					    '/comm/action/index.php?action=show_day&day='+
+					    my_day+'&month='+my_month+'&year='+
+					    my_year+'&backtopage=' + backtopage + '&showbirthday=1&'+
+					    'maxprint=3&');
+		    cell.find('a.fc-day-number').text(date.getDate());
+		    cell.find('a.fc-day-number').attr('href', events_list);
 
-		    my_year  = date.getFullYear();
-		    my_month = date.getMonth() + 1;
-		    my_month = my_month < 10 ? '0' + my_month: my_month;
-		    my_day   = date.getDate() < 10 ? '0' + date.getDate(): date.getDate();
-
-		    // Events list of a day
-		    events_list = encodeURI(baseUri + '/comm/action/index.php?action=show_day&day='+my_day+'&month='+my_month+'&year='+my_year+'&showbirthday=1&maxprint=3&');
-		    day_number = cell.find('div.fc-day-number');
-		    // day_number.text(date.getDate());
-		    day_number.wrapInner("<a href='"+ events_list + "'>"+date.getDate()+"</a>");
-
-		    // New event
 		    new_url = baseUri + '/comm/action/fiche.php?action=create&';
-		    backtopage= baseUri + '/axagenda/index.php?idmenu=5276&mainmenu=axagenda&leftmenu=';
-		    new_url += 'datep=' + my_year + my_month + my_day + '100000&';
+
+		    new_url += 'datep=' + date.getFullYear() + my_month + my_day + '100000&';
 		    new_url += 'backtopage='+encodeURI(backtopage)+'&showbirthday=&maxprint=';
 		    cell.find('a.icon-add').attr('href', new_url);
 		    // action=create
