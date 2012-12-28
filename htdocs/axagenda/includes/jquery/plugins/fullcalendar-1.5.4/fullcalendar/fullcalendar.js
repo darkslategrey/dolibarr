@@ -2279,6 +2279,9 @@ function BasicView(element, calendar, viewName) {
 		var cell;
 		var date;
 		var row;
+	    var baseUri = document.baseURI;
+	    baseUri = baseUri.slice(0, baseUri.indexOf("/axagenda"));
+
 	
 		if (dowDirty) {
 			headCells.each(function(i, _cell) {
@@ -2349,9 +2352,6 @@ function BasicView(element, calendar, viewName) {
 		    return props;
 		}
 	    };
-	    var baseUri = document.baseURI;
-	    baseUri = baseUri.slice(0, baseUri.indexOf("/axagenda"));
-
 		bodyCells.each(function(i, _cell) {
 			cell = $(_cell);
 			date = indexDate(i);
@@ -2370,8 +2370,9 @@ function BasicView(element, calendar, viewName) {
 		    my_month = date.getMonth() + 1;
 		    my_month = my_month < 10 ? '0' + my_month: my_month;
 		    my_day   = date.getDate() < 10 ? '0' + date.getDate(): date.getDate();
+		    backtopage= baseUri + '/axagenda/index.php?idmenu=5276&mainmenu=axagenda&leftmenu=';
 		    new_url += 'datep=' + date.getFullYear() + my_month + my_day + '100000&';
-		    new_url += 'backtopage=&showbirthday=&maxprint=';
+		    new_url += 'backtopage='+encodeURI(backtopage)+'&showbirthday=&maxprint=';
 		    cell.find('a.icon-add').attr('href', new_url);
 		    // action=create
 		    // datep=20121127100000
