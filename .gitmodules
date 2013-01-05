@@ -1,0 +1,3 @@
+[submodule "htdocs/axplanning"]
+	path = htdocs/axplanning
+	url = git@github.com:darkslategrey/ax-planning-agenda.git
