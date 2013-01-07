@@ -3968,7 +3968,7 @@ function AgendaEventRenderer() {
 		var skinCss = getSkinCss(event, opt);
 		var skinCssAttr = (skinCss ? " style='" + skinCss + "'" : '');
 		var classes = ['fc-event', 'fc-event-skin', 'fc-event-vert'];
-		$delete_link = "<a event_id='"+event._id+"' class='icon-del icon' onClick='confirm_delete(this); return;'>&nbsp;</a>"; 
+		$delete_link = "<a event_id='"+event._id+"' class='icon-del icon' onClick='hide_event(this); return;'>&nbsp;</a>"; 
 		if (isEventDraggable(event)) {
 			classes.push('fc-event-draggable');
 		}
@@ -4693,7 +4693,7 @@ function DayEventRenderer() {
 
 			seg = segs[i];
 			event = seg.event;
-		$delete_link = "<a event_id='"+event._id+"' class='icon-del icon' onClick='confirm_delete(this); return;'>&nbsp;</a>"; 
+		$delete_link = "<a event_id='"+event._id+"' class='icon-del icon' onClick='hide_event(this); return;'>&nbsp;</a>"; 
 
 			classes = ['fc-event', 'fc-event-skin', 'fc-event-hori'];
 			if (isEventDraggable(event)) {

@@ -84,6 +84,15 @@ function confirm_delete(ele) {
     return 0;
 }
 
+// function hide_event(event) { event.hide(); return 0; }
+function hide_event(event) { 
+    // alert(event.getAttribute('event_id'));
+    $('#calendar').fullCalendar('removeEvents', [ event.getAttribute('event_id') ]);
+    // $(event).parent().hide(); return 0; }
+    return 0;
+}
+
+
 
 $(document).ready(function() {
 

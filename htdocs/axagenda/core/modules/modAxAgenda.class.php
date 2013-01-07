@@ -197,7 +197,7 @@ class modAxAgenda extends DolibarrModules
 		// Example to declare a new Top Menu entry and its Left menu entry:
 		$this->menu[$r]=array(	'fk_menu'=>0,			                // Put 0 if this is a top menu
 					'type'=>'top',			                // This is a Top menu entry
-					'titre'=>'Ax Agenda 3',
+					'titre'=>'Ax Agenda',
 					'mainmenu'=>'axagenda',
 		//							'leftmenu'=>'mymodule',
 					'url'=>'/axagenda/index.php',
