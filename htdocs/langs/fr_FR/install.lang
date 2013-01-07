@@ -26,14 +26,12 @@ ErrorGoBackAndCorrectParameters=Revenez en arrière et corrigez les paramètres 
 ErrorWrongValueForParameter=Vous avez peut-être saisi une mauvaise valeur pour le paramètre '%s'.
 ErrorFailedToCreateDatabase=Echec de création de la base '%s'.
 ErrorFailedToConnectToDatabase=Echec de connexion à la base '%s'.
-ErrorDatabaseVersionTooLow=Version de base de donnée (%s) trop ancienne. La version %s ou supérieure est requise.
 ErrorPHPVersionTooLow=Version de PHP trop ancienne. La version %s est requise.
 WarningPHPVersionTooLow=Version de PHP trop ancienne. La version %s ou plus est recommandée. Cette version reste utilisable mais n'est pas supportée.
 ErrorConnectedButDatabaseNotFound=Connexion au serveur réussi mais base '%s' introuvable.
 ErrorDatabaseAlreadyExists=La base de données '%s' existe déjà.
 IfDatabaseNotExistsGoBackAndUncheckCreate=Si la base n'existe pas, revenez en arrière et cochez l'option "Créer la base de données".
 IfDatabaseExistsGoBackAndCheckCreate=Si la base existe déjà, revenez en arrière et désactiver l'option "Créer la base de données".
-WarningBrowserTooOld=Version de navigateur trop ancienne. Nous vous recommandons de mettre à jour vers un version récente de Firefox, Chrome ou Opera.
 PHPVersion=Version PHP
 YouCanContinue=Vous pouvez continuer...
 PleaseBePatient=Merci de patienter...
@@ -53,7 +51,6 @@ ServerAddressDescription=Nom ou adresse ip du serveur de base de données, gén�
 ServerPortDescription=Port du serveur. Ne rien mettre si inconnu.
 DatabaseServer=Serveur de la base de données
 DatabaseName=Nom de la base de données
-DatabasePrefix=Préfixe des tables
 Login=Login
 AdminLogin=Login du propriétaire de la base de données Dolibarr.
 Password=Mot de passe
@@ -100,7 +97,7 @@ LoginAlreadyExists=Existe déjà
 DolibarrAdminLogin=Login de l'utilisateur administrateur de Dolibarr
 FailedToCreateAdminLogin=Echec de la création du compte administrateur Dolibarr.
 AdminLoginAlreadyExists=Compte administrateur Dolibarr '<b>%s</b>' déjà existant. Revenez en arrière si vous voulez en créer un autre.
-WarningRemoveInstallDir=Attention, pour des raisons de sécurité, afin de bloquer une nouvelle utilisation des outils d'installation/migration, une fois l'installation terminée, il est conseillé de placer dans le répertoire document de Dolibarr un fichier nommé <b>install.lock</b> en lecture seule.
+WarningRemoveInstallDir=Attention, pour des raisons de sécurité, une fois l'installation terminée, il est conseillé de placer dans le répertoire document de Dolibarr un fichier nommé <b>install.lock</b> en lecture seule.
 ThisPHPDoesNotSupportTypeBase=Le système PHP ne supporte pas les interfaces d'accès pour les bases %s
 FunctionNotAvailableInThisPHP=Non disponible sur ce PHP
 MigrateScript=Script de migration
@@ -125,8 +122,8 @@ YouMustCreateItAndAllowServerToWrite=Vous devez créer ce dossier et permettre a
 CharsetChoice=Choix du codage des caractères
 CharacterSetClient=Codage utilisé pour l'affichage des pages
 CharacterSetClientComment=Veuillez choisir le codage que vous souhaitez pour l'affichage des pages.<br/> Le codage proposé par défaut est celui de votre base de données par défaut.
-DBSortingCollation=Ordre de tri utilisé pour la base de données
-DBSortingCollationComment=Veuillez choisir la page de code définissant l'ordre de tri des caractères utilisés par la base de données. Ce paramètre est aussi appelé 'collation' par certaines bases de données.<br/> Ce paramètre n'est pas sélectionnable si votre base est déjà créée.
+CollationConnection=Ordre de tri utilisé pour la base de données
+CollationConnectionComment=Veuillez choisir la page de code définissant l'ordre de tri des caractères utilisés par la base de données. Ce paramètre est aussi appelé 'collation' par certaines bases de données.<br/> Ce paramètre n'est pas sélectionnable si votre base est déjà créée.
 CharacterSetDatabase=Codage utilisé pour la base de données
 CharacterSetDatabaseComment=Veuillez choisir le codage que vous désirez choisir pour la création de la base de données.<br/> Ce paramètre n'est pas sélectionnable si votre base est déjà créée.
 YouAskDatabaseCreationSoDolibarrNeedToConnect=Vous avez demandé la création de la base de données <b>%s</b>, mais pour cela, Dolibarr doit se connecter sur le serveur <b>%s</b> via le super utilisateur <b>%s</b>.
@@ -135,7 +132,7 @@ BecauseConnectionFailedParametersMayBeWrong=La connexion ayant échoué, les par
 OrphelinsPaymentsDetectedByMethod=Paiement orphelins détectés par la méthode %s
 RemoveItManuallyAndPressF5ToContinue=Supprimez le manuellement et appuyez sur F5 pour continuer.
 KeepDefaultValuesWamp=Comme vous utilisez l'assistant d'installation Dolibarr depuis DoliWamp, les valeurs proposées aux paramètres sont déjà optimisées. Ne les modifier qu'en connaissance de cause.
-KeepDefaultValuesDeb=Comme vous utilisez l'assistant d'installation Dolibarr depuis un package Linux ou BSD (Ubuntu, Debian, Fedora, ...), les valeurs proposées aux paramètres sont déjà optimisées. Seul le mot de passe du propriétaire de la base de données à créer est à renseigner. Ne modifiez les autres informations qu'en connaissance de cause.
+KeepDefaultValuesDeb=Comme vous utilisez l'assistant d'installation Dolibarr depuis un package Linux/BSD (Ubuntu, Debian, Fedora, ...), les valeurs proposées aux paramètres sont déjà optimisées. Seul le mot de passe du propriétaire de la base de données à créer est à renseigner. Ne modifiez les autres informations qu'en connaissance de cause.
 KeepDefaultValuesMamp=Comme vous utilisez l'assistant d'installation Dolibarr depuis DoliMamp, les valeurs proposées aux paramètres sont déjà optimisées. Ne les modifiez qu'en connaissance de cause.
 KeepDefaultValuesProxmox=Comme vous utilisez l'assistant d'installation Dolibarr depuis une machine virtuelle Proxmox, les valeurs proposées aux paramètres sont déjà optimisées. Ne les modifiez qu'en connaissance de cause.
 FieldRenamed=Champ renommé
@@ -155,12 +152,7 @@ MigrationShippingDelivery=Mise à jour stockage des expéditions
 MigrationShippingDelivery2=Mise à jour stockage des expéditions 2 
 MigrationFinished=Migration terminée
 LastStepDesc=<strong>Dernière étape</strong>: Définissez ici le compte et mot de passe du premier utilisateur que vous allez utiliser pour vous connecter à l'application. Ne perdez pas ces identifiants, il s'agit du compte permettant d'administrer les autres.
-ActivateModule=Activation du module %s
-LinkedElementsInvalidDeleted=<b>%s</b> liaisons invalides ont été supprimées
-NothingToDelete=Aucune liaison invalide trouvée
-SourceType=Source
-TargetType=Cible
-ShowEditTechnicalParameters=Cliquer ici pour afficher/éditer les paramètres techniques (mode expert)
+ 
 
 #########
 # upgrade
@@ -168,49 +160,77 @@ ShowEditTechnicalParameters=Cliquer ici pour afficher/éditer les paramètres te
 MigrationFixData=Correction de données dé-normalisées
 MigrationOrder=Migration de données sur les commandes clients
 MigrationSupplierOrder=Migration de données sur les commandes fournisseurs
-MigrationProposal=Migration de données sur les propositions commerciales
+MigrationProposal=Migration de données sur les bons de commande
 MigrationInvoice=Migration de données sur les factures clients
 MigrationContract=Migration de données sur les contrats
 MigrationSuccessfullUpdate=Mise à jour réussie
 MigrationUpdateFailed=La mise à jour a échoué
 MigrationRelationshipTables=Migration des tables de liaison (%s)
+
+# Payments Update
 MigrationPaymentsUpdate=Mise à jour des paiements (lien n-n paiements-factures)
 MigrationPaymentsNumberToUpdate=%s paiement(s) a mettre à jour
 MigrationProcessPaymentUpdate=Mise à jour paiement(s) %s
 MigrationPaymentsNothingToUpdate=Pas ou plus de paiement orphelin à corriger.
 MigrationPaymentsNothingUpdatable=Pas ou plus de paiement orphelin corrigible.
+
+# Contracts Update
 MigrationContractsUpdate=Mise à jour des contrats sans détail (gestion du contrat + détail de contrat)
 MigrationContractsNumberToUpdate=%s contrat(s) a mettre à jour
 MigrationContractsLineCreation=Création ligne contrat pour contrat ref %s
 MigrationContractsNothingToUpdate=Pas ou plus de contrats (liés à un produit) sans ligne de détail à corriger.
 MigrationContractsFieldDontExist=Le champs fk_facture n'existe plus. Pas d'opération à faire.
+
+# Contracts Empty Dates Update
 MigrationContractsEmptyDatesUpdate=Mise à jour des dates de contrats non renseignées
 MigrationContractsEmptyDatesUpdateSuccess=Ok pour date de contrat
 MigrationContractsEmptyDatesNothingToUpdate=Pas ou plus de date de contrats à renseigner.
 MigrationContractsEmptyCreationDatesUpdateSuccess=Ok pour date création
 MigrationContractsEmptyCreationDatesNothingToUpdate=Pas ou plus de date de création à renseigner.
+
+# Contracts Invalid Dates Update
 MigrationContractsInvalidDatesUpdate=Mise à jour dates contrat incorrectes (pour contrats avec détail en service)
 MigrationContractsInvalidDateFix=Correction contrat %s (Date contrat=%s, Date mise service min=%s)
 MigrationContractsInvalidDatesNumber=%s contrats modifiés
 MigrationContractsInvalidDatesNothingToUpdate=Pas ou plus de contrats à corriger.
+
+# Contracts Incoherent Dates Update
 MigrationContractsIncoherentCreationDateUpdate=Mise à jour des dates de création de contrat qui ont une valeur incohérente
 MigrationContractsIncoherentCreationDateUpdateSuccess=Ok
 MigrationContractsIncoherentCreationDateNothingToUpdate=Pas ou plus de date de contrats à corriger.
+
+# Reopening Contracts
 MigrationReopeningContracts=Réouverture des contrats qui ont au moins un service actif non fermé
 MigrationReopenThisContract=Réouverture contrat %s
 MigrationReopenedContractsNumber=%s contrats modifiés
 MigrationReopeningContractsNothingToUpdate=Pas ou plus de contrats à ré-ouvrir.
+
+# Migration transfert
 MigrationBankTransfertsUpdate=Mise à jour des liens entre écriture bancaire et un transfert entre compte
 MigrationBankTransfertsNothingToUpdate=Aucun lien non à jour
+
+# Migration delivery
 MigrationShipmentOrderMatching=Mise à jour bon expédition
 MigrationDeliveryOrderMatching=Mise à jour bon réception
 MigrationDeliveryDetail=Mise à jour bon réception
+
+# Migration stock
 MigrationStockDetail=Mise à jour valeur en stock des produits
+
+# Migration menus
 MigrationMenusDetail=Mise à jour table des menus dynamiques
+
+# Migration delivery address
 MigrationDeliveryAddress=Mise à jour des adresses de livraison dans les bons d'expédition
+
+# Migration project task actors
 MigrationProjectTaskActors=Migration de la table llx_projet_task_actors
+
+# Migration project user resp
 MigrationProjectUserResp=Migration du champ fk_user_resp de llx_projet vers llx_element_contact
+
+# Migration project task time
 MigrationProjectTaskTime=Mise à jour du temps consommé en secondes
+
+# Migration Acctioncom
 MigrationActioncommElement=Mise à jour des données des actions des éléments
-MigrationPaymentMode=Migration des modes de paiement
-MigrationCategorieAssociation=Migration des categories
