@@ -4,6 +4,8 @@
 /multicompany
 *.DS_Store
 *~
+*.orig
+
 tmp
 *.\#*
 documents
