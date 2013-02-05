@@ -1,4 +1,0 @@
-[submodule "htdocs/axmodule"]
-	path = htdocs/axmodule
-	url = git@github.com:darkslategrey/axmodule.git
-
