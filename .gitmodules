@@ -1,6 +1,4 @@
 [submodule "htdocs/axmodule"]
 	path = htdocs/axmodule
 	url = git@github.com:darkslategrey/axmodule.git
-[submodule "htdocs/axplanning"]
-	path = htdocs/axplanning
-	url = git@github.com:darkslategrey/ax-planning-agenda.git
+
