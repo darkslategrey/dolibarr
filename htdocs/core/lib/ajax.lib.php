@@ -409,4 +409,50 @@ function ajax_constantonoff($code, $input=array(), $entity=false)
 	return $out;
 }
 
+/*
+ * ================================================================= 
+ * Purpose: La selection d'une société dans la fiche contact rempli l'adresse correspondante
+ * Input:   
+ * Author:  Grégory Faruch
+ * Licence: GPL
+ * ==================================================================
+ */
+function fillContactAddrWithSocAddr() {
+
+    $out = '<script type="text/javascript">
+               $(function() { 
+            $("#socid").change(function() { 
+            var socid = $(this).val();
+if(socid == -1) {
+   $("textarea[name=address]").text("");
+   $("#departement_id option").removeAttr("selected");
+   $("#zipcode").val("");
+   $("#town").val("");
+   $("input[name=phone_pro]").val("");
+   $("input[name=fax]").val("");
+} else {
+
+                                   jQuery.getJSON("'.DOL_URL_ROOT.'/societe/ajaxsociete.php?socid="+socid,
+                  {},
+  function(data) { 
+     $("textarea[name=address]").text(data.address);
+     jQuery.getJSON("'.DOL_URL_ROOT.'/core/ajaxziptown.php", 
+                    { zipcode: data.cp }, 
+                    function(data) { 
+       $("#departement_id option[value="+data[0].departement_id+"]").attr("selected", "true");
+                    });
+     $("#zipcode").val(data.cp);
+     $("#town").val(data.ville);
+     $("input[name=phone_pro]").val(data.telpro);
+     $("input[name=fax]").val(data.fax);
+ });
+                                       }
+    });
+   });
+            </script>';
+    $out .= "\n";
+
+    return $out;
+}
+
 ?>
