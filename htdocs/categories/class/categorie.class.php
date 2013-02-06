@@ -1268,5 +1268,29 @@ class Categorie
         $this->socid = 1;
         $this->type = 0;
     }
+
+    function get_nbr_thirdpart($table, &$results) {
+      $total = 0;
+      $sql = "select label, fk_categorie, count(1) count from ";
+      $sql .= MAIN_DB_PREFIX.$table." inner join ";
+      $sql .= MAIN_DB_PREFIX."categorie on rowid = fk_categorie group by fk_categorie";
+
+      dol_syslog("stat categ <".$sql.">");
+      $resql = $this->db->query($sql);
+      if($resql) {
+        $num = $this->db->num_rows($resql);
+        $i = 0;
+        while ($i < $num) {
+          $objp = $this->db->fetch_object($resql);
+          $results[$objp->label] += $objp->count;
+          $total += $objp->count;
+          $i++;
+        }
+      } else {
+        dol_print_error($db);
+      }
+      return $total;
+    }
+
 }
 ?>
