@@ -1275,7 +1275,7 @@ class Categorie
       $sql .= MAIN_DB_PREFIX.$table." inner join ";
       $sql .= MAIN_DB_PREFIX."categorie on rowid = fk_categorie group by fk_categorie";
 
-      dol_syslog("stat categ <".$sql.">");
+      // dol_syslog("stat categ <".$sql.">");
       $resql = $this->db->query($sql);
       if($resql) {
         $num = $this->db->num_rows($resql);

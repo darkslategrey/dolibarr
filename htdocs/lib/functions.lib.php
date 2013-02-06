@@ -1406,6 +1406,7 @@ function dolibarr_trunc($string,$size=40,$trunc='right',$stringencoding='')
  */
 function dol_print_graph($htmlid,$width,$height,$data,$showlegend=0,$type='pie',$showpercent=0,$url='')
 {
+
     global $conf,$langs;
     global $theme_datacolor;    // To have var kept when function is called several times
     if (empty($conf->use_javascript_ajax)) return;

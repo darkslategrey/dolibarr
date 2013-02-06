@@ -1393,12 +1393,14 @@ function dol_substr($string,$start,$length,$stringencoding='')
  */
 function dol_print_graph($htmlid,$width,$height,$data,$showlegend=0,$type='pie',$showpercent=0,$url='')
 {
+  // dol_syslog("params htmlid <".$htmlid."> width <".$width."> height <".$height."> showlegend <".$showlegend."> type <".$type."> showpercent <".$showpercent."> url <".$url.">");
+
 	global $conf,$langs;
 	global $theme_datacolor;    // To have var kept when function is called several times
 	if (empty($conf->use_javascript_ajax)) return;
 	$jsgraphlib='flot';
 	$datacolor=array();
-
+	// dol_syslog("data in dol_print_graph <".print_r($data, true).">");
 	// Load colors of theme into $datacolor array
 	$color_file = DOL_DOCUMENT_ROOT."/theme/".$conf->theme."/graph-color.php";
 	if (is_readable($color_file))
@@ -1425,7 +1427,7 @@ function dol_print_graph($htmlid,$width,$height,$data,$showlegend=0,$type='pie',
 			//                 'seriescolor'=>array(0=>'#999999',1=>'#999999',...)
 			//                 'xlabel'=>array(0=>labelx1,1=>labelx2,...));
 			// serieX is array('label'=>'label', data=>val)
-			print '
+		  print '
 			<script type="text/javascript">
 			$(function () {
 				var data = '.json_encode($data['series']).';
@@ -1475,6 +1477,8 @@ function dol_print_graph($htmlid,$width,$height,$data,$showlegend=0,$type='pie',
 				plotWithOptions();
 			});
 			</script>';
+						// dol_syslog("graphique <".$mygraph.">");
+						// print $mygraph;
 		}
 		else if ($type == 'barline')
 		{

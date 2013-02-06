@@ -109,18 +109,20 @@ dol_syslog("categories <".print_r($third, true).">");
 
 print '<table class="noborder" width="100%">';
 print '<tr class="liste_titre"><td colspan="2">'.$langs->trans("Statistics").'</td></tr>';
-dol_syslog("use javascript <".$conf->use_javascript_ajax.">");
+// dol_syslog("use javascript <".$conf->use_javascript_ajax.">");
 if ($conf->use_javascript_ajax)
   {
     print '<tr><td align="center">';
     $dataseries=array();
     foreach ($third as $categ => $categ_cpt) {
       if($categ_cpt > 5) {
-        $dataseries[]=array('label'=>$categ, 'values'=>array(round($third[$categ])));
+        $dataseries[]=array('label'=>$categ, 'data'=>round($third[$categ]));
       }
     }
     $data=array('series'=>$dataseries);
+    // dol_syslog("data before graph <".print_r($data, true).">");
     dol_print_graph('stats',300,180,$data,1,'pie',0);
+    // dol_syslog("after dol_print_graph");
     print '</td></tr>';
   }
 else
