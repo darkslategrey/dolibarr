@@ -559,12 +559,12 @@ function show_contacts($conf,$langs,$db,$object,$backtopage='')
             print dol_print_email($obj->email,$obj->rowid,$object->id,'AC_EMAIL');
             print '</td>';
 
-            if ($conf->agenda->enabled && $user->rights->agenda->myactions->create)
-            {
-                print '<td align="center"><a href="'.DOL_URL_ROOT.'/comm/action/fiche.php?action=create&actioncode=AC_RDV&contactid='.$obj->rowid.'&socid='.$object->id.'&backtopage='.urlencode($backtourl).'">';
-                print img_object($langs->trans("Rendez-Vous"),"action");
-                print '</a></td>';
-            }
+            /* if ($conf->agenda->enabled && $user->rights->agenda->myactions->create) */
+            /* { */
+            /*     print '<td align="center"><a href="'.DOL_URL_ROOT.'/comm/action/fiche.php?action=create&actioncode=AC_RDV&contactid='.$obj->rowid.'&socid='.$object->id.'&backtopage='.urlencode($backtourl).'">'; */
+            /*     print img_object($langs->trans("Rendez-Vous"),"action"); */
+            /*     print '</a></td>'; */
+            /* } */
 
             if ($user->rights->societe->contact->creer)
             {
