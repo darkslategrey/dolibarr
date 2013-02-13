@@ -782,21 +782,21 @@ else
             print '</td></tr>';
 
             // Category
-            /* This must be set into category tab, like for customer category
-            if ($object->fournisseur)
-            {
+            // This must be set into category tab, like for customer category
+            /* if ($object->fournisseur) */
+            /* { */
                 $load = $object->LoadSupplierCateg();
                 if ( $load == 0)
                 {
                     if (count($object->SupplierCategories) > 0)
                     {
                         print '<tr>';
-                        print '<td>'.$langs->trans('SupplierCategory').'</td><td colspan="3">';
+                        print '<td>'.$langs->trans('Category').'</td><td colspan="3">';
                         print $form->selectarray("fournisseur_categorie",$object->SupplierCategories,GETPOST('fournisseur_categorie'),1);
                         print '</td></tr>';
                     }
                 }
-            }*/
+		/* }*/
         }
 
         // Status
@@ -1226,20 +1226,20 @@ else
                 print '</td></tr>';
 
                 // Category
-                if (! empty($conf->categorie->enabled) && $object->fournisseur)
-                {
+                /* if (! empty($conf->categorie->enabled) && $object->fournisseur) */
+                /* { */
                     $load = $object->LoadSupplierCateg();
                     if ( $load == 0)
                     {
                         if (count($object->SupplierCategories) > 0)
                         {
                             print '<tr>';
-                            print '<td>'.$langs->trans('SupplierCategory').'</td><td colspan="3">';
-                            print $form->selectarray("fournisseur_categorie",$object->SupplierCategories,'',1);
+                            print '<td>'.$langs->trans('Category').'</td><td colspan="3">';
+			    print $form->selectarray("fournisseur_categorie",$object->SupplierCategories,$object->cat_id,1);
                             print '</td></tr>';
                         }
                     }
-                }
+                /* } */
             }
 
             // Barcode
@@ -1529,6 +1529,20 @@ else
             print $htmllogobar; $htmllogobar='';
             print '</tr>';
         }
+
+	$load = $object->LoadSupplierCateg();
+	if ( $load == 0)
+	  {
+	    if (sizeof($object->SupplierCategories) > 0)
+	      {
+		print '<tr>';
+		print '<td>'.$langs->trans('Category').'</td><td colspan="'.(2+($object->logo?0:1)).'">';
+		print $object->cat_label;
+		print '</td></tr>';
+	      }
+	  }
+
+
 
         // Supplier code
         if (! empty($conf->fournisseur->enabled) && $object->fournisseur && ! empty($user->rights->fournisseur->lire))

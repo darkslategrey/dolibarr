@@ -810,6 +810,17 @@ function print_left_eldy_menu($db,$menu_array_before,$menu_array_after)
                 {
                     $newmenu->add("/categories/fiche.php?action=create&amp;type=2", $langs->trans("NewCategory"), 1, $user->rights->categorie->creer);
                 }
+
+		require_once(DOL_DOCUMENT_ROOT."/categories/class/categorie.class.php");
+		$categstatic = new Categorie($db);
+		$full_arbo = $categstatic->get_full_arbo(2);
+		if (is_array($full_arbo)){
+		  foreach ($full_arbo as $categ) {
+		    dol_syslog("eldy.lib.php::print GREG ".$categ);
+		    $newmenu->add("/categories/viewcat.php?id=".$categ['id']."&type=1", $categ['label'], 1, $user->rights->categorie->creer);
+		  }
+		}
+
                 // Categories suppliers
                 if (! empty($conf->fournisseur->enabled))
                 {
@@ -818,7 +829,18 @@ function print_left_eldy_menu($db,$menu_array_before,$menu_array_after)
                     {
                         $newmenu->add("/categories/fiche.php?action=create&amp;type=1", $langs->trans("NewCategory"), 1, $user->rights->categorie->creer);
                     }
+		    require_once(DOL_DOCUMENT_ROOT."/categories/class/categorie.class.php");
+		    $categstatic = new Categorie($db);
+		    $full_arbo = $categstatic->get_full_arbo(1);
+		    if (is_array($full_arbo)){
+		      foreach ($full_arbo as $categ) {
+			dol_syslog("eldy.lib.php::print GREG ".$categ);
+			
+			$newmenu->add("/categories/viewcat.php?id=".$categ['id']."&type=1", $categ['label'], 1, $user->rights->categorie->creer);
+		      }
+		    }
                 }
+
                 //if ($leftmenu=="cat") $newmenu->add("/categories/liste.php", $langs->trans("List"), 1, $user->rights->categorie->lire);
             }
 

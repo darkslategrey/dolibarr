@@ -680,6 +680,8 @@ class Societe extends CommonObject
         $sql .= ', d.code_departement as state_code, d.nom as state';
         $sql .= ', st.libelle as stcomm';
         $sql .= ', te.code as typent_code';
+	$sql .= ', cat.label as cat_label';
+	$sql .= ', cat.rowid as cat_id';
         $sql .= ' FROM '.MAIN_DB_PREFIX.'societe as s';
         $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'c_effectif as e ON s.fk_effectif = e.id';
         $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'c_pays as p ON s.fk_pays = p.rowid';
@@ -687,6 +689,8 @@ class Societe extends CommonObject
         $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'c_forme_juridique as fj ON s.fk_forme_juridique = fj.code';
         $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'c_departements as d ON s.fk_departement = d.rowid';
         $sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'c_typent as te ON s.fk_typent = te.id';
+	$sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'categorie_societe as cs ON s.rowid = cs.fk_societe';
+	$sql .= ' LEFT JOIN '.MAIN_DB_PREFIX.'categorie as cat ON cs.fk_categorie = cat.rowid';
         if ($rowid) $sql .= ' WHERE s.rowid = '.$rowid;
         if ($ref)   $sql .= " WHERE s.nom = '".$this->db->escape($ref)."' AND s.entity IN (".getEntity($this->element, 1).")";
         if ($ref_ext) $sql .= " WHERE s.ref_ext = '".$this->db->escape($ref_ext)."' AND s.entity IN (".getEntity($this->element, 1).")";
@@ -812,6 +816,10 @@ class Societe extends CommonObject
                 $this->price_level = $obj->price_level;
 
                 $this->import_key = $obj->import_key;
+
+		$this->cat_label = $obj->cat_label;
+		$this->cat_id    = $obj->cat_id;
+
 
                 $result = 1;
             }
@@ -2344,7 +2352,7 @@ class Societe extends CommonObject
         $this->SupplierCategories = array();
         $sql = "SELECT rowid, label";
         $sql.= " FROM ".MAIN_DB_PREFIX."categorie";
-        $sql.= " WHERE type = 1";
+        // $sql.= " WHERE type = 1";
 
         $resql=$this->db->query($sql);
         if ($resql)
@@ -2371,10 +2379,13 @@ class Societe extends CommonObject
     {
         if ($categorie_id > 0)
         {
+	  if($this->fournisseur) {
             $sql = "INSERT INTO ".MAIN_DB_PREFIX."categorie_fournisseur (fk_categorie, fk_societe) ";
-            $sql.= " VALUES ('".$categorie_id."','".$this->id."');";
-
-            if ($resql=$this->db->query($sql)) return 0;
+	  } else {
+	    $sql = "INSERT INTO ".MAIN_DB_PREFIX."categorie_societe (fk_categorie, fk_societe) ";	    
+	  }
+	  $sql.= " VALUES ('".$categorie_id."','".$this->id."');";	  
+	  if ($resql=$this->db->query($sql)) return 0;	  
         }
         else
         {
