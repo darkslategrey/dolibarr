@@ -309,6 +309,7 @@ if (! $user->rights->societe->client->voir && ! $socid) $sql.= " ".MAIN_DB_PREFI
 $sql.= " ".MAIN_DB_PREFIX.'user as u,';
 $sql.= " ".MAIN_DB_PREFIX."actioncomm as a)";
 $sql.= ' WHERE a.fk_action = ca.id';
+$sql.= " AND ca.code != 'AC_REGIE'";
 $sql.= ' AND a.fk_user_author = u.rowid';
 $sql.= ' AND a.entity IN ('.getEntity().')';
 if ($actioncode) $sql.=" AND ca.code='".$db->escape($actioncode)."'";
