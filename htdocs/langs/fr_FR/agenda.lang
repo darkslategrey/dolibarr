@@ -1,5 +1,12 @@
 # Dolibarr language file - fr_FR - agenda
 CHARSET=UTF-8
+ExportCal=Exporter l'agenda
+LocalAgenda=Agenda locale
+MyEvents=Mes évènements
+OrderApprovedInDolibarr=Commande %s acceptée
+OrderBackToDraftInDolibarr=Status brouillon pour la commande %s
+OrderCanceledInDolibarr=Commande %s annulée
+OtherEvents=Autres évènements
 Actions=Événements
 ActionsArea=Espace événements (actions et tâches)
 Agenda=Calendrier

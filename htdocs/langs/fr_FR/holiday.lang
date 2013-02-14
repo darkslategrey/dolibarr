@@ -1,6 +1,6 @@
 # Dolibarr language file - fr_FR - holiday
 CHARSET= UTF-8
-
+Module27130Desc=Gestion des vacances
 CPTitreMenu=Congés
 MenuReportMonth=Etat mensuel
 MenuAddCP=Nouvelle demande

@@ -1,5 +1,6 @@
 # Dolibarr language file - fr_FR - propal
 CHARSET=UTF-8
+ConfirmReOpenProp=Etes vous sur de vouloir réouvrir le bon de commande <b>%s</b> ?
 Proposals=Bons de commande
 Proposal=Bon de commande
 ProposalShort=Bon de commande
