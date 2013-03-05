@@ -1,3 +1,6 @@
 [submodule "htdocs/axmodule"]
 	path = htdocs/axmodule
 	url = git@github.com:darkslategrey/axmodule.git
+[submodule "htdocs/google"]
+	path = htdocs/google
+	url = git@github.com:darkslategrey/dolibarr-google.git
