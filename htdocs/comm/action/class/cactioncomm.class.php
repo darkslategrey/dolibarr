@@ -77,14 +77,45 @@ class CActionComm
                 $this->type    = $obj->type;
                 $this->libelle = $obj->libelle;
                 $this->active  = $obj->active;
-
                 return 1;
             }
             else
             {
                 return 0;
             }
+            $this->db->free($resql);
+        }
+        else
+        {
+            $this->error=$this->db->error();
+            return -1;
+        }
+    }
 
+    function fetch_by_code($code) {
+        $sql = "SELECT id, code, type, libelle, active";
+        $sql.= " FROM ".MAIN_DB_PREFIX."c_actioncomm";
+	$sql.= " WHERE code='".$code."'";
+
+        dol_syslog(get_class($this)."::fetch_by_code sql=".$sql);
+        $resql=$this->db->query($sql);
+        if ($resql)
+        {
+            if ($this->db->num_rows($resql))
+            {
+                $obj = $this->db->fetch_object($resql);
+
+                $this->id      = $obj->id;
+                $this->code    = $obj->code;
+                $this->type    = $obj->type;
+                $this->libelle = $obj->libelle;
+                $this->active  = $obj->active;
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
             $this->db->free($resql);
         }
         else
