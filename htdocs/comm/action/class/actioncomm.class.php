@@ -368,15 +368,15 @@ class ActionComm extends CommonObject
         	$error++;
         }
 
-        // Removed extrafields
-        if (! $error) {
-        	$result=$this->deleteExtraFields();
-          	if ($result < 0)
-           	{
-           		$error++;
-           		dol_syslog(get_class($this)."::delete error -3 ".$this->error, LOG_ERR);
-           	}
-        }
+        /* // Removed extrafields */
+        /* if (! $error) { */
+        /* 	$result=$this->deleteExtraFields(); */
+        /*   	if ($result < 0) */
+        /*    	{ */
+        /*    		$error++; */
+        /*    		dol_syslog(get_class($this)."::delete error -3 ".$this->error, LOG_ERR); */
+        /*    	} */
+        /* } */
 
         if (!$error)
         {
