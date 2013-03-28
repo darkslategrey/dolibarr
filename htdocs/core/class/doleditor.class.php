@@ -84,10 +84,13 @@ class DolEditor
         // Define content and some properties
         if ($this->tool == 'ckeditor')
         {
+	  dol_syslog("into ckeditor");
+	  $content = strlen($content) == 0 ? '<a href="http://www.jobenfance.com"><img alt="" src="/viewimage.php?modulepart=fckeditor&amp;file=image/logo.gif" style="width: 150px; height: 53px;" /></a>' : $content;
             $content=dol_htmlentitiesbr($content);  // If content is not HTML, we convert to HTML.
         }
         if ($this->tool == 'fckeditor')
     	{
+	  dol_syslog("into fckeditor");
         	require_once DOL_DOCUMENT_ROOT.'/includes/fckeditor/fckeditor.php';
 
     		$content=dol_htmlentitiesbr($content);	// If content is not HTML, we convert to HTML.
@@ -95,6 +98,7 @@ class DolEditor
         	$this->editor = new FCKeditor($htmlname);
         	$this->editor->BasePath = DOL_URL_ROOT.'/includes/fckeditor/' ;
         	$this->editor->Value	= $content;
+		dol_syslog("content de l'editeur <".$this->editor->Value.">");
         	$this->editor->Height   = $height;
         	if (! empty($width)) $this->editor->Width = $width;
         	$this->editor->ToolbarSet = $toolbarname;
