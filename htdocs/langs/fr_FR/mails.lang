@@ -1,5 +1,6 @@
 # Dolibarr language file - fr_FR - mails
 CHARSET=UTF-8
+Civilite=Cilivité
 Mailing=EMailing
 EMailing=EMailing
 Mailings=EMailings

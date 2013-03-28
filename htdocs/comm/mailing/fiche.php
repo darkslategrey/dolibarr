@@ -55,14 +55,10 @@ $hookmanager->initHooks(array('mailingcard'));
 $object->substitutionarray=array(
     '__ID__' => 'IdRecord',
     '__EMAIL__' => 'EMail',
+    '__CIVILITE__' => 'Civilite',
     '__LASTNAME__' => 'Lastname',
     '__FIRSTNAME__' => 'Firstname',
     '__MAILTOEMAIL__' => 'TagMailtoEmail',
-    '__OTHER1__' => 'Other1',
-    '__OTHER2__' => 'Other2',
-    '__OTHER3__' => 'Other3',
-    '__OTHER4__' => 'Other4',
-    '__OTHER5__' => 'Other5',
     '__SIGNATURE__' => 'TagSignature',
     //'__PERSONALIZED__' => 'Personalized'	// Hidden because not used yet
 );
@@ -78,11 +74,12 @@ if (! empty($conf->global->MAILING_EMAIL_UNSUBSCRIBE))
 }
 
 $object->substitutionarrayfortest=array(
-    '__ID__' => 'TESTIdRecord',
-    '__EMAIL__' => 'TESTEMail',
-    '__LASTNAME__' => 'TESTLastname',
-    '__FIRSTNAME__' => 'TESTFirstname',
-    '__MAILTOEMAIL__' => 'TESTMailtoEmail',
+    '__ID__' => 'TEST: Id du contact',
+    '__EMAIL__' => 'TEST: Couriel du contact',
+    '__CIVILITE__' => 'TEST: Civilité du contact',
+    '__LASTNAME__' => 'TEST: Nom de famille du contact',
+    '__FIRSTNAME__' => 'TEST: Prénom du contact',
+    '__MAILTOEMAIL__' => 'TEST: Lien html du couriel du contact',
     '__OTHER1__' => 'TESTOther1',
     '__OTHER2__' => 'TESTOther2',
     '__OTHER3__' => 'TESTOther3',
@@ -220,12 +217,16 @@ if ($action == 'sendallconfirmed' && $confirm == 'yes')
                     $tmpfield=explode('=',$other[2],2); $other3=(isset($tmpfield[1])?$tmpfield[1]:$tmpfield[0]);
                     $tmpfield=explode('=',$other[3],2); $other4=(isset($tmpfield[1])?$tmpfield[1]:$tmpfield[0]);
                     $tmpfield=explode('=',$other[4],2); $other5=(isset($tmpfield[1])?$tmpfield[1]:$tmpfield[0]);
+		    $o2 = explode('=', $other2);
+		    $civilite = count($o2) > 1 ? $o2[1] : "";
+
 					$substitutionarray=array(
 							'__ID__' => $obj->source_id,
 							'__EMAIL__' => $obj->email,
 							'__CHECK_READ__' => '<img src="'.DOL_MAIN_URL_ROOT.'/public/emailing/mailing-read.php?tag='.$obj->tag.'" width="1" height="1" style="width:1px;height:1px" border="0"/>',
 							'__UNSUBSCRIBE__' => '<a href="'.DOL_MAIN_URL_ROOT.'/public/emailing/mailing-unsubscribe.php?tag='.$obj->tag.'&unsuscrib=1" target="_blank">'.$langs->trans("MailUnsubcribe").'</a>',
 							'__MAILTOEMAIL__' => '<a href="mailto:'.$obj->email.'">'.$obj->email.'</a>',
+							'__CIVILITE__' => $civilite,
 							'__LASTNAME__' => $obj->nom,
 							'__FIRSTNAME__' => $obj->prenom,
 							'__OTHER1__' => $other1,
@@ -650,7 +651,10 @@ if ($action == 'create')
 	print_fiche_titre($langs->trans("NewMailing"));
 
 	dol_htmloutput_mesg($mesg);
-
+	$aide_step1 = '<b>Description</b>: Indiquer le nom de l\'emailing<br/><b>Emetteur</b>: Le couriel qui doît apparaître dans le champs \'De\' du/des destinataire(s)<br/>';
+	$aide_step1 .= '<b>Erreurs à</b>: Le couriel destinataire des erreurs lors de l\'envoi';
+	print '<a href="javascript:void(0);" onclick="javascript:introJs().start();">Aide</a>';
+	print '<div data-step="1" data-intro="'.$aide_step1.'">';
 	print '<table class="border" width="100%">';
 	print '<tr><td width="25%" class="fieldrequired">'.$langs->trans("MailTitle").'</td><td><input class="flat" name="titre" size="40" value="'.$_POST['titre'].'"></td></tr>';
 	print '<tr><td width="25%" class="fieldrequired">'.$langs->trans("MailFrom").'</td><td><input class="flat" name="from" size="40" value="'.$conf->global->MAILING_EMAIL_FROM.'"></td></tr>';
@@ -673,8 +677,8 @@ if ($action == 'create')
 	}
 
 	print '</table>';
+	print '</div>';
 	print '</br><br>';
-
 	print '<table class="border" width="100%">';
 	print '<tr><td width="25%" class="fieldrequired">'.$langs->trans("MailTopic").'</td><td><input class="flat" name="sujet" size="60" value="'.$_POST['sujet'].'"></td></tr>';
 	print '<tr><td width="25%">'.$langs->trans("BackgroundColorByDefault").'</td><td colspan="3">';
@@ -688,14 +692,19 @@ if ($action == 'create')
 	}
 	print '</i></td>';
 	print '<td>';
+	$aide_step2 = 'Indiquez ici le corps du message à envoyer.<br/>';
+	$aide_step2 .= 'Les mots clefs commençant par un double underscore (__) sont remplacés par les valeurs correspondantes aux contacts destinataires.<br/>';
+	$aide_step2 .= 'Par exemple pour commencer un mail par &ldquo;Bonjour Monsieur Alan Turing&rdquo;, il vous faudra indiquer &ldquo;Bonjour __CIVILITE__ __FIRSTNAME__ __LASTNAME__&rdquo;.';
+	print '<div data-step="2" data-intro="'.$aide_step2.'">';
 	// Editeur wysiwyg
 	require_once DOL_DOCUMENT_ROOT.'/core/class/doleditor.class.php';
 	$doleditor=new DolEditor('body',$_POST['body'],'',320,'dolibarr_mailings','',true,true,$conf->global->FCKEDITOR_ENABLE_MAILING,20,70);
 	$doleditor->Create();
+	print '</div>';
 	print '</td></tr>';
 	print '</table>';
-
-	print '<br><center><input type="submit" class="button" value="'.$langs->trans("CreateMailing").'"></center>';
+	$aide_step3 = "Enfin cliquez pour créer le texte de votre emailing<br/>Il restera ensuite à tester et ajouter les destinataires";
+	print '<br><center><div data-step="3" data-intro="'.$aide_step3.'"><input type="submit" class="button" value="'.$langs->trans("CreateMailing").'"></div></center>';
 
 	print '</form>';
 }

@@ -136,12 +136,16 @@ if ($resql)
 			$other3=$other[2];
 			$other4=$other[3];
 			$other5=$other[4];
+			$o2 = explode('=', $other2);
+			$civilite = count($o2) > 1 ? $o2[1] : "";
+
 			$substitutionarray=array(
 				'__ID__' => $obj->source_id,
 				'__EMAIL__' => $obj->email,
 				'__CHECK_READ__' => '<img src="'.DOL_MAIN_URL_ROOT.'/public/emailing/mailing-read.php?tag='.$obj->tag.'" width="1" height="1" style="width:1px;height:1px" border="0"/>',
 				'__UNSUBSCRIBE__' => '<a href="'.DOL_MAIN_URL_ROOT.'/public/emailing/mailing-unsubscribe.php?tag='.$obj->tag.'&unsuscrib=1" target="_blank">'.$langs->trans("MailUnsubcribe").'</a>',
 				'__MAILTOEMAIL__' => '<a href="mailto:'.$obj->email.'">'.$obj->email.'</a>',
+				'__CIVILITE__' => $civilite,
 				'__LASTNAME__' => $obj->lastname,
 				'__FIRSTNAME__' => $obj->firstname,
 				'__OTHER1__' => $other1,
