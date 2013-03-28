@@ -85,7 +85,7 @@ class DolEditor
         if ($this->tool == 'ckeditor')
         {
 	  dol_syslog("into ckeditor");
-	  $content = strlen($content) == 0 ? '<a href="http://www.jobenfance.com"><img alt="" src="/viewimage.php?modulepart=fckeditor&amp;file=image/logo.gif" style="width: 150px; height: 53px;" /></a>' : $content;
+	  $content = strlen($content) == 0 ? '<br/><br/><a href="http://www.jobenfance.com"><img alt="" src="'.DOL_URL_ROOT.'/viewimage.php?modulepart=fckeditor&amp;file=image/logo.gif" style="width: 150px; height: 53px;" /></a>' : $content;
             $content=dol_htmlentitiesbr($content);  // If content is not HTML, we convert to HTML.
         }
         if ($this->tool == 'fckeditor')
