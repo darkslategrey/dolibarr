@@ -828,7 +828,7 @@ if ($id)
         print '<tr><td valign="top">'.$langs->trans("Description").'</td><td colspan="3">';
         // Editeur wysiwyg
         require_once DOL_DOCUMENT_ROOT.'/core/class/doleditor.class.php';
-        $doleditor=new DolEditor('note',$act->note,'',240,'dolibarr_notes','In',true,true,$conf->fckeditor->enabled,ROWS_5,90);
+        $doleditor=new DolEditor('note',$act->note,'',240,'dolibarr_notes','In',true,true,false,ROWS_5,90);
         $doleditor->Create();
         print '</td></tr>';
 
