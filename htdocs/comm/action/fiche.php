@@ -185,7 +185,7 @@ if ($action == 'add_action')
 	if (! empty($conf->phenix->enabled) && GETPOST('add_phenix') == 'on') $actioncomm->use_phenix=1;
 
 	// Check parameters
-	if ($actioncomm->type_code == 'AC_RDV' && ($datep == '' || $datef == ''))
+	if (!$fulldayevent && ($datep == '' || $datef == ''))
 	{
 		$error++;
 		$action = 'create';
@@ -498,7 +498,7 @@ if ($action == 'create')
 	// Date end
 	$datef=$actioncomm->datef;
     if (GETPOST('datef','int',1)) $datef=dol_stringtotime(GETPOST('datef','int',1),0);
-	print '<tr><td><span id="dateend"'.(GETPOST("actioncode") == 'AC_RDV'?' class="fieldrequired"':'').'>'.$langs->trans("DateActionEnd").'</span></td><td>';
+	print '<tr><td><span id="dateend">'.$langs->trans("DateActionEnd").'</span></td><td>';
 	if (GETPOST("afaire") == 1) $form->select_date($datef,'p2',1,1,1,"action",1,1,0,0,'fulldayend');
 	else if (GETPOST("afaire") == 2) $form->select_date($datef,'p2',1,1,1,"action",1,1,0,0,'fulldayend');
 	else $form->select_date($datef,'p2',1,1,1,"action",1,1,0,0,'fulldayend');
