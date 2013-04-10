@@ -218,7 +218,7 @@ if ($action == 'sendallconfirmed' && $confirm == 'yes')
                     $tmpfield=explode('=',$other[3],2); $other4=(isset($tmpfield[1])?$tmpfield[1]:$tmpfield[0]);
                     $tmpfield=explode('=',$other[4],2); $other5=(isset($tmpfield[1])?$tmpfield[1]:$tmpfield[0]);
 		    $o2 = explode('=', $other2);
-		    $civilite = count($o2) > 1 ? $o2[1] : "";
+		    $civilite = count($o2) > 1 ? $o2[1] : $o2[0];
 
 					$substitutionarray=array(
 							'__ID__' => $obj->source_id,
