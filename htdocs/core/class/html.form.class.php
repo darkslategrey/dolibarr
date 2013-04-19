@@ -3904,7 +3904,7 @@ class Form
      * 		@param	int			$width			Width of photo
      * 	  	@return string    					HTML code to output photo
      */
-    function showphoto($modulepart,$object,$width=100)
+    function showphoto($modulepart,$object,$width=200)
     {
         global $conf;
 
@@ -3918,7 +3918,8 @@ class Form
             $dir=$conf->societe->multidir_output[$entity];
             $smallfile=$object->logo;
             $smallfile=preg_replace('/(\.png|\.gif|\.jpg|\.jpeg|\.bmp)/i','_small\\1',$smallfile);
-            if ($object->logo) $file=$id.'/logos/thumbs/'.$smallfile;
+            // if ($object->logo) $file=$id.'/logos/thumbs/'.$smallfile;
+	    if ($object->logo) $file=$id.'/logos/'.$object->logo; // thumbs/'.$smallfile;
         }
         else if ($modulepart=='userphoto')
         {
