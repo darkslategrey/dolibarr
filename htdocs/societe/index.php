@@ -107,7 +107,7 @@ dol_syslog("categories <".print_r($third, true).">");
 /* } */
 // else dol_print_error($db);                                                                                                                                                                                          
 
-print '<table class="noborder" width="100%">';
+print '<table class="noborder" width="100%" height="350px">';
 print '<tr class="liste_titre"><td colspan="2">'.$langs->trans("Statistics").'</td></tr>';
 // dol_syslog("use javascript <".$conf->use_javascript_ajax.">");
 if ($conf->use_javascript_ajax)
