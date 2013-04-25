@@ -785,17 +785,17 @@ else
             // This must be set into category tab, like for customer category
             /* if ($object->fournisseur) */
             /* { */
-                $load = $object->LoadSupplierCateg();
-                if ( $load == 0)
-                {
-                    if (count($object->SupplierCategories) > 0)
-                    {
-                        print '<tr>';
-                        print '<td>'.$langs->trans('Category').'</td><td colspan="3">';
-                        print $form->selectarray("fournisseur_categorie",$object->SupplierCategories,GETPOST('fournisseur_categorie'),1);
-                        print '</td></tr>';
-                    }
-                }
+                /* $load = $object->LoadSupplierCateg(); */
+                /* if ( $load == 0) */
+                /* { */
+                /*     if (count($object->SupplierCategories) > 0) */
+                /*     { */
+                /*         print '<tr>'; */
+                /*         print '<td>'.$langs->trans('Category').'</td><td colspan="3">'; */
+                /*         print $form->selectarray("fournisseur_categorie",$object->SupplierCategories,GETPOST('fournisseur_categorie'),1); */
+                /*         print '</td></tr>'; */
+                /*     } */
+                /* } */
 		/* }*/
         }
 
@@ -1228,17 +1228,17 @@ else
                 // Category
                 /* if (! empty($conf->categorie->enabled) && $object->fournisseur) */
                 /* { */
-                    $load = $object->LoadSupplierCateg();
-                    if ( $load == 0)
-                    {
-                        if (count($object->SupplierCategories) > 0)
-                        {
-                            print '<tr>';
-                            print '<td>'.$langs->trans('Category').'</td><td colspan="3">';
-			    print $form->selectarray("fournisseur_categorie",$object->SupplierCategories,$object->cat_id,1);
-                            print '</td></tr>';
-                        }
-                    }
+                    /* $load = $object->LoadSupplierCateg(); */
+                    /* if ( $load == 0) */
+                    /* { */
+                    /*     if (count($object->SupplierCategories) > 0) */
+                    /*     { */
+                    /*         print '<tr>'; */
+                    /*         print '<td>'.$langs->trans('Category').'</td><td colspan="3">'; */
+		    /* 	    print $form->selectarray("fournisseur_categorie",$object->SupplierCategories,$object->cat_id,1); */
+                    /*         print '</td></tr>'; */
+                    /*     } */
+                    /* } */
                 /* } */
             }
 
