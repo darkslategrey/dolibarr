@@ -39,9 +39,10 @@ $result = restrictedArea($user,'societe',$socid,'');
 
 $search_categs = GETPOST("categories");
 
-foreach($search_categs as $cat) {
-  
-  dol_syslog("search_categ <".$cat.">");
+if($search_categs) {
+  foreach($search_categs as $cat) {
+    dol_syslog("search_categ <".$cat.">");
+  }
 }
 $search_nom=trim(GETPOST("search_nom"));
 $search_nom_only=trim(GETPOST("search_nom_only"));
