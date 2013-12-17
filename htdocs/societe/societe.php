@@ -37,6 +37,12 @@ $socid = GETPOST('socid','int');
 if ($user->societe_id) $socid=$user->societe_id;
 $result = restrictedArea($user,'societe',$socid,'');
 
+$search_categs = GETPOST("categories");
+
+foreach($search_categs as $cat) {
+  
+  dol_syslog("search_categ <".$cat.">");
+}
 $search_nom=trim(GETPOST("search_nom"));
 $search_nom_only=trim(GETPOST("search_nom_only"));
 $search_all=trim(GETPOST("search_all"));
@@ -174,19 +180,19 @@ $sql.= " s.siren as idprof1, s.siret as idprof2, ape as idprof3, idprof4 as idpr
 // We'll need these fields in order to filter by sale (including the case where the user can only see his prospects)
 if ($search_sale) $sql .= ", sc.fk_soc, sc.fk_user";
 // We'll need these fields in order to filter by categ
-if ($search_categ) $sql .= ", cs.fk_categorie, cs.fk_societe";
+if ($search_categs) $sql .= ", cs.fk_categorie, cs.fk_societe";
 $sql.= " FROM ".MAIN_DB_PREFIX."societe as s,";
 $sql.= " ".MAIN_DB_PREFIX."c_stcomm as st";
 // We'll need this table joined to the select in order to filter by sale
 if ($search_sale || !$user->rights->societe->client->voir) $sql.= ", ".MAIN_DB_PREFIX."societe_commerciaux as sc";
 // We'll need this table joined to the select in order to filter by categ
-if ($search_categ) $sql.= ", ".MAIN_DB_PREFIX."categorie_societe as cs";
+if ($search_categs) $sql.= ", ".MAIN_DB_PREFIX."categorie_societe as cs";
 $sql.= " WHERE s.fk_stcomm = st.id";
 $sql.= " AND s.entity IN (".getEntity('societe', 1).")";
 if (! $user->rights->societe->client->voir && ! $socid)	$sql.= " AND s.rowid = sc.fk_soc AND sc.fk_user = " .$user->id;
 if ($socid)	$sql.= " AND s.rowid = ".$socid;
 if ($search_sale) $sql.= " AND s.rowid = sc.fk_soc";        // Join for the needed table to filter by sale
-if ($search_categ) $sql.= " AND s.rowid = cs.fk_societe";   // Join for the needed table to filter by categ
+if ($search_categs) $sql.= " AND s.rowid = cs.fk_societe";   // Join for the needed table to filter by categ
 // TODO $stcomm is not defined !
 /*
 if (dol_strlen($stcomm))
@@ -204,6 +210,20 @@ if ($search_sale)
 if ($search_categ)
 {
     $sql .= " AND cs.fk_categorie = ".$search_categ;
+}
+if($search_categs) {
+  $cat_nbrs = count($search_categs);
+  $cpt = 0;
+  $cat_ids = '';
+  foreach($search_categs as $cat_id) {
+    $cat_ids .= $cat_id;
+    if($cpt != $cat_nbrs - 1) {
+      $cat_ids .= ',';
+    }
+    $cpt += 1;
+  }
+  dol_syslog("cat ids <".$cat_ids.">");
+  $sql .= " AND cs.fk_categorie in (".$cat_ids.")";
 }
 if ($search_nom_only)
 {

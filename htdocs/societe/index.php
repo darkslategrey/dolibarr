@@ -55,6 +55,19 @@ print '<tr><td valign="top" width="30%" class="notopnoleft">';
 /*
  * Search area
  */
+require_once(DOL_DOCUMENT_ROOT."/categories/class/categorie.class.php");
+$categoriesctatic = new Categorie($db);
+$categs           = $categoriesctatic->get_main_categories($type=2);
+$categs_form = '';
+foreach ($categs as $cat) {
+  $selected = 'checked';
+  $present  = strpos($cat->label, 'Maisons Ret');
+  if($present) {
+    $selected = '';
+  } 
+  $categs_form .= '<input type="checkbox" name="categories[]" value="'.$cat->id.'" '.$selected.'>'.$cat->label.'</input><br>';
+}
+
 $rowspan=2;
 print '<form method="post" action="'.DOL_URL_ROOT.'/societe/societe.php">';
 print '<input type="hidden" name="token" value="'.$_SESSION['newtoken'].'">';
@@ -69,6 +82,12 @@ print $langs->trans("Other").':</td><td><input class="flat" type="text" size="14
 //print '<td><input type="submit" class="button" value="'.$langs->trans("Search").'"></td>';
 print '</tr>';
 
+// Search by categs
+print "<tr ".$bc[false]."><td>";
+print 'Caégories:</td><td>'.$categs_form.'</td></tr>';
+
+// 
+
 print "</table></form><br>";
 
 
@@ -78,8 +97,8 @@ print "</table></form><br>";
 $third = array();
 $total=0;
 
-require_once(DOL_DOCUMENT_ROOT."/categories/class/categorie.class.php");
-$categoriesctatic = new Categorie($db);
+
+
 $total += $categoriesctatic->get_nbr_thirdpart('categorie_societe', $third);
 $total += $categoriesctatic->get_nbr_thirdpart('categorie_fournisseur', $third);
 
