@@ -182,18 +182,21 @@ $sql.= " s.siren as idprof1, s.siret as idprof2, ape as idprof3, idprof4 as idpr
 if ($search_sale) $sql .= ", sc.fk_soc, sc.fk_user";
 // We'll need these fields in order to filter by categ
 if ($search_categs) $sql .= ", cs.fk_categorie, cs.fk_societe";
+if ($search_categ) $sql .= ", cs.fk_categorie, cs.fk_societe";
 $sql.= " FROM ".MAIN_DB_PREFIX."societe as s,";
 $sql.= " ".MAIN_DB_PREFIX."c_stcomm as st";
 // We'll need this table joined to the select in order to filter by sale
 if ($search_sale || !$user->rights->societe->client->voir) $sql.= ", ".MAIN_DB_PREFIX."societe_commerciaux as sc";
 // We'll need this table joined to the select in order to filter by categ
 if ($search_categs) $sql.= ", ".MAIN_DB_PREFIX."categorie_societe as cs";
+if ($search_categ) $sql.= ", ".MAIN_DB_PREFIX."categorie_societe as cs";
 $sql.= " WHERE s.fk_stcomm = st.id";
 $sql.= " AND s.entity IN (".getEntity('societe', 1).")";
 if (! $user->rights->societe->client->voir && ! $socid)	$sql.= " AND s.rowid = sc.fk_soc AND sc.fk_user = " .$user->id;
 if ($socid)	$sql.= " AND s.rowid = ".$socid;
 if ($search_sale) $sql.= " AND s.rowid = sc.fk_soc";        // Join for the needed table to filter by sale
 if ($search_categs) $sql.= " AND s.rowid = cs.fk_societe";   // Join for the needed table to filter by categ
+if ($search_categ) $sql.= " AND s.rowid = cs.fk_societe";   // Join for the needed table to filter by categ
 // TODO $stcomm is not defined !
 /*
 if (dol_strlen($stcomm))
@@ -321,7 +324,7 @@ if ($resql)
 	print '<table class="liste" width="100%">';
 
     // Filter on categories
-    /* Not possible in this page because list is for ALL third parties type
+    /* Not possible in this page because list is for ALL third parties type */
 	$moreforfilter='';
     if (! empty($conf->categorie->enabled))
     {
@@ -342,7 +345,7 @@ if ($resql)
         print $moreforfilter;
         print '</td></tr>';
     }
-	*/
+
 
     // Lines of titles
     print '<tr class="liste_titre">';
