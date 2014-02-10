@@ -39,11 +39,19 @@ $result = restrictedArea($user,'societe',$socid,'');
 
 $search_categs = GETPOST("categories");
 
+
 if($search_categs) {
   foreach($search_categs as $cat) {
     dol_syslog("search_categ <".$cat.">");
   }
-}
+} else {
+  $search_categs = GETPOST("search_categs");
+  if($search_categs) {
+    dol_syslog("search_categs <"+$search_categs+">");
+  } else {
+    dol_syslog("pas de search categs");
+  }
+} 
 $search_nom=trim(GETPOST("search_nom"));
 $search_nom_only=trim(GETPOST("search_nom_only"));
 $search_all=trim(GETPOST("search_all"));
@@ -215,16 +223,22 @@ if ($search_categ)
 {
     $sql .= " AND cs.fk_categorie = ".$search_categ;
 }
+//url pagination http://ks304579.kimsufi.com/new-doli-jobdependance/societe/societe.php?page=1&socname=&search_nom=&search_ville=&search_idprof1=&search_idprof2=&search_idprof3=&search_idprof4=&sortfield=s.nom&sortorder=ASC
+
 if($search_categs) {
-  $cat_nbrs = count($search_categs);
-  $cpt = 0;
-  $cat_ids = '';
-  foreach($search_categs as $cat_id) {
-    $cat_ids .= $cat_id;
-    if($cpt != $cat_nbrs - 1) {
-      $cat_ids .= ',';
+  if(is_string($search_categs))  {
+    $cat_ids = $search_categs;
+  } else {
+    $cat_nbrs = count($search_categs);
+    $cpt = 0;
+    $cat_ids = '';
+    foreach($search_categs as $cat_id) {
+      $cat_ids .= $cat_id;
+      if($cpt != $cat_nbrs - 1) {
+	$cat_ids .= ',';
+      }
+      $cpt += 1;
     }
-    $cpt += 1;
   }
   dol_syslog("cat ids <".$cat_ids.">");
   $sql .= " AND cs.fk_categorie in (".$cat_ids.")";
@@ -291,7 +305,15 @@ if ($resql)
 	$num = $db->num_rows($resql);
 	$i = 0;
 
+	// http://ks304579.kimsufi.com/new-doli-jobdependance/societe/societe.php?page=1&socname=&search_nom=&search_ville=&search_idprof1=&search_idprof2=&search_idprof3=&search_idprof4=&sortfield=s.nom&sortorder=ASC
+	if(is_string($search_categs)) {
+	  $categs_ids = $search_categs;
+	} else {
+	  $categs_ids = implode(',', $search_categs);
+	}
+	dol_syslog("categs_ids <".$categs_ids.">");
 	$params = "&amp;socname=".$socname."&amp;search_nom=".$search_nom."&amp;search_ville=".$search_ville;
+	$params.= '&amp;search_categs='.$categs_ids;
 	$params.= '&amp;search_idprof1='.$search_idprof1;
 	$params.= '&amp;search_idprof2='.$search_idprof2;
 	$params.= '&amp;search_idprof3='.$search_idprof3;
