@@ -507,10 +507,11 @@ if ($action == 'create')
 	// Status
 	print '<tr><td width="10%">'.$langs->trans("Status").' / '.$langs->trans("Percentage").'</td>';
 	print '<td>';
-	$percent=-1;
+	// $percent=-1;
+	$percent=0; // Par defaut 'a faire' pour classer l'action dans 'a faire' les jours suivants
 	if (isset($_GET['percentage']) || isset($_POST['percentage']))
 	{
-		$percent=GETPOST('percentage');
+	  $percent=GETPOST('percentage') == -1 ? 0 : GETPOST('percentage');
 	}
 	else
 	{
@@ -696,7 +697,7 @@ if ($id)
             print "\n".'<script type="text/javascript">';
             print '$(document).ready(function () {
 	            		function setdatefields()
-	            		{
+v	            		{
 	            			if ($("#fullday:checked").val() == null) {
 	            				$(".fulldaystarthour").removeAttr("disabled");
 	            				$(".fulldaystartmin").removeAttr("disabled");
