@@ -154,6 +154,7 @@ llxHeader('',$langs->trans("ThirdParty"),$help_url);
 if (GETPOST("button_removefilter_x"))
 {
     $search_categ='';
+    $search_categs='';
     $search_sale='';
     $socname="";
 	$search_nom="";
@@ -314,6 +315,7 @@ if ($resql)
 	dol_syslog("categs_ids <".$categs_ids.">");
 	$params = "&amp;socname=".$socname."&amp;search_nom=".$search_nom."&amp;search_ville=".$search_ville;
 	$params.= '&amp;search_categs='.$categs_ids;
+	$params.= '&amp;search_sale='.$search_sale;
 	$params.= '&amp;search_idprof1='.$search_idprof1;
 	$params.= '&amp;search_idprof2='.$search_idprof2;
 	$params.= '&amp;search_idprof3='.$search_idprof3;
